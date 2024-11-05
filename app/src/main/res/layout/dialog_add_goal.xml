@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/goalNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Goal Name" />
+
+    <EditText
+        android:id="@+id/goalTargetInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Target Amount"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/goalSavedInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Saved Amount"
+        android:inputType="numberDecimal" />
+</LinearLayout>

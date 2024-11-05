@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Toolbar with title and back button enabled in Activity -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Your Savings Goal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Total Savings Summary -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:background="@android:drawable/btn_default"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/totalSavingAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$0"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/totalSavingProgress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/savingDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You have saved $0 in total"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    </LinearLayout>
+
+    <!-- Savings Breakdown Title -->
+    <TextView
+        android:id="@+id/savingBreakdownTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Here is the breakdown of your saving plans:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Dynamic Savings Container -->
+    <LinearLayout
+        android:id="@+id/savingsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp">
+    </LinearLayout>
+
+    <!-- Add More Goals Button -->
+    <TextView
+        android:id="@+id/addMoreGoals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add more goals"
+        android:textColor="@android:color/holo_blue_light"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>
