@@ -1,0 +1,1 @@
+Welcome to Broke No-more – an Android app designed to help students manage their finances with ease! Whether you're dealing with limited funds, juggling multiple subscriptions, or looking to save, Broke No-more is here to simplify your financial journey.
