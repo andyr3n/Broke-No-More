@@ -61,7 +61,7 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/spendingGoal"
+                android:id="@+id/spendingGoal_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Spending Goal: "
@@ -71,15 +71,16 @@
             </TextView>
 
             <TextView
-                android:id="@+id/spendingAmount"
+                android:id="@+id/spendingGoal_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$0"
-                app:layout_constraintStart_toEndOf="@+id/spendingGoal"
+                app:layout_constraintStart_toEndOf="@+id/spendingGoal_header"
                 app:layout_constraintTop_toTopOf="parent">
             </TextView>
 
             <TextView
+                android:id="@+id/edit_spendingGoal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
@@ -137,16 +138,6 @@
                 app:layout_constraintTop_toTopOf="parent">
             </TextView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="Edit"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
-
             <ProgressBar
                 android:id="@+id/savingProgress"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -158,6 +149,7 @@
             </ProgressBar>
 
             <TextView
+                android:id="@+id/savingMoreDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
