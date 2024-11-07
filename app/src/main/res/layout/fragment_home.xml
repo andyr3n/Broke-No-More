@@ -92,17 +92,25 @@
 
             <ProgressBar
                 android:id="@+id/spendingProgress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spendingGoal_amount">
+                app:layout_constraintTop_toBottomOf="@+id/spendingGoal_amount"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/process_bar">
             </ProgressBar>
 
             <TextView
+                android:id="@+id/have_spentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -141,11 +149,16 @@
             <ProgressBar
                 android:id="@+id/savingProgress"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/savingGoal">
+                app:layout_constraintTop_toBottomOf="@+id/savingGoal"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/process_bar">
             </ProgressBar>
 
             <TextView
@@ -156,6 +169,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/savingProgress"
+                android:layout_marginTop="10dp"
                 android:text="@string/more_detail">
             </TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>

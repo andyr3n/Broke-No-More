@@ -2,10 +2,12 @@ package com.example.broke_no_more.ui.home
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Process
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -25,6 +27,7 @@ class HomeFragment : Fragment(){
     private val binding get() = _binding!!
     private lateinit var editSpending: TextView
     private lateinit var spendingGoalAmount: TextView
+    private lateinit var spendingGoalProcess: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +62,16 @@ class HomeFragment : Fragment(){
         }
 
 //        spendingAmountText.text = "$" + spendGoal
+
+        //Process bar
+        spendingGoalProcess = binding.spendingProgress
+
+        //Calculate percentage of spending goal (How much user spent compared to goal)
+        val spendPercentage = (( spentAmount/ spendGoal) * 100).toInt()
+
+        //Set process to correct percentage
+        spendingGoalProcess.progress = spendPercentage
+
         return root
     }
 
