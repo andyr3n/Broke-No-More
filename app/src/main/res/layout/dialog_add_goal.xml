@@ -4,25 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/black">
 
     <EditText
         android:id="@+id/goalNameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Goal Name" />
+        android:hint="Goal Name"
+        android:backgroundTint="@color/purple"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray" />
 
     <EditText
         android:id="@+id/goalTargetInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Target Amount"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:backgroundTint="@color/purple"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray" />
 
     <EditText
         android:id="@+id/goalSavedInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Saved Amount"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:backgroundTint="@color/purple"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray" />
 </LinearLayout>
+
+
