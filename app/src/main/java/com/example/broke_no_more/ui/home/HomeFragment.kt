@@ -58,7 +58,6 @@ class HomeFragment : Fragment(){
         spendingGoalAmount = binding.spendingGoalAmount
         homeViewModel.spendingGoal.observe(viewLifecycleOwner) {
             spendingGoalAmount.text = it.toString()
-            println("inside view: $it")
         }
 
 //        spendingAmountText.text = "$" + spendGoal
