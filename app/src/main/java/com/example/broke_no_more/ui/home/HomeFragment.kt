@@ -28,6 +28,7 @@ class HomeFragment : Fragment(){
     private lateinit var editSpending: TextView
     private lateinit var spendingGoalAmount: TextView
     private lateinit var spendingGoalProcess: ProgressBar
+    private lateinit var haveSpentAmount: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +71,10 @@ class HomeFragment : Fragment(){
 
         //Set process to correct percentage
         spendingGoalProcess.progress = spendPercentage
+
+        //Update Amount have spent
+        haveSpentAmount = binding.haveSpentText
+        haveSpentAmount.text = "You have spent $$spentAmount/ $$spendGoal this month"
 
         return root
     }
