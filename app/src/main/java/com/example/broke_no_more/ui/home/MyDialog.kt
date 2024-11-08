@@ -58,6 +58,7 @@ class MyDialog: DialogFragment(), DialogInterface.OnClickListener {
             val homeViewModel =
                 ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
             homeViewModel.updateSpendingGoal(goal.toDouble())
+            activity?.finish()
 
             Toast.makeText(activity, "Saved", Toast.LENGTH_LONG).show()
         } else if (item == DialogInterface.BUTTON_NEGATIVE) {

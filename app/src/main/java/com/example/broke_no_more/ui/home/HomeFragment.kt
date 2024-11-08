@@ -62,11 +62,11 @@ class HomeFragment : Fragment(){
 
         //Observe and change live data for spending goal
         spendingGoalAmount = binding.spendingGoalAmount
-        homeViewModel.spendingGoal.observe(viewLifecycleOwner) {
-            spendingGoalAmount.text = it.toString()
-        }
+//        homeViewModel.spendingGoal.observe(viewLifecycleOwner) {
+//            spendingGoalAmount.text = it.toString()
+//        }
 
-//        spendingAmountText.text = "$" + spendGoal
+        spendingGoalAmount.text = "$" + spendGoal
 
         //Process bar
         spendingGoalProcess = binding.spendingProgress
