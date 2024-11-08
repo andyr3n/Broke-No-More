@@ -31,15 +31,21 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null)
                 .setAnchorView(R.id.fab).show()
         }
+
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
+        // Check if we need to navigate to HomeFragment
+        val navigateToHome = intent.getBooleanExtra("navigateToHome", false)
+        if (navigateToHome) {
+            navController.navigate(R.id.nav_home)
+        }
+
         // Add Savings Goal ID to top-level destinations
         appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_savings_goal
-            ), drawerLayout
+            setOf(R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_savings_goal),
+            drawerLayout
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
