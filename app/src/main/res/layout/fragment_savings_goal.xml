@@ -41,14 +41,15 @@
             android:text="$0"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
         <ProgressBar
             android:id="@+id/totalSavingProgress"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:progress="0" />
+            android:progress="0"
+            android:progressDrawable="@drawable/process_bar"/>
 
         <TextView
             android:id="@+id/savingDetails"
@@ -56,7 +57,8 @@
             android:layout_height="wrap_content"
             android:text="You have saved $0 in total"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/white" />
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"/>
     </LinearLayout>
 
     <!-- Savings Breakdown Title -->
@@ -86,7 +88,7 @@
         android:layout_height="wrap_content"
         android:text="Add more goals"
         android:textColor="@color/white"
-        android:background="@drawable/round_black_yellowstroke"
+        android:background="@drawable/blackbox_yellowstroke"
         android:padding="10dp"
         android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal" />
