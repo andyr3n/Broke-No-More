@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.broke_no_more.MainActivity
 import com.example.broke_no_more.R
+import com.example.broke_no_more.ui.ocr.OcrTestActivity
 
 class SignInActivity : AppCompatActivity() {
 
@@ -22,6 +23,8 @@ class SignInActivity : AppCompatActivity() {
         val btnSignIn: Button = findViewById(R.id.btnSignIn)
         val tvForgotPassword: TextView = findViewById(R.id.tvForgotPassword)
         val tvSignUp: TextView = findViewById(R.id.tvSignUp)
+
+
 
         // Handle Sign In Button click
         btnSignIn.setOnClickListener {

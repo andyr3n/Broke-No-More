@@ -23,4 +23,12 @@
         android:name="com.example.broke_no_more.ui.SavingsGoal.SavingsGoalFragment"
         android:label="Savings Goal"
         tools:layout="@layout/fragment_savings_goal" />
+
+    <!-- Add Expense Fragment -->
+    <fragment
+        android:id="@+id/nav_add_expense"
+        android:name="com.example.broke_no_more.ui.add_expense.AddExpenseFragment"
+        android:label="Add Expense"
+        tools:layout="@layout/fragment_add_expense" />
+
 </navigation>
