@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.broke_no_more.R
 import com.example.broke_no_more.databinding.FragmentHomeBinding
 import com.example.broke_no_more.ui.SavingsGoal.SavingsGoalFragment
 import org.w3c.dom.Text
@@ -29,6 +30,7 @@ class HomeFragment : Fragment(){
     private lateinit var spendingGoalAmount: TextView
     private lateinit var spendingGoalProcess: ProgressBar
     private lateinit var haveSpentAmount: TextView
+    private lateinit var moreSaving: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,6 +77,16 @@ class HomeFragment : Fragment(){
         //Update Amount have spent
         haveSpentAmount = binding.haveSpentText
         haveSpentAmount.text = "You have spent $$spentAmount/ $$spendGoal this month"
+
+        moreSaving = binding.savingMoreDetails
+        moreSaving.setOnClickListener(){
+            val savingGoalFragment = SavingsGoalFragment()
+            val manager = requireActivity().supportFragmentManager
+            val transaction = manager.beginTransaction()
+            transaction.replace(R.id.fragment_home, savingGoalFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
 
         return root
     }
