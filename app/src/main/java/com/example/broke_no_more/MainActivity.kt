@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         // Add Savings Goal ID to top-level destinations
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_savings_goal),
+            setOf(R.id.nav_home, R.id.nav_slideshow, R.id.nav_savings_goal),
             drawerLayout
         )
 

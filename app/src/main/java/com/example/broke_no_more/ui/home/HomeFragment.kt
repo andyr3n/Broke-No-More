@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.broke_no_more.R
 import com.example.broke_no_more.databinding.FragmentHomeBinding
 import com.example.broke_no_more.ui.SavingsGoal.SavingsGoalFragment
+import com.example.broke_no_more.ui.add_expense.AddExpenseFragment
 import org.w3c.dom.Text
 import java.util.Locale
 
@@ -31,6 +33,7 @@ class HomeFragment : Fragment(){
     private lateinit var spendingGoalProcess: ProgressBar
     private lateinit var haveSpentAmount: TextView
     private lateinit var moreSaving: TextView
+    private lateinit var addExpenseButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,6 +87,16 @@ class HomeFragment : Fragment(){
             val manager = requireActivity().supportFragmentManager
             val transaction = manager.beginTransaction()
             transaction.replace(R.id.fragment_home, savingGoalFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+        addExpenseButton = binding.addExpenseBtn
+        addExpenseButton.setOnClickListener(){
+            val addExpenseFragment = AddExpenseFragment()
+            val manager = requireActivity().supportFragmentManager
+            val transaction = manager.beginTransaction()
+            transaction.replace(R.id.fragment_home, addExpenseFragment)
             transaction.addToBackStack(null)
             transaction.commit()
         }
