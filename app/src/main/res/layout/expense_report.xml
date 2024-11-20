@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Pie Chart -->
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/expensePieChart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Expense Categories List -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:padding="8dp">
+
+            <!-- Rent -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/rounded_box_purple"
+                android:padding="12dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Rent"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{rentAmount}"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Grocery -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_box_purple"
+                android:padding="12dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Grocery"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{groceryAmount}"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Grocery Subcategories -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{grocerySubcategory1}"
+                android:textColor="@color/gray" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{grocerySubcategory2}"
+                android:textColor="@color/gray" />
+            </LinearLayout>
+
+            <!-- Clothes -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/rounded_box_purple"
+                android:padding="12dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Clothes"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{clothesAmount}"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Uncategorized -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/rounded_box_purple"
+                android:padding="12dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Uncategorized"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{uncategorizedAmount}"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Compare to This Year -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Compare to this year"
+            android:textColor="@color/yellow"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <!-- Placeholder Chart -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Column chart to show total spent in the last few months"
+            android:gravity="center"
+            android:background="@drawable/rounded_box_gray"
+            android:padding="16dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/gray" />
+
+        <!-- Notice Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notice: Uncategorized spent"
+            android:textColor="@color/yellow"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{notice1}"
+            android:textColor="@color/gray" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{notice2}"
+            android:textColor="@color/gray" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+
+

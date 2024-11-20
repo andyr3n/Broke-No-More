@@ -39,7 +39,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -51,9 +50,12 @@ dependencies {
     implementation(libs.vision.common)
     implementation(libs.play.services.mlkit.text.recognition.common)
     implementation(libs.play.services.mlkit.text.recognition)
+
+    // MPAndroidChart Library
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.google.mlkit:text-recognition:16.0.0")
-
 }

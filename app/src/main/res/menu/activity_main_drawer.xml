@@ -5,15 +5,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@android:drawable/ic_menu_view"
             android:title="@string/menu_home" />
+
+        <!-- Expense Report -->
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
-        <!-- Savings Goal item without an icon -->
+            android:id="@+id/nav_expense_report"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Expense Report" />
+
+        <!-- Savings Goal -->
         <item
             android:id="@+id/nav_savings_goal"
+            android:icon="@android:drawable/ic_menu_manage"
             android:title="Savings Goal" />
     </group>
 </menu>
