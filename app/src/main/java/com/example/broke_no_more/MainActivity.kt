@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         // Add Expense Report and Savings Goal IDs to top-level destinations
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_expense_report, R.id.nav_savings_goal),
+            setOf(R.id.nav_home, R.id.nav_expense_report, R.id.nav_savings_goal, R.id.nav_crypto),
             drawerLayout
         )
 
