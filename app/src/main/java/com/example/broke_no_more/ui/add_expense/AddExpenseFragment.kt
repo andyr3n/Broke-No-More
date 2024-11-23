@@ -11,6 +11,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.broke_no_more.databinding.FragmentAddExpenseBinding
+import com.example.broke_no_more.ui.home.Expense
+import com.example.broke_no_more.ui.home.ExpenseDatabase
+import com.example.broke_no_more.ui.home.ExpenseRepository
+import com.example.broke_no_more.ui.home.ExpenseViewModel
+import com.example.broke_no_more.ui.home.ExpenseViewModelFactory
 import com.example.broke_no_more.ui.ocr.OcrTestActivity
 
 class AddExpenseFragment : Fragment() {
@@ -21,13 +26,15 @@ class AddExpenseFragment : Fragment() {
     // Request code for OCR scan
     private val REQUEST_OCR_SCAN = 2001
 
+    private lateinit var viewModel: ExpenseViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val addExpenseViewModel =
-            ViewModelProvider(this).get(AddExpenseViewModel::class.java)
+//        val addExpenseViewModel =
+//            ViewModelProvider(this).get(AddExpenseViewModel::class.java)
 
         _binding = FragmentAddExpenseBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -42,6 +49,12 @@ class AddExpenseFragment : Fragment() {
         binding.button2.setOnClickListener {
             saveExpenseData()
         }
+
+        val database = ExpenseDatabase.getInstance(requireActivity())
+        val databaseDao = database.expenseDatabaseDao
+        val repository = ExpenseRepository(databaseDao)
+        val viewModelFactory = ExpenseViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ExpenseViewModel::class.java)
 
         return root
     }
@@ -88,11 +101,19 @@ class AddExpenseFragment : Fragment() {
         val dateText = date.text.toString()
         val commentText = comment.text.toString()
 
-        // TODO : ADD DATABASE
+        val expense = Expense(
+            date = dateText,
+            amount = amountText.toDouble(),
+            comment = commentText,
+        )
+        viewModel.insert(expense)
+
         Toast.makeText(
             requireContext(),
             "Expense saved: Amount=$amountText, Date=$dateText, Comment=$commentText",
             Toast.LENGTH_SHORT
         ).show()
+
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 }

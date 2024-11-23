@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ui.home.HomeFragment"
+    android:id="@+id/expense_report">
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -195,8 +203,16 @@
                 android:layout_height="wrap_content"
                 android:text="@{notice2}"
             android:textColor="@color/gray" />
+
+            <!--temp button to see all expenses-->
+            <Button
+                android:id="@+id/allExpenses"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="All expenses"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
+</FrameLayout>
 
 

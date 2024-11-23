@@ -1,0 +1,62 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textSize="14sp"
+        android:textColor="#666"
+        android:layout_marginTop="16dp" />
+    <EditText
+        android:id="@+id/dateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Oct 31 2024"
+        android:inputType="none"
+        android:focusable="false"
+        android:textSize="16sp"
+        android:backgroundTint="#008577" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amount"
+        android:textSize="14sp"
+        android:textColor="#666"
+        android:layout_marginTop="16dp" />
+    <EditText
+        android:id="@+id/amountEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="$100"
+        android:inputType="none"
+        android:focusable="false"
+        android:textSize="16sp"
+        android:backgroundTint="#008577" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="comment"
+        android:textSize="14sp"
+        android:textColor="#666"
+        android:layout_marginTop="16dp" />
+    <EditText
+        android:id="@+id/commentEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="blah blah"
+        android:inputType="none"
+        android:focusable="false"
+        android:textSize="16sp"
+        android:backgroundTint="#008577" />
+</LinearLayout>
+</FrameLayout>
