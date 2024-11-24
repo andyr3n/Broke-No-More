@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -11,8 +12,10 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.broke_no_more.R
 import com.example.broke_no_more.databinding.FragmentSubscriptionBinding
@@ -39,9 +42,23 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         _binding = FragmentSubscriptionBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        //Change title in Toolbar
+        val activity = activity as AppCompatActivity
+        activity.supportActionBar?.title = "Subscription Management"
+
+//        //Add an arrow to go back
+//        activity.supportActionBar?.setHomeButtonEnabled(true)
+//        activity.supportActionBar?.setHomeAsUpIndicator(R.drawable.arrow_back)
+//
+//        //Disable navigation drawer
+//        val drawerLayout = requireActivity().findViewById<DrawerLayout>(R.id.drawer_layout)
+//        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+        //Initialize view
         paidSection = binding.subscriptionContainer
         totalAmountSubscription = binding.totalAmountSubsciption
 
+        //Add new subscription information
         addPaymentBtn = binding.addSubsciptionButton
         addPaymentBtn.setOnClickListener(){
             addPaymentDue()
@@ -50,11 +67,12 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         return root
     }
 
+
     private fun addPaymentDue(){
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_payment_due, null)
         val paymentName = dialogView.findViewById<EditText>(R.id.edit_payment_name)
         val paymentDate = dialogView.findViewById<Button>(R.id.button_chooseDueDate)
-        val choosenDate = dialogView.findViewById<TextView>(R.id.text_choosen_date)
+        val chosenDate = dialogView.findViewById<TextView>(R.id.text_choosen_date)
         val paymentAmount = dialogView.findViewById<EditText>(R.id.edit_payment_amount)
 
         var date = Calendar.getInstance().time//Choose current time as default
@@ -67,8 +85,10 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 calendar.set(selectedYear, selectedMonth, selectedDay)
                 date = calendar.time
 
+                calculateDayLeft(selectedMonth, selectedDay)
+
                 //Set format to day month (in text), year
-                choosenDate.setText(SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date))
+                chosenDate.setText(SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date))
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
             datePickerDialog.show()
         }
@@ -116,6 +136,11 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         //Update total amount spent for subscription this month
         val total = paymentDue.sumOf { it.amount ?:0.0 }
         totalAmountSubscription.text = "$$total"
+    }
+
+    private fun calculateDayLeft(selectedMonth: Int, selectedDay: Int){
+        //Find current date
+        val calendar = Calendar.getInstance()
     }
 
     data class PaymentDue(val name: String, val date: Date, val amount: Double?)

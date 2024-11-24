@@ -2,26 +2,20 @@ package com.example.broke_no_more.ui.home
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Process
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.setFragmentResult
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.broke_no_more.R
 import com.example.broke_no_more.databinding.FragmentHomeBinding
 import com.example.broke_no_more.ui.SavingsGoal.SavingsGoalFragment
 import com.example.broke_no_more.ui.add_expense.AddExpenseFragment
 import com.example.broke_no_more.ui.subscription.SubscriptionFragment
-import org.w3c.dom.Text
-import java.util.Locale
 
 class HomeFragment : Fragment(){
 
@@ -114,9 +108,7 @@ class HomeFragment : Fragment(){
             val manager = requireActivity().supportFragmentManager
             val transaction = manager.beginTransaction()
             transaction.replace(R.id.fragment_home, subscriptionFragment)
-            val homeFragment = manager.findFragmentByTag(HomeFragment::class.java.name)
-            if(homeFragment != null)
-                transaction.remove(HomeFragment())
+            transaction.addToBackStack(null)
             transaction.commit()
         }
 
