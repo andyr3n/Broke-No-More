@@ -195,12 +195,14 @@
         </TextView>
 
         <Button
-            android:id="@+id/addPaymentDueBtn"
+            android:id="@+id/addSubscriptionBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:focusable="true"
             android:text="Add Payment Due"
             android:textAllCaps="false"
+            android:clickable="true"
             android:textColor="@color/purple"
             android:background="@drawable/blackbox_purplestroke"
             android:paddingStart="10dp"

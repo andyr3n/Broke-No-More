@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,7 @@ import com.example.broke_no_more.R
 import com.example.broke_no_more.databinding.FragmentHomeBinding
 import com.example.broke_no_more.ui.SavingsGoal.SavingsGoalFragment
 import com.example.broke_no_more.ui.add_expense.AddExpenseFragment
+import com.example.broke_no_more.ui.subscription.SubscriptionFragment
 import org.w3c.dom.Text
 import java.util.Locale
 
@@ -34,6 +36,7 @@ class HomeFragment : Fragment(){
     private lateinit var haveSpentAmount: TextView
     private lateinit var moreSaving: TextView
     private lateinit var addExpenseButton: Button
+    private lateinit var addSubsriptionButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,6 +86,8 @@ class HomeFragment : Fragment(){
 
         moreSaving = binding.savingMoreDetails
         moreSaving.setOnClickListener(){
+
+            //Swap Fragment to SavingGoal
             val savingGoalFragment = SavingsGoalFragment()
             val manager = requireActivity().supportFragmentManager
             val transaction = manager.beginTransaction()
@@ -93,11 +98,25 @@ class HomeFragment : Fragment(){
 
         addExpenseButton = binding.addExpenseBtn
         addExpenseButton.setOnClickListener(){
+            //Swap Fragment to addExpense
             val addExpenseFragment = AddExpenseFragment()
             val manager = requireActivity().supportFragmentManager
             val transaction = manager.beginTransaction()
             transaction.replace(R.id.fragment_home, addExpenseFragment)
             transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+        //Swap to SubscriptionFragment
+        addSubsriptionButton = binding.addSubscriptionBtn
+        addSubsriptionButton.setOnClickListener(){
+            val subscriptionFragment = SubscriptionFragment()
+            val manager = requireActivity().supportFragmentManager
+            val transaction = manager.beginTransaction()
+            transaction.replace(R.id.fragment_home, subscriptionFragment)
+            val homeFragment = manager.findFragmentByTag(HomeFragment::class.java.name)
+            if(homeFragment != null)
+                transaction.remove(HomeFragment())
             transaction.commit()
         }
 
