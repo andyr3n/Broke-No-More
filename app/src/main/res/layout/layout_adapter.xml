@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/expenseInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amount"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#333"
+        android:paddingStart="16dp"/>
+    <TextView
+        android:id="@+id/expenseDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="date"
+        android:textSize="16sp"
+        android:textColor="#666"
+        android:paddingStart="16dp"/>
+</LinearLayout>

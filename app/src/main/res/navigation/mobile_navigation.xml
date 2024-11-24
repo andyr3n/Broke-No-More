@@ -17,7 +17,7 @@
         android:id="@+id/nav_expense_report"
         android:name="com.example.broke_no_more.ui.expense_report.ExpenseReportFragment"
         android:label="Expense Report"
-        tools:layout="@layout/expense_report" />
+        tools:layout="@layout/expense_report"/>
 
     <!-- Savings Goal Fragment -->
     <fragment
@@ -26,5 +26,17 @@
         android:label="Savings Goal"
         tools:layout="@layout/fragment_savings_goal" />
 
+    <fragment
+        android:id="@+id/nav_history"
+        android:name="com.example.broke_no_more.ui.home.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history" />
+
+    <!-- Crypto Fragment -->
+    <fragment
+        android:id="@+id/nav_crypto"
+        android:name="com.example.broke_no_more.ui.crypto.CryptoFragment"
+        android:label="Crypto Analysis"
+        tools:layout="@layout/fragment_crypto" />
 </navigation>
 

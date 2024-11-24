@@ -2,23 +2,38 @@ package com.example.broke_no_more.ui.expense_report
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.broke_no_more.R
+import com.example.broke_no_more.ui.home.HistoryFragment
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 
 class ExpenseReportFragment : Fragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.expense_report, container, false)
+        val view = inflater.inflate(R.layout.expense_report, container, false)
+        // temp button to see all expenses
+        val allExpensesButton = view.findViewById<Button>(R.id.allExpenses)
+        allExpensesButton.setOnClickListener {
+            val fragmentManager: androidx.fragment.app.FragmentManager = requireActivity().supportFragmentManager
+            val transaction: androidx.fragment.app.FragmentTransaction = fragmentManager.beginTransaction()
+
+            transaction.replace(R.id.expense_report, HistoryFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

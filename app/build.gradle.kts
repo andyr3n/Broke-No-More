@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
+    //db
+    id("kotlin-kapt")
 }
 
 android {
@@ -15,6 +18,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "COINMARKETCAP_API_KEY", "\"${project.findProperty("coinmarketcap.api.key")}\"")
+
     }
 
     buildTypes {
@@ -35,6 +40,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -53,9 +59,24 @@ dependencies {
 
     // MPAndroidChart Library
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation(libs.androidx.room.common)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.google.mlkit:text-recognition:16.0.0")
+
+    //db
+    val room_version = "2.6.0"
+    val lifecycle_version = "2.6.2"
+    implementation("androidx.room:room-ktx:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx: $lifecycle_version")
+    //Crypto
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.androidx.constraintlayout.v214)
+    implementation (libs.philjay.mpandroidchart)
+    implementation (libs.philjay.mpandroidchart)
+
 }
