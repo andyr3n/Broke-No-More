@@ -89,13 +89,17 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         //Inflates only rows is Subscription (isSubscription == true)
         expenseViewModel.allSubscriptionsLiveData.observe(viewLifecycleOwner){
             paidSection.removeAllViews()//Remove old view
+            var totalThisMonth = 0.0
 
             //Inflate new view with all saved subscription information
             for(entry in it){
                 val daysLeft = calculateDayLeft(entry.date.get(Calendar.DAY_OF_MONTH))
-                if(daysLeft >= 0)
+                if(daysLeft >= 0){
                     displayPaymentDue(entry.subscriptionName, daysLeft, entry.amount)
+                    totalThisMonth += entry.amount
+                }
             }
+            totalAmountSubscription.text = "$$totalThisMonth"
         }
 
         return root
@@ -165,8 +169,6 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 }
                 else
                     Toast.makeText(requireContext(), "Added reminder for next month", Toast.LENGTH_SHORT).show()
-
-                updateTotal()//Update total after added new subscription
             }
             .setNegativeButton("Cancel", null)
             .show()
@@ -185,12 +187,6 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         paymentAmount.text = "$$amount"
 
         paidSection.addView(paymentView)//Add new payment dynamically
-    }
-
-    private fun updateTotal(){
-        //Update total amount spent for subscription this month
-        val total = paymentDue.sumOf { it.amount ?:0.0 }
-        totalAmountSubscription.text = "$$total"
     }
 
     private fun calculateDayLeft(selectedDay: Int): Int{
