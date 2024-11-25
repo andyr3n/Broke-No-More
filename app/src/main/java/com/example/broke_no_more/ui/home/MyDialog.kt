@@ -57,8 +57,9 @@ class MyDialog: DialogFragment(), DialogInterface.OnClickListener {
             //Update to new goal to view model
             val homeViewModel =
                 ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
-            homeViewModel.updateSpendingGoal(goal.toDouble())
-            activity?.finish()
+            homeViewModel.spendingGoal.value = goal.toDouble()
+//            homeViewModel.updateSpendingGoal(goal.toDouble())
+//            activity?.finish()
 
             Toast.makeText(activity, "Saved", Toast.LENGTH_LONG).show()
         } else if (item == DialogInterface.BUTTON_NEGATIVE) {

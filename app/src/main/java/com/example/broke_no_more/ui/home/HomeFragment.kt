@@ -3,6 +3,7 @@ package com.example.broke_no_more.ui.home
 import android.content.Context
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -49,17 +51,19 @@ class HomeFragment : Fragment(){
     private lateinit var subscriptionContainer: LinearLayout
     private lateinit var textNoSubscription: TextView
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
+        homeViewModel.spendingGoal.observe(viewLifecycleOwner) { goal ->
+            updateSpendingGoal()
+        }
+        Log.i("HomeFragment", "onCreateView called")
 
         //Edit Spending Goal
         editSpending = binding.editSpendingGoal
@@ -72,29 +76,7 @@ class HomeFragment : Fragment(){
             spendingDialog.show(requireActivity().supportFragmentManager, "Edit Spending Dialog")
         }
 
-        val spentAmount = getSpentAmount();//Get saved spent amount
-        val spendGoal = getSpendingGoal();//Get saved spending goal
-
-        //Observe and change live data for spending goal
-        spendingGoalAmount = binding.spendingGoalAmount
-//        homeViewModel.spendingGoal.observe(viewLifecycleOwner) {
-//            spendingGoalAmount.text = it.toString()
-//        }
-
-        spendingGoalAmount.text = "$" + spendGoal
-
-        //Process bar
-        spendingGoalProcess = binding.spendingProgress
-
-        //Calculate percentage of spending goal (How much user spent compared to goal)
-        val spendPercentage = (( spentAmount/ spendGoal) * 100).toInt()
-
-        //Set process to correct percentage
-        spendingGoalProcess.progress = spendPercentage
-
-        //Update Amount have spent
-        haveSpentAmount = binding.haveSpentText
-        haveSpentAmount.text = "You have spent $$spentAmount/ $$spendGoal this month"
+        updateSpendingGoal()
 
         moreSaving = binding.savingMoreDetails
         moreSaving.setOnClickListener(){
@@ -165,6 +147,18 @@ class HomeFragment : Fragment(){
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun updateSpendingGoal() {
+        val spentAmount = getSpentAmount()
+        val spendGoal = getSpendingGoal()
+        spendingGoalAmount = binding.spendingGoalAmount
+        spendingGoalAmount.text = "$" + spendGoal
+        spendingGoalProcess = binding.spendingProgress
+        val spendPercentage = (( spentAmount/ spendGoal) * 100).toInt()
+        spendingGoalProcess.progress = spendPercentage
+        haveSpentAmount = binding.haveSpentText
+        haveSpentAmount.text = "You have spent $$spentAmount/ $$spendGoal this month"
     }
 
     //Get saved spending goal
