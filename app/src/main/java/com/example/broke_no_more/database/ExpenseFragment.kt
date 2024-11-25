@@ -1,4 +1,4 @@
-package com.example.broke_no_more.ui.home
+package com.example.broke_no_more.database
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -33,11 +33,11 @@ class ExpenseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // go back to last fragment
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.nav_history)
-            }
-        })
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                findNavController().navigate(R.id.nav_history)
+//            }
+//        })
 
         val view = inflater.inflate(R.layout.fragment_expense, container, false)
 
