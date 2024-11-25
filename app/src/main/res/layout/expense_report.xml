@@ -1,219 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context=".ui.home.HomeFragment"
-    android:id="@+id/expense_report">
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/black"
-    android:padding="16dp">
+    android:id="@+id/expense_report">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Pie Chart -->
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/expensePieChart"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
+
+    <!-- RecyclerView for Category Totals -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/expensePieChart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/compareText"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Compare Section -->
+    <TextView
+        android:id="@+id/compareText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="Compare to this year"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/placeholderGraph"
+        app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
+        android:layout_margin="16dp" />
 
-        <!-- Pie Chart -->
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/expensePieChart"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp" />
+    <!-- Placeholder for Future Graphs -->
+    <TextView
+        android:id="@+id/placeholderGraph"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Column chart to show total spent in the last few months"
+        android:gravity="center"
+        android:background="@drawable/rounded_box_gray"
+        android:padding="16dp"
+        android:textColor="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/noticeText"
+        app:layout_constraintTop_toBottomOf="@id/compareText" />
 
-        <!-- Expense Categories List -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp"
-            android:padding="8dp">
+    <!-- Notice Section -->
+    <TextView
+        android:id="@+id/noticeText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Notice: Uncategorized spent"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/uncategorizedList"
+        app:layout_constraintTop_toBottomOf="@id/placeholderGraph"
+        android:layout_margin="16dp" />
 
-            <!-- Rent -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/rounded_box_purple"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp">
+    <!-- Uncategorized List -->
+    <LinearLayout
+        android:id="@+id/uncategorizedList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/allExpensesButton"
+        app:layout_constraintTop_toBottomOf="@id/noticeText"
+        android:layout_margin="16dp">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Rent"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{rentAmount}"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Grocery -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/rounded_box_purple"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Grocery"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{groceryAmount}"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Grocery Subcategories -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@{grocerySubcategory1}"
-                android:textColor="@color/gray" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@{grocerySubcategory2}"
-                android:textColor="@color/gray" />
-            </LinearLayout>
-
-            <!-- Clothes -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/rounded_box_purple"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Clothes"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{clothesAmount}"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Uncategorized -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/rounded_box_purple"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Uncategorized"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{uncategorizedAmount}"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Compare to This Year -->
+        <!-- Placeholder Notices -->
         <TextView
+            android:id="@+id/notice1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Compare to this year"
-            android:textColor="@color/yellow"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:text="Notice 1: Placeholder"
+            android:textColor="@color/gray"
+            android:layout_marginTop="4dp" />
 
-        <!-- Placeholder Chart -->
         <TextView
+            android:id="@+id/notice2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Column chart to show total spent in the last few months"
-            android:gravity="center"
-            android:background="@drawable/rounded_box_gray"
-            android:padding="16dp"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/gray" />
-
-        <!-- Notice Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Notice: Uncategorized spent"
-            android:textColor="@color/yellow"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{notice1}"
-            android:textColor="@color/gray" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{notice2}"
-            android:textColor="@color/gray" />
-
-            <!--temp button to see all expenses-->
-            <Button
-                android:id="@+id/allExpenses"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="All expenses"
-                android:layout_marginBottom="100dp"/>
-        </LinearLayout>
+            android:text="Notice 2: Placeholder"
+            android:textColor="@color/gray"
+            android:layout_marginTop="4dp" />
     </LinearLayout>
-</ScrollView>
-</FrameLayout>
 
+    <!-- Button to View All Expenses -->
+    <Button
+        android:id="@+id/allExpensesButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="View All Expenses"
+        android:background="@drawable/rounded_box_purple"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/uncategorizedList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="500dp" />
+    <View
+        android:id="@+id/dummyView"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@+id/allExpensesButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 

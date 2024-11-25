@@ -1,4 +1,4 @@
-package com.example.broke_no_more.ui.home
+package com.example.broke_no_more.database
 
 import android.content.Context
 import android.preference.PreferenceManager
