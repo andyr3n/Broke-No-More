@@ -23,7 +23,8 @@ import com.example.broke_no_more.database.ExpenseViewModelFactory
 import com.example.broke_no_more.ui.ocr.OcrTestActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import android.icu.util.Calendar
+import java.util.Locale
 
 class AddExpenseFragment : Fragment() {
 
@@ -71,13 +72,6 @@ class AddExpenseFragment : Fragment() {
             Log.d(TAG, "Save button clicked.")
             saveExpenseData()
         }
-
-        // Initialize ViewModel
-        val database = ExpenseDatabase.getInstance(requireActivity())
-        val databaseDao = database.expenseDatabaseDao
-        val repository = ExpenseRepository(databaseDao)
-        val viewModelFactory = ExpenseViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ExpenseViewModel::class.java)
 
         return root
     }
@@ -136,7 +130,7 @@ class AddExpenseFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         
-        if (requestCode == REQUEST_OCR_SCAN && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 2001 && resultCode == Activity.RESULT_OK) {
             // Get the recognized text from the OCR activity
             val recognizedText = data?.getStringExtra("recognizedText") ?: ""
             Log.d(TAG, "Recognized text received: $recognizedText")
@@ -254,11 +248,6 @@ class AddExpenseFragment : Fragment() {
             comment = commentText,
             category = selectedCategory
             )
-        } catch (e: NumberFormatException) {
-            Log.e(TAG, "NumberFormatException: ${e.message}")
-            Toast.makeText(requireContext(), "Invalid amount format", Toast.LENGTH_SHORT).show()
-            return
-        }
 
         viewModel.insert(expense)
         Log.d(TAG, "Expense inserted into database: $expense")
@@ -274,7 +263,6 @@ class AddExpenseFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
         Log.d(TAG, "Navigated back after saving expense.")
     }
-
 }
 
 
