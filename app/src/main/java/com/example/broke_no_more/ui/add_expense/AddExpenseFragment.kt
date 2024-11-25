@@ -129,7 +129,7 @@ class AddExpenseFragment : Fragment() {
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        
+
         if (requestCode == 2001 && resultCode == Activity.RESULT_OK) {
             // Get the recognized text from the OCR activity
             val recognizedText = data?.getStringExtra("recognizedText") ?: ""
@@ -146,15 +146,11 @@ class AddExpenseFragment : Fragment() {
                 Log.d(TAG, "Date extracted raw: $dateValueRaw")
                 val formattedDate = parseDate(dateValueRaw)
                 if (formattedDate != null) {
-                    binding.linearLayout2.getChildAt(1).let {
-                        (it as EditText).setText(formattedDate)
-                        Log.d(TAG, "Date set to EditText: $formattedDate")
-                    }
+                    binding.dateEditText.setText(formattedDate)
+                    Log.d(TAG, "Date set to EditText: $formattedDate")
                 } else {
-                    binding.linearLayout2.getChildAt(1).let {
-                        (it as EditText).setText(dateValueRaw) // Set raw date if parsing fails
-                        Log.d(TAG, "Date set to EditText (raw): $dateValueRaw")
-                    }
+                    Log.w(TAG, "Date parsing failed, raw value set: $dateValueRaw")
+                    binding.dateEditText.setText(dateValueRaw) // Set raw date if parsing fails
                 }
             } else {
                 Log.w(TAG, "Date not found in recognized text.")
@@ -167,10 +163,9 @@ class AddExpenseFragment : Fragment() {
                 .toList()
             if (amountMatch.isNotEmpty()) {
                 val maxAmount = amountMatch.maxOrNull() ?: 0.0
-                val formattedAmount = String.format("$%.2f", maxAmount)
                 binding.linearLayout.getChildAt(1).let {
-                    (it as EditText).setText(formattedAmount)
-                    Log.d(TAG, "Total amount set to EditText: $formattedAmount")
+                    (it as EditText).setText(maxAmount.toString()) // Store as plain number
+                    Log.d(TAG, "Total amount set to EditText: $maxAmount")
                 }
             } else {
                 Log.w(TAG, "Total amount not found in recognized text.")
@@ -182,13 +177,13 @@ class AddExpenseFragment : Fragment() {
         }
     }
 
+
     // Parsing function similar to ReceiptScannerActivity
     private fun parseDate(text: String): String? {
-        // Define possible date formats, including MM/dd
         val dateFormats = arrayOf(
             "MM/dd/yyyy",
             "MM/dd/yy",
-            "MM/dd",          // Added format without year
+            "MM/dd",
             "MM/yy",
             "yyyy-MM-dd",
             "M/d/yyyy",
@@ -202,22 +197,13 @@ class AddExpenseFragment : Fragment() {
                 sdf.isLenient = false
                 val date = sdf.parse(text)
                 if (date != null) {
-                    // If year is missing, assume the current year
-                    val calendar = Calendar.getInstance()
-                    calendar.time = date
-                    if (format == "MM/dd") {
-                        calendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
-                        return SimpleDateFormat("MMM dd, yyyy", Locale.US).format(calendar.time)
-                    }
-                    // Format the date to a standard format, e.g., "MMM dd, yyyy"
-                    return SimpleDateFormat("MMM dd, yyyy", Locale.US).format(date)
+                    val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US) // Convert to DD/MM/YYYY
+                    return outputFormat.format(date)
                 }
             } catch (e: ParseException) {
-                // Continue to try the next format
                 Log.d(TAG, "parseDate: Failed to parse '$text' with format '$format'")
             }
         }
-        // If no format matches, return null
         Log.w(TAG, "parseDate: Unable to parse date from text '$text'")
         return null
     }
@@ -241,13 +227,24 @@ class AddExpenseFragment : Fragment() {
             return
         }
 
+        // Convert dateText (DD/MM/YYYY) to Calendar
+        val selectedCalendar = Calendar.getInstance()
+        try {
+            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+            selectedCalendar.time = sdf.parse(dateText) ?: throw ParseException("Invalid Date", 0)
+        } catch (e: ParseException) {
+            Toast.makeText(requireContext(), "Invalid date format", Toast.LENGTH_SHORT).show()
+            Log.e(TAG, "Date parsing failed: ${e.message}")
+            return
+        }
+
         // Create and save the expense object
         val expense = Expense(
             date = selectedCalendar,
             amount = amountText.toDouble(),
             comment = commentText,
             category = selectedCategory
-            )
+        )
 
         viewModel.insert(expense)
         Log.d(TAG, "Expense inserted into database: $expense")
@@ -263,6 +260,7 @@ class AddExpenseFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
         Log.d(TAG, "Navigated back after saving expense.")
     }
+
 }
 
 
