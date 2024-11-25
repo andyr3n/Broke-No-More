@@ -13,4 +13,6 @@
     <string name="payment_due"><u>Payment Due</u></string>
     <string name="goal_amount">Goal Amount: </string>
     <string name="spent_amount">Spent Amount:</string>
+
+    <string name="receipt_image_description">Receipt Image</string>
 </resources>
