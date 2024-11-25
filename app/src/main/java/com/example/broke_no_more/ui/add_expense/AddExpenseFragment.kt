@@ -14,11 +14,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.broke_no_more.databinding.FragmentAddExpenseBinding
-import com.example.broke_no_more.ui.home.Expense
-import com.example.broke_no_more.ui.home.ExpenseDatabase
-import com.example.broke_no_more.ui.home.ExpenseRepository
-import com.example.broke_no_more.ui.home.ExpenseViewModel
-import com.example.broke_no_more.ui.home.ExpenseViewModelFactory
+import com.example.broke_no_more.database.Expense
+import com.example.broke_no_more.database.ExpenseDatabase
+import com.example.broke_no_more.database.ExpenseRepository
+import com.example.broke_no_more.database.ExpenseViewModel
+import com.example.broke_no_more.database.ExpenseViewModelFactory
 import com.example.broke_no_more.ui.ocr.OcrTestActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -29,26 +29,23 @@ class AddExpenseFragment : Fragment() {
     private var _binding: FragmentAddExpenseBinding? = null
     private val binding get() = _binding!!
 
-    // Request code for OCR scan
-    private val REQUEST_OCR_SCAN = 2001
-
     private lateinit var viewModel: ExpenseViewModel
 
-    // Example categories (can be dynamically fetched from ViewModel or database)
-    private val expenseCategories = listOf("Rent", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
-
+    // Calendar instance for date selection
     private val calendar: Calendar = Calendar.getInstance()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        val addExpenseViewModel =
-//            ViewModelProvider(this).get(AddExpenseViewModel::class.java)
-
         _binding = FragmentAddExpenseBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        // Initialize ViewModel
+        val database = ExpenseDatabase.getInstance(requireActivity())
+        val repository = ExpenseRepository(database.expenseDatabaseDao)
+        val viewModelFactory = ExpenseViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ExpenseViewModel::class.java)
 
         // Set up category spinner
         setupCategorySpinner()
@@ -56,22 +53,16 @@ class AddExpenseFragment : Fragment() {
         // Set up date picker
         setupDatePicker()
 
-        // Set up the "Add Receipt" button to launch the OCR test activity
+        // Set up the "Add Receipt" button to launch OCR
         binding.button.setOnClickListener {
             val intent = Intent(requireContext(), OcrTestActivity::class.java)
-            startActivityForResult(intent, REQUEST_OCR_SCAN)
+            startActivityForResult(intent, 2001)
         }
 
-        // Set up the "Save" button click listener
+        // Set up the "Save" button
         binding.button2.setOnClickListener {
             saveExpenseData()
         }
-
-        val database = ExpenseDatabase.getInstance(requireActivity())
-        val databaseDao = database.expenseDatabaseDao
-        val repository = ExpenseRepository(databaseDao)
-        val viewModelFactory = ExpenseViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(ExpenseViewModel::class.java)
 
         return root
     }
@@ -81,21 +72,28 @@ class AddExpenseFragment : Fragment() {
         _binding = null
     }
 
-    // Populate the category spinner with categories
+    /**
+     * Populate the category spinner with predefined categories.
+     */
     private fun setupCategorySpinner() {
         val spinner: Spinner = binding.categorySpinner
+
+        // Predefined categories (these can be extended or fetched from a database)
+        val categories = listOf("Rent", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            expenseCategories
+            categories
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
     }
 
-    // Set up the date picker for the date EditText
+    /**
+     * Set up the date picker dialog for the date EditText.
+     */
     private fun setupDatePicker() {
-        val dateEditText: EditText = binding.linearLayout2.getChildAt(1) as EditText
+        val dateEditText: EditText = binding.dateEditText
         val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
 
         dateEditText.setOnClickListener {
@@ -115,49 +113,58 @@ class AddExpenseFragment : Fragment() {
         }
     }
 
-    // Handle the result from the OCR test activity
+    /**
+     * Handle the result from the OCR activity.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_OCR_SCAN && resultCode == Activity.RESULT_OK) {
-            // Get the recognized text from the OCR activity
+        if (requestCode == 2001 && resultCode == Activity.RESULT_OK) {
             val recognizedText = data?.getStringExtra("recognizedText") ?: ""
 
-            // Parse the recognized text to extract date and total amount
+            // Extract data using regular expressions
             val dateRegex = Regex("""\b(\d{1,2}/\d{1,2}/\d{4})\b""")
             val amountRegex = Regex("""[\$€£]?\s?\d+(\.\d{2})?""")
 
-            // Extract date
-            val dateMatch = dateRegex.find(recognizedText)
-            if (dateMatch != null) {
-                binding.linearLayout2.getChildAt(1).let { it as EditText }.setText(dateMatch.value)
+            dateRegex.find(recognizedText)?.value?.let {
+                binding.dateEditText.setText(it)
             }
 
-            // Extract total amount
-            val amountMatch = amountRegex.find(recognizedText)
-            if (amountMatch != null) {
-                binding.linearLayout.getChildAt(1).let { it as EditText }.setText(amountMatch.value)
+            amountRegex.find(recognizedText)?.value?.let {
+                binding.linearLayout.getChildAt(1).let { view ->
+                    (view as EditText).setText(it)
+                }
             }
 
             Toast.makeText(requireContext(), "Receipt data added successfully", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Save expense data and show a Toast message
+    /**
+     * Save the entered expense data to the database.
+     */
     private fun saveExpenseData() {
-        val amount = binding.linearLayout.getChildAt(1) as EditText
-        val date = binding.linearLayout2.getChildAt(1) as EditText
-        val comment = binding.linearLayout4.getChildAt(1) as EditText
+        val amountEditText = binding.linearLayout.getChildAt(1) as EditText
+        val dateEditText = binding.dateEditText
+        val commentEditText = binding.linearLayout4.getChildAt(1) as EditText
         val categorySpinner: Spinner = binding.categorySpinner
 
-        val amountText = amount.text.toString()
-        val dateText = date.text.toString()
-        val commentText = comment.text.toString()
+        val amountText = amountEditText.text.toString()
+        val dateText = dateEditText.text.toString()
+        val commentText = commentEditText.text.toString()
         val selectedCategory = categorySpinner.selectedItem.toString()
 
+        // Validate the inputs
+        if (amountText.isEmpty() || dateText.isEmpty() || selectedCategory.isEmpty()) {
+            Toast.makeText(requireContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Create and save the expense object
         val expense = Expense(
             date = dateText,
             amount = amountText.toDouble(),
             comment = commentText,
+            category = selectedCategory
         )
         viewModel.insert(expense)
 
@@ -167,8 +174,10 @@ class AddExpenseFragment : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
 
+        // Return to the previous screen
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 }
+
 
 

@@ -1,4 +1,4 @@
-package com.example.broke_no_more.ui.home
+package com.example.broke_no_more.database
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch

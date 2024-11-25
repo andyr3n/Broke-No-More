@@ -2,7 +2,7 @@ package com.example.broke_no_more.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.broke_no_more.ui.home.Expense
+import com.example.broke_no_more.database.Expense
 
 @Dao
 interface ExpenseDao {
