@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.broke_no_more.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,32 +25,29 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Set up the toolbar
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }
-
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
+        // Get NavController
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
-        // Check if we need to navigate to HomeFragment
+        // Handle intent extras for navigation
         val navigateToHome = intent.getBooleanExtra("navigateToHome", false)
         if (navigateToHome) {
             navController.navigate(R.id.nav_home)
         }
 
-        // Add Expense Report and Savings Goal IDs to top-level destinations
+        // Configure top-level destinations for the app bar
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_expense_report, R.id.nav_savings_goal, R.id.nav_crypto),
-            drawerLayout
+            setOf(R.id.nav_home, R.id.nav_expense_report, R.id.nav_savings_goal, R.id.nav_crypto)
         )
 
+        // Set up action bar with NavController
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+
+        // Set up BottomNavigationView
+        val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
+        bottomNavigationView.setupWithNavController(navController)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
