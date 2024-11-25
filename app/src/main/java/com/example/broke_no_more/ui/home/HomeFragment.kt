@@ -1,25 +1,28 @@
 package com.example.broke_no_more.ui.home
 
 import android.content.Context
+import android.icu.util.Calendar
 import android.os.Bundle
-import android.os.Process
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.broke_no_more.R
+import com.example.broke_no_more.database.ExpenseDatabase
+import com.example.broke_no_more.database.ExpenseDatabaseDao
+import com.example.broke_no_more.database.ExpenseRepository
+import com.example.broke_no_more.database.ExpenseViewModel
+import com.example.broke_no_more.database.ExpenseViewModelFactory
 import com.example.broke_no_more.databinding.FragmentHomeBinding
 import com.example.broke_no_more.ui.SavingsGoal.SavingsGoalFragment
 import com.example.broke_no_more.ui.add_expense.AddExpenseFragment
-import org.w3c.dom.Text
-import java.util.Locale
+import com.example.broke_no_more.ui.subscription.SubscriptionFragment
 
 class HomeFragment : Fragment(){
 
@@ -34,6 +37,18 @@ class HomeFragment : Fragment(){
     private lateinit var haveSpentAmount: TextView
     private lateinit var moreSaving: TextView
     private lateinit var addExpenseButton: Button
+    private lateinit var addSubsriptionButton: Button
+
+    //Initialize for Database
+    private lateinit var database: ExpenseDatabase
+    private lateinit var databaseDao: ExpenseDatabaseDao
+    private lateinit var repository: ExpenseRepository
+    private lateinit var viewModelFactory: ExpenseViewModelFactory
+    private lateinit var expenseViewModel: ExpenseViewModel
+
+    private lateinit var subscriptionContainer: LinearLayout
+    private lateinit var textNoSubscription: TextView
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,6 +98,8 @@ class HomeFragment : Fragment(){
 
         moreSaving = binding.savingMoreDetails
         moreSaving.setOnClickListener(){
+
+            //Swap Fragment to SavingGoal
             val savingGoalFragment = SavingsGoalFragment()
             val manager = requireActivity().supportFragmentManager
             val transaction = manager.beginTransaction()
@@ -93,6 +110,7 @@ class HomeFragment : Fragment(){
 
         addExpenseButton = binding.addExpenseBtn
         addExpenseButton.setOnClickListener(){
+            //Swap Fragment to addExpense
             val addExpenseFragment = AddExpenseFragment()
             val manager = requireActivity().supportFragmentManager
             val transaction = manager.beginTransaction()
@@ -100,6 +118,46 @@ class HomeFragment : Fragment(){
             transaction.addToBackStack(null)
             transaction.commit()
         }
+
+        //Swap to SubscriptionFragment
+        addSubsriptionButton = binding.addSubscriptionBtn
+        addSubsriptionButton.setOnClickListener(){
+            val subscriptionFragment = SubscriptionFragment()
+            val manager = requireActivity().supportFragmentManager
+            val transaction = manager.beginTransaction()
+            transaction.replace(R.id.fragment_home, subscriptionFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+        //Declare variables for database
+        database = ExpenseDatabase.getInstance(requireActivity())
+        databaseDao = database.expenseDatabaseDao
+        repository = ExpenseRepository(databaseDao)
+        viewModelFactory = ExpenseViewModelFactory(repository)
+        expenseViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(ExpenseViewModel::class.java)
+
+
+        subscriptionContainer = binding.subscriptionContainer
+        textNoSubscription = binding.noPaymentDueHeader
+
+        //Inflate first 3 rows for subscription
+        expenseViewModel.allSubscriptionsLiveData.observe(viewLifecycleOwner){
+            subscriptionContainer.removeAllViews()//Remove old view
+
+            // Inflate first 3 subscription
+            var count = 0
+            for(entry in it){
+                val daysLeft = calculateDayLeft(entry.date.get(Calendar.DAY_OF_MONTH))
+                if(daysLeft >= 0 && count <= 3) {
+                    addSubsriptionButton.text = "See More"//Change status if there are subscriptions saved
+                    textNoSubscription.visibility = View.GONE//Remove text for no subscription
+                    displayPaymentDue(entry.subscriptionName, daysLeft, entry.amount)
+                    count++
+                }
+            }
+        }
+
 
         return root
     }
@@ -132,4 +190,30 @@ class HomeFragment : Fragment(){
         }
         return spentDouble
     }
+
+    //Display subscription
+    private fun displayPaymentDue(name: String, daysLeft: Int, amount: Double){
+        val paymentView = layoutInflater.inflate(R.layout.subscription_list, null)
+        val paymentName = paymentView.findViewById<TextView>(R.id.payment_name)
+        val paymentDue = paymentView.findViewById<TextView>(R.id.payment_due)
+        val paymentAmount = paymentView.findViewById<TextView>(R.id.payment_amount)
+
+        paymentName.text = name
+        paymentDue.text = "Due in $daysLeft days"
+        paymentAmount.text = "$$amount"
+
+        subscriptionContainer.addView(paymentView)//Add new payment dynamically
+    }
+
+    //Calculate how many days left until due date
+    private fun calculateDayLeft(selectedDay: Int): Int{
+        //Find current date
+        val calendar = Calendar.getInstance()
+        val today = calendar.get(Calendar.DAY_OF_MONTH)
+
+        //Calculate how many days left from today until due date
+        val daysLeft = selectedDay - today
+        return daysLeft
+    }
+
 }

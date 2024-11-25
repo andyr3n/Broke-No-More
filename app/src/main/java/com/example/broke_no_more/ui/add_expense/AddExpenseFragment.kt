@@ -1,22 +1,25 @@
 package com.example.broke_no_more.ui.add_expense
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.broke_no_more.databinding.FragmentAddExpenseBinding
-import com.example.broke_no_more.ui.home.Expense
-import com.example.broke_no_more.ui.home.ExpenseDatabase
-import com.example.broke_no_more.ui.home.ExpenseRepository
-import com.example.broke_no_more.ui.home.ExpenseViewModel
-import com.example.broke_no_more.ui.home.ExpenseViewModelFactory
+import com.example.broke_no_more.database.Expense
+import com.example.broke_no_more.database.ExpenseDatabase
+import com.example.broke_no_more.database.ExpenseRepository
+import com.example.broke_no_more.database.ExpenseViewModel
+import com.example.broke_no_more.database.ExpenseViewModelFactory
 import com.example.broke_no_more.ui.ocr.OcrTestActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -31,28 +34,39 @@ class AddExpenseFragment : Fragment() {
     private var _binding: FragmentAddExpenseBinding? = null
     private val binding get() = _binding!!
 
-    // Request code for OCR scan
-    private val REQUEST_OCR_SCAN = 2001
-
     private lateinit var viewModel: ExpenseViewModel
 
+    // Calendar instance for date selection
+    private val calendar: Calendar = Calendar.getInstance()
+    private lateinit var selectedCalendar: Calendar
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d(TAG, "onCreateView: Initializing AddExpenseFragment")
         _binding = FragmentAddExpenseBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Set up the "Add Receipt" button to launch the OCR test activity
+        // Initialize ViewModel
+        val database = ExpenseDatabase.getInstance(requireActivity())
+        val repository = ExpenseRepository(database.expenseDatabaseDao)
+        val viewModelFactory = ExpenseViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ExpenseViewModel::class.java)
+
+        // Set up category spinner
+        setupCategorySpinner()
+
+        // Set up date picker
+        setupDatePicker()
+
+        // Set up the "Add Receipt" button to launch OCR
         binding.button.setOnClickListener {
             Log.d(TAG, "Add Receipt button clicked. Launching OcrTestActivity.")
             val intent = Intent(requireContext(), OcrTestActivity::class.java)
-            startActivityForResult(intent, REQUEST_OCR_SCAN)
+            startActivityForResult(intent, 2001)
         }
 
-        // Set up the "Save" button click listener
+        // Set up the "Save" button
         binding.button2.setOnClickListener {
             Log.d(TAG, "Save button clicked.")
             saveExpenseData()
@@ -64,7 +78,6 @@ class AddExpenseFragment : Fragment() {
         val repository = ExpenseRepository(databaseDao)
         val viewModelFactory = ExpenseViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ExpenseViewModel::class.java)
-        Log.d(TAG, "ViewModel initialized.")
 
         return root
     }
@@ -75,10 +88,54 @@ class AddExpenseFragment : Fragment() {
         Log.d(TAG, "onDestroyView: AddExpenseFragment destroyed")
     }
 
-    // Handle the result from the OCR test activity
+    /**
+     * Populate the category spinner with predefined categories.
+     */
+    private fun setupCategorySpinner() {
+        val spinner: Spinner = binding.categorySpinner
+
+        // Predefined categories (these can be extended or fetched from a database)
+        val categories = listOf("Rent", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            categories
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+    }
+
+    /**
+     * Set up the date picker dialog for the date EditText.
+     */
+    private fun setupDatePicker() {
+        val dateEditText: EditText = binding.dateEditText
+        val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+
+        dateEditText.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
+                { _, year, month, dayOfMonth ->
+                    calendar.set(Calendar.YEAR, year)
+                    calendar.set(Calendar.MONTH, month)
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    dateEditText.setText(dateFormat.format(calendar.time))
+                    selectedCalendar = calendar
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+            datePickerDialog.show()
+        }
+    }
+
+    /**
+     * Handle the result from the OCR activity.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAG, "onActivityResult: requestCode=$requestCode, resultCode=$resultCode")
+        
         if (requestCode == REQUEST_OCR_SCAN && resultCode == Activity.RESULT_OK) {
             // Get the recognized text from the OCR activity
             val recognizedText = data?.getStringExtra("recognizedText") ?: ""
@@ -175,27 +232,27 @@ class AddExpenseFragment : Fragment() {
     // Saving the data
     private fun saveExpenseData() {
         val amountEditText = binding.linearLayout.getChildAt(1) as EditText
-        val dateEditText = binding.linearLayout2.getChildAt(1) as EditText
+        val dateEditText = binding.dateEditText
         val commentEditText = binding.linearLayout4.getChildAt(1) as EditText
+        val categorySpinner: Spinner = binding.categorySpinner
 
         val amountText = amountEditText.text.toString()
         val dateText = dateEditText.text.toString()
         val commentText = commentEditText.text.toString()
+        val selectedCategory = categorySpinner.selectedItem.toString()
 
-        Log.d(TAG, "Saving Expense - Amount: $amountText, Date: $dateText, Comment: $commentText")
-
-        // Validate inputs
-        if (amountText.isBlank() || dateText.isBlank()) {
-            Log.w(TAG, "Validation failed: Amount or Date is blank.")
-            Toast.makeText(requireContext(), "Amount and Date are required", Toast.LENGTH_SHORT).show()
+        // Validate the inputs
+        if (amountText.isEmpty() || dateText.isEmpty() || selectedCategory.isEmpty()) {
+            Toast.makeText(requireContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val expense = try {
-            Expense(
-                date = dateText,
-                amount = amountText.removePrefix("$").toDouble(),
-                comment = commentText,
+        // Create and save the expense object
+        val expense = Expense(
+            date = selectedCalendar,
+            amount = amountText.toDouble(),
+            comment = commentText,
+            category = selectedCategory
             )
         } catch (e: NumberFormatException) {
             Log.e(TAG, "NumberFormatException: ${e.message}")
@@ -208,7 +265,7 @@ class AddExpenseFragment : Fragment() {
 
         Toast.makeText(
             requireContext(),
-            "Expense saved: Amount=$amountText, Date=$dateText, Comment=$commentText",
+            "Expense saved:\nAmount=$amountText\nDate=$dateText\nCategory=$selectedCategory\nComment=$commentText",
             Toast.LENGTH_SHORT
         ).show()
         Log.d(TAG, "Expense data saved successfully.")
@@ -217,4 +274,8 @@ class AddExpenseFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
         Log.d(TAG, "Navigated back after saving expense.")
     }
+
 }
+
+
+

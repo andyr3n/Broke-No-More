@@ -2,7 +2,7 @@ package com.example.broke_no_more.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.broke_no_more.ui.home.Expense
+import com.example.broke_no_more.database.Expense
 
 @Dao
 interface ExpenseDao {
@@ -17,4 +17,7 @@ interface ExpenseDao {
 
     @Query("DELETE FROM expense_table")
     suspend fun deleteAllExpenses()
+
+    @Query("SELECT * FROM expense_table WHERE isSubscription = 1")
+    fun getSubscriptionExpenses(): LiveData<List<Expense>>
 }

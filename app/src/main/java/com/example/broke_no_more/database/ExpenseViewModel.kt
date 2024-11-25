@@ -1,10 +1,11 @@
-package com.example.broke_no_more.ui.home
+package com.example.broke_no_more.database
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 
 class ExpenseViewModel(private val repository: ExpenseRepository) : ViewModel() {
     val allEntriesLiveData: LiveData<List<Expense>> = repository.allEntries.asLiveData()
+    val allSubscriptionsLiveData: LiveData<List<Expense>> = repository.allSubscriptions.asLiveData()
 
     fun insert(expense: Expense) {
         viewModelScope.launch {

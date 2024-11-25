@@ -1,4 +1,4 @@
-package com.example.broke_no_more.ui.home
+package com.example.broke_no_more.database
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,11 +23,11 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // go back to last fragment
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.nav_expense_report)
-            }
-        })
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                findNavController().navigate(R.id.nav_expense_report)
+//            }
+//        })
 
         val view = inflater.inflate(R.layout.fragment_history, container, false)
         listView = view.findViewById(R.id.listViewEntries)
@@ -49,7 +49,7 @@ class HistoryFragment : Fragment() {
             expense.let {
                 val bundle = Bundle().apply {
                     putLong("id", it.id)
-                    putString("date", it.date)
+                    putString("date", it.date.time.toString())
                     putDouble("amount", it.amount)
                     putString("comment", it.comment)
                 }

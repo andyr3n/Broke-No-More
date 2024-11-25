@@ -1,11 +1,15 @@
-package com.example.broke_no_more.ui.home
+package com.example.broke_no_more.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.example.broke_no_more.database.Converter
 
 @Database(entities = [Expense::class], version = 1, exportSchema = false)
+@TypeConverters(Converter::class)
+
 abstract class ExpenseDatabase : RoomDatabase() {
     abstract val expenseDatabaseDao: ExpenseDatabaseDao
 
@@ -19,10 +23,14 @@ abstract class ExpenseDatabase : RoomDatabase() {
                     context.applicationContext,
                     ExpenseDatabase::class.java,
                     "expense_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration() // For development purposes only
+                    .build()
                 INSTANCE = instance
                 instance
             }
         }
     }
 }
+
+
