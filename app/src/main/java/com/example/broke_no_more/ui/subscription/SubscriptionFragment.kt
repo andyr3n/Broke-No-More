@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -15,14 +14,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.broke_no_more.R
 import com.example.broke_no_more.databinding.FragmentSubscriptionBinding
+import com.example.broke_no_more.ui.home.Expense
+import com.example.broke_no_more.ui.home.ExpenseDatabase
+import com.example.broke_no_more.ui.home.ExpenseDatabaseDao
+import com.example.broke_no_more.ui.home.ExpenseRepository
+import com.example.broke_no_more.ui.home.ExpenseViewModel
+import com.example.broke_no_more.ui.home.ExpenseViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
@@ -34,6 +40,14 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var paidSection: LinearLayout
     private lateinit var totalAmountSubscription: TextView
     private var num = 0
+
+    //Initialize for Database
+    private lateinit var database: ExpenseDatabase
+    private lateinit var databaseDao: ExpenseDatabaseDao
+    private lateinit var repository: ExpenseRepository
+    private lateinit var viewModelFactory: ExpenseViewModelFactory
+    private lateinit var expenseViewModel: ExpenseViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +69,7 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 //        val drawerLayout = requireActivity().findViewById<DrawerLayout>(R.id.drawer_layout)
 //        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
-        //Initialize view
+        //Initialize variables in view to use
         paidSection = binding.subscriptionContainer
         totalAmountSubscription = binding.totalAmountSubsciption
 
@@ -63,6 +77,25 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         addPaymentBtn = binding.addSubsciptionButton
         addPaymentBtn.setOnClickListener(){
             addPaymentDue()
+        }
+
+        //Declare variables for database
+        database = ExpenseDatabase.getInstance(requireActivity())
+        databaseDao = database.expenseDatabaseDao
+        repository = ExpenseRepository(databaseDao)
+        viewModelFactory = ExpenseViewModelFactory(repository)
+        expenseViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(ExpenseViewModel::class.java)
+
+        //Inflates only rows is Subscription (isSubscription == true)
+        expenseViewModel.allSubscriptionsLiveData.observe(viewLifecycleOwner){
+            paidSection.removeAllViews()//Remove old view
+
+            //Inflate new view with all saved subscription information
+            for(entry in it){
+                val daysLeft = calculateDayLeft(entry.date.get(Calendar.DAY_OF_MONTH))
+                if(daysLeft >= 0)
+                    displayPaymentDue(entry.subscriptionName, daysLeft, entry.amount)
+            }
         }
 
         return root
@@ -76,7 +109,7 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         val chosenDate = dialogView.findViewById<TextView>(R.id.text_choosen_date)
         val paymentAmount = dialogView.findViewById<EditText>(R.id.edit_payment_amount)
 
-        var date = Calendar.getInstance().time//Choose current time as default
+        var date = Calendar.getInstance()//Choose current time as default
         var daysLeft = 0
 
         paymentDate.setOnClickListener(){
@@ -85,12 +118,12 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             val datePickerDialog = DatePickerDialog(requireContext(),{ _, selectedYear, selectedMonth, selectedDay ->
                 //Set date to chosen date
                 calendar.set(selectedYear, selectedMonth, selectedDay)
-                date = calendar.time
+                date = calendar
 
                 daysLeft = calculateDayLeft(selectedDay)
 
                 //Set format to day month (in text), year
-                chosenDate.setText(SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date))
+                chosenDate.setText(SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date.time))
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
             datePickerDialog.show()
         }
@@ -107,12 +140,27 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 val newPaymentDue = PaymentDue(name, date, amount)
                 paymentDue.add(newPaymentDue)
 
-                if(daysLeft > 0){
-                    //Add default name if user does not enter anything
-                    if(name.isEmpty()){
-                        num++
-                        name = "Subscription $num"
-                    }
+                //Add default name if user does not enter anything
+                if(name.isEmpty()){
+                    num++
+                    name = "Subscription $num"
+                }
+
+                //Insert new added subscription to database
+                CoroutineScope(IO).launch {
+                    //Create a new object Expense
+                    val subscriptionExpense = Expense()
+                    subscriptionExpense.subscriptionName = name
+                    subscriptionExpense.date = date
+                    subscriptionExpense.amount = amount
+                    subscriptionExpense.isSubscription = true
+
+                    //Add to database
+                    expenseViewModel.insert(subscriptionExpense)
+                }
+
+                //If due date not yet passed
+                if(daysLeft >= 0){
                     displayPaymentDue(name, daysLeft, amount)//Display new added info to UI
                 }
                 else
@@ -155,7 +203,7 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         return daysLeft
     }
 
-    data class PaymentDue(val name: String, val date: Date, val amount: Double?)
+    data class PaymentDue(val name: String, val date: Calendar, val amount: Double?)
 
     override fun onDestroyView() {
         super.onDestroyView()

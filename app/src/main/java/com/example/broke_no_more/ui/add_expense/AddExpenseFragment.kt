@@ -21,7 +21,7 @@ import com.example.broke_no_more.ui.home.ExpenseViewModel
 import com.example.broke_no_more.ui.home.ExpenseViewModelFactory
 import com.example.broke_no_more.ui.ocr.OcrTestActivity
 import java.text.SimpleDateFormat
-import java.util.Calendar
+import android.icu.util.Calendar
 import java.util.Locale
 
 class AddExpenseFragment : Fragment() {
@@ -38,6 +38,7 @@ class AddExpenseFragment : Fragment() {
     private val expenseCategories = listOf("Rent", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
 
     private val calendar: Calendar = Calendar.getInstance()
+    private lateinit var selectedCalendar: Calendar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -106,6 +107,7 @@ class AddExpenseFragment : Fragment() {
                     calendar.set(Calendar.MONTH, month)
                     calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                     dateEditText.setText(dateFormat.format(calendar.time))
+                    selectedCalendar = calendar
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -155,7 +157,7 @@ class AddExpenseFragment : Fragment() {
         val selectedCategory = categorySpinner.selectedItem.toString()
 
         val expense = Expense(
-            date = dateText,
+            date = selectedCalendar,
             amount = amountText.toDouble(),
             comment = commentText,
         )
