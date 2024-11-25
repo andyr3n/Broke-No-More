@@ -16,4 +16,7 @@ interface ExpenseDatabaseDao {
 
     @Query("DELETE FROM expense_table WHERE id = :key")
     suspend fun deleteExpense(key: Long)
+
+    @Query("SELECT * FROM expense_table WHERE isSubscription = 1")
+    fun getSubscriptionExpenses(): Flow<List<Expense>>
 }
