@@ -78,5 +78,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout.v214)
     implementation (libs.philjay.mpandroidchart)
     implementation (libs.philjay.mpandroidchart)
+    implementation ("com.google.mlkit:text-recognition:16.0.0-beta3")
 
 }
