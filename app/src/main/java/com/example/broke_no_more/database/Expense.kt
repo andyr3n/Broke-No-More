@@ -12,5 +12,8 @@ data class Expense (
     @ColumnInfo(name = "expense_column")
     val date: String,
     val amount: Double,
-    val comment: String? = null
+    val comment: String? = null,
+
+    var isSubscription: Boolean = false,
+    var subscriptionName: String = ""
 )

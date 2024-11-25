@@ -12,6 +12,7 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -76,6 +77,7 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         val paymentAmount = dialogView.findViewById<EditText>(R.id.edit_payment_amount)
 
         var date = Calendar.getInstance().time//Choose current time as default
+        var daysLeft = 0
 
         paymentDate.setOnClickListener(){
             //Show DatePickerDialog to choose Date
@@ -85,7 +87,7 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 calendar.set(selectedYear, selectedMonth, selectedDay)
                 date = calendar.time
 
-                calculateDayLeft(selectedMonth, selectedDay)
+                daysLeft = calculateDayLeft(selectedDay)
 
                 //Set format to day month (in text), year
                 chosenDate.setText(SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date))
@@ -105,13 +107,17 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 val newPaymentDue = PaymentDue(name, date, amount)
                 paymentDue.add(newPaymentDue)
 
-                //Add default name if user does not enter anything
-                if(name.isEmpty()){
-                    num++
-                    name = "Subscription $num"
+                if(daysLeft > 0){
+                    //Add default name if user does not enter anything
+                    if(name.isEmpty()){
+                        num++
+                        name = "Subscription $num"
+                    }
+                    displayPaymentDue(name, daysLeft, amount)//Display new added info to UI
                 }
+                else
+                    Toast.makeText(requireContext(), "Added reminder for next month", Toast.LENGTH_SHORT).show()
 
-                displayPaymentDue(name, date, amount)//Display new added info to UI
                 updateTotal()//Update total after added new subscription
             }
             .setNegativeButton("Cancel", null)
@@ -119,14 +125,15 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     //Display new added subscription to UI
-    private fun displayPaymentDue(name: String, date: Date, amount: Double){
+    private fun displayPaymentDue(name: String, daysLeft: Int, amount: Double){
         val paymentView = layoutInflater.inflate(R.layout.subscription_list, null)
         val paymentName = paymentView.findViewById<TextView>(R.id.payment_name)
         val paymentDue = paymentView.findViewById<TextView>(R.id.payment_due)
         val paymentAmount = paymentView.findViewById<TextView>(R.id.payment_amount)
 
         paymentName.text = name
-        paymentDue.setText(SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date))
+        paymentDue.text = "Due in $daysLeft days"
+        //paymentDue.setText(SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date))
         paymentAmount.text = "$$amount"
 
         paidSection.addView(paymentView)//Add new payment dynamically
@@ -138,9 +145,14 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         totalAmountSubscription.text = "$$total"
     }
 
-    private fun calculateDayLeft(selectedMonth: Int, selectedDay: Int){
+    private fun calculateDayLeft(selectedDay: Int): Int{
         //Find current date
         val calendar = Calendar.getInstance()
+        val today = calendar.get(Calendar.DAY_OF_MONTH)
+
+        //Calculate how many days left from today until due date
+        val daysLeft = selectedDay - today
+        return daysLeft
     }
 
     data class PaymentDue(val name: String, val date: Date, val amount: Double?)
