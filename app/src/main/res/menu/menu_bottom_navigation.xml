@@ -1,6 +1,4 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
         <item
@@ -12,17 +10,17 @@
         <item
             android:id="@+id/nav_expense_report"
             android:icon="@android:drawable/ic_menu_agenda"
-            android:title="Expense Report" />
+            android:title="Expenses" />
 
         <!-- Savings Goal -->
         <item
             android:id="@+id/nav_savings_goal"
             android:icon="@android:drawable/ic_menu_manage"
-            android:title="Savings Goal" />
+            android:title="Savings" />
         <!-- Add Crypto Option -->
         <item
             android:id="@+id/nav_crypto"
             android:icon="@drawable/ic_crypto"
-            android:title="Crypto Analysis" />
+            android:title="Crypto" />
     </group>
 </menu>
