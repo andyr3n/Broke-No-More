@@ -73,18 +73,24 @@ class CryptoFragment : Fragment() {
 
         val dataSet = LineDataSet(entries, "Bitcoin Price").apply {
             color = Color.YELLOW
-            valueTextColor = Color.BLACK
+            valueTextColor = Color.WHITE
             lineWidth = 2f
             circleRadius = 4f
             setCircleColor(Color.YELLOW)
         }
+        val xAxis = binding.bitcoinChart.xAxis
+        val axisLeft = binding.bitcoinChart.axisLeft
+        val axisRight = binding.bitcoinChart.axisRight
+        xAxis.textColor = Color.WHITE
+        axisLeft.textColor = Color.WHITE
+        axisRight.textColor = Color.WHITE
 
         val lineData = LineData(dataSet)
         binding.bitcoinChart.apply {
             data = lineData
             description = Description().apply {
                 text = "Bitcoin Price Trend"
-                textColor = Color.BLACK
+                textColor = Color.WHITE
             }
             animateX(1000)
             invalidate() // Refresh the chart
@@ -98,18 +104,24 @@ class CryptoFragment : Fragment() {
 
         val dataSet = LineDataSet(entries, "Other Cryptocurrencies").apply {
             color = Color.BLUE
-            valueTextColor = Color.BLACK
+            valueTextColor = Color.WHITE
             lineWidth = 2f
             circleRadius = 4f
             setCircleColor(Color.RED)
         }
+        val xAxis = binding.otherCryptoChart.xAxis
+        val axisLeft = binding.otherCryptoChart.axisLeft
+        val axisRight = binding.otherCryptoChart.axisRight
+        xAxis.textColor = Color.WHITE
+        axisLeft.textColor = Color.WHITE
+        axisRight.textColor = Color.WHITE
 
         val lineData = LineData(dataSet)
         binding.otherCryptoChart.apply {
             data = lineData
             description = Description().apply {
                 text = "Other Cryptos Trend"
-                textColor = Color.BLACK
+                textColor = Color.WHITE
             }
             animateX(1000)
             invalidate() // Refresh the chart

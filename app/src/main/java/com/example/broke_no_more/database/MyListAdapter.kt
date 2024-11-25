@@ -30,7 +30,7 @@ class MyListAdapter(private val context: Context, private var expenseList: List<
 
         val expense = expenseList[position]
 
-        val expenseInfo = expense.date
+        val expenseInfo = expense.date.toString()
         val expenseDetails = "$" + expense.amount.toString()
 
         textViewInfo.text = expenseInfo

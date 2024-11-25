@@ -1,5 +1,6 @@
 package com.example.broke_no_more.database
 
+import android.icu.util.Calendar
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -19,5 +20,12 @@ data class Expense(
     val comment: String? = null,
 
     @ColumnInfo(name = "expense_category")
-    val category: String
+    val category: String,
+  
+    @ColumnInfo(name = "expense_column")
+    var date: Calendar = Calendar.getInstance(),
+    var amount: Double = 0.0,
+    val comment: String? = null,
+    var isSubscription: Boolean = false,
+    var subscriptionName: String = ""
 )

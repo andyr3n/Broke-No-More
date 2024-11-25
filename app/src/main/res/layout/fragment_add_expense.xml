@@ -85,7 +85,8 @@
             android:focusable="false"
             android:clickable="true"
             android:textColor="@color/white"
-            android:hint="MM/DD/YYYY" />
+            android:hint="MM/DD/YYYY"
+            android:textColorHint="@color/white"/>
     </LinearLayout>
 
     <!-- Category Section -->
