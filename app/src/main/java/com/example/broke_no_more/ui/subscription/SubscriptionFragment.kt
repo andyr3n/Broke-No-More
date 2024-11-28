@@ -9,13 +9,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.broke_no_more.R
 import com.example.broke_no_more.databinding.FragmentSubscriptionBinding
 import com.example.broke_no_more.database.Expense
@@ -37,9 +39,12 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var addPaymentBtn: FloatingActionButton
     private val paymentDue = mutableListOf<PaymentDue>()
-    private lateinit var paidSection: LinearLayout
     private lateinit var totalAmountSubscription: TextView
     private var num = 0
+
+    private lateinit var recyclerView: RecyclerView
+    private var subscriptionList = ArrayList<Expense>()
+    private lateinit var subscriptionListAdapter: SubscriptionListAdapter
 
     //Initialize for Database
     private lateinit var database: ExpenseDatabase
@@ -61,21 +66,12 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         val activity = activity as AppCompatActivity
         activity.supportActionBar?.title = "Subscription Management"
 
-//        //Add an arrow to go back
-//        activity.supportActionBar?.setHomeButtonEnabled(true)
-//        activity.supportActionBar?.setHomeAsUpIndicator(R.drawable.arrow_back)
-//
-//        //Disable navigation drawer
-//        val drawerLayout = requireActivity().findViewById<DrawerLayout>(R.id.drawer_layout)
-//        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-
         //Initialize variables in view to use
-        paidSection = binding.subscriptionContainer
         totalAmountSubscription = binding.totalAmountSubsciption
 
         //Add new subscription information
         addPaymentBtn = binding.addSubsciptionButton
-        addPaymentBtn.setOnClickListener(){
+        addPaymentBtn.setOnClickListener{
             addPaymentDue()
         }
 
@@ -86,21 +82,46 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         viewModelFactory = ExpenseViewModelFactory(repository)
         expenseViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(ExpenseViewModel::class.java)
 
+        //Set up Recycler View with adapter to inflate custom rows
+        subscriptionListAdapter = SubscriptionListAdapter(requireContext(), subscriptionList, expenseViewModel)
+        recyclerView = binding.subscriptionRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = subscriptionListAdapter
+
         //Inflates only rows is Subscription (isSubscription == true)
         expenseViewModel.allSubscriptionsLiveData.observe(viewLifecycleOwner){
-            paidSection.removeAllViews()//Remove old view
-            var totalThisMonth = 0.0
+            //Filter the list to have daysLeft > 0
+            val filteredList = it.filter { calculateDayLeft(it.date.get(Calendar.DAY_OF_MONTH)) >= 0 }
 
-            //Inflate new view with all saved subscription information
-            for(entry in it){
-                val daysLeft = calculateDayLeft(entry.date.get(Calendar.DAY_OF_MONTH))
-                if(daysLeft >= 0){
-                    displayPaymentDue(entry.subscriptionName, daysLeft, entry.amount)
-                    totalThisMonth += entry.amount
-                }
-            }
-            totalAmountSubscription.text = "$$totalThisMonth"
+            //Change to new list
+            subscriptionListAdapter.replace(filteredList)
+            subscriptionListAdapter.notifyDataSetChanged()
+
+            //Update total this month
+            totalAmountSubscription.text = "$${filteredList.sumOf { it.amount }}"
         }
+
+        //Swipe Left to delete the subscription
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                //Return false because we don't want to move object around
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                subscriptionListAdapter.removeAt(position)
+            }
+
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
 
         return root
     }
@@ -183,10 +204,7 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
         paymentName.text = name
         paymentDue.text = "Due in $daysLeft days"
-        //paymentDue.setText(SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date))
         paymentAmount.text = "$$amount"
-
-        paidSection.addView(paymentView)//Add new payment dynamically
     }
 
     private fun calculateDayLeft(selectedDay: Int): Int{
