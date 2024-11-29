@@ -1,139 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/expense_report">
-    <ScrollView
+    android:background="@color/white"
+    android:paddingBottom="80dp"
+    tools:context=".ui.expense_report.ExpenseReportFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/black"
-    >
-
-    <!-- Pie Chart -->
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/expensePieChart"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
-
-    <!-- RecyclerView for Category Totals -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categoryRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/expensePieChart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/compareText"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Compare Section -->
-    <TextView
-        android:id="@+id/compareText"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Compare to this year"
-        android:textColor="@color/yellow"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/placeholderGraph"
-        app:layout_constraintTop_toBottomOf="@id/categoryRecyclerView"
-        android:layout_margin="16dp" />
+        android:id="@+id/expense_report">
 
-    <!-- Placeholder for Future Graphs -->
-    <TextView
-        android:id="@+id/placeholderGraph"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Column chart to show total spent in the last few months"
-        android:gravity="center"
-        android:background="@drawable/rounded_box_gray"
-        android:padding="16dp"
-        android:textColor="@color/gray"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/noticeText"
-        app:layout_constraintTop_toBottomOf="@id/compareText" />
-
-    <!-- Notice Section -->
-    <TextView
-        android:id="@+id/noticeText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Notice: Uncategorized spent"
-        android:textColor="@color/yellow"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/uncategorizedList"
-        app:layout_constraintTop_toBottomOf="@id/placeholderGraph"
-        android:layout_margin="16dp" />
-
-    <!-- Uncategorized List -->
-    <LinearLayout
-        android:id="@+id/uncategorizedList"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/allExpensesButton"
-        app:layout_constraintTop_toBottomOf="@id/noticeText"
-        android:layout_margin="16dp">
-
-        <!-- Placeholder Notices -->
+        <!-- Title -->
         <TextView
-            android:id="@+id/notice1"
-            android:layout_width="match_parent"
+            android:id="@+id/pieChartTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Notice 1: Placeholder"
-            android:textColor="@color/gray"
-            android:layout_marginTop="4dp" />
+            android:text="Expense Breakdown"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
 
+        <!-- Pie Chart -->
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/expensePieChart"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            app:layout_constraintTop_toBottomOf="@id/pieChartTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp" />
+
+        <!-- Monthly Spending Section -->
         <TextView
-            android:id="@+id/notice2"
-            android:layout_width="match_parent"
+            android:id="@+id/monthlySpendingTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Notice 2: Placeholder"
-            android:textColor="@color/gray"
-            android:layout_marginTop="4dp" />
-    </LinearLayout>
+            android:text="Monthly Subscription Spending"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/expensePieChart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
 
-    <!-- Button to View All Expenses -->
-    <Button
-        android:id="@+id/allExpensesButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="View All Expenses"
-        android:background="@drawable/rounded_box_purple"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/uncategorizedList"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="500dp" />
-    <View
-        android:id="@+id/dummyView"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        app:layout_constraintTop_toBottomOf="@+id/allExpensesButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</FrameLayout>
+        <!-- Monthly Bar Chart -->
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/monthlyBarChart"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            app:layout_constraintTop_toBottomOf="@id/monthlySpendingTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp" />
+
+        <!-- RecyclerView for Category Totals -->
+        <TextView
+            android:id="@+id/categoryListTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Category Totals"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/monthlyBarChart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <!-- Dynamic List for Category Totals -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categoryRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_box_gray"
+            app:layout_constraintTop_toBottomOf="@id/categoryListTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/allExpensesButton"
+            android:layout_margin="16dp" />
+
+        <!-- View All Expenses Button -->
+        <Button
+            android:id="@+id/allExpensesButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="View All Expenses"
+            android:background="@drawable/rounded_box_purple"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
 
