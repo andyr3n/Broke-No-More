@@ -223,5 +223,19 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp">
         </Button>
+        <Button
+            android:id="@+id/calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:focusable="true"
+            android:text="Calendar"
+            android:textAllCaps="false"
+            android:clickable="true"
+            android:textColor="@color/purple"
+            android:background="@drawable/blackbox_purplestroke"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
+        </Button>
     </LinearLayout>
 </FrameLayout>

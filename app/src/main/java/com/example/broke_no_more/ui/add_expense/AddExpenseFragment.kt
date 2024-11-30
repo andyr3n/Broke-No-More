@@ -228,15 +228,16 @@ class AddExpenseFragment : Fragment() {
         }
 
         // Convert dateText (DD/MM/YYYY) to Calendar
-        val selectedCalendar = Calendar.getInstance()
-        try {
-            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-            selectedCalendar.time = sdf.parse(dateText) ?: throw ParseException("Invalid Date", 0)
-        } catch (e: ParseException) {
-            Toast.makeText(requireContext(), "Invalid date format", Toast.LENGTH_SHORT).show()
-            Log.e(TAG, "Date parsing failed: ${e.message}")
-            return
-        }
+        // TODO this breaks everything cus wrong date maybe ocr not work now
+//        val selectedCalendar = Calendar.getInstance()
+//        try {
+//            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+//            selectedCalendar.time = sdf.parse(dateText) ?: throw ParseException("Invalid Date", 0)
+//        } catch (e: ParseException) {
+//            Toast.makeText(requireContext(), "Invalid date format", Toast.LENGTH_SHORT).show()
+//            Log.e(TAG, "Date parsing failed: ${e.message}")
+//            return
+//        }
 
         // Create and save the expense object
         val expense = Expense(

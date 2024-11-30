@@ -22,6 +22,7 @@ import com.example.broke_no_more.database.ExpenseRepository
 import com.example.broke_no_more.database.ExpenseViewModel
 import com.example.broke_no_more.database.ExpenseViewModelFactory
 import com.example.broke_no_more.databinding.FragmentHomeBinding
+import com.example.broke_no_more.ui.CalendarFragment
 import com.example.broke_no_more.ui.SavingsGoal.SavingsGoalFragment
 import com.example.broke_no_more.ui.add_expense.AddExpenseFragment
 import com.example.broke_no_more.ui.subscription.SubscriptionFragment
@@ -40,6 +41,7 @@ class HomeFragment : Fragment(){
     private lateinit var moreSaving: TextView
     private lateinit var addExpenseButton: Button
     private lateinit var addSubsriptionButton: Button
+    private lateinit var calendarButton: Button
 
     //Initialize for Database
     private lateinit var database: ExpenseDatabase
@@ -108,6 +110,16 @@ class HomeFragment : Fragment(){
             val manager = requireActivity().supportFragmentManager
             val transaction = manager.beginTransaction()
             transaction.replace(R.id.fragment_home, subscriptionFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+        calendarButton = binding.calendar
+        calendarButton.setOnClickListener(){
+            val calendarFragment = CalendarFragment()
+            val manager = requireActivity().supportFragmentManager
+            val transaction = manager.beginTransaction()
+            transaction.replace(R.id.fragment_home, calendarFragment)
             transaction.addToBackStack(null)
             transaction.commit()
         }
