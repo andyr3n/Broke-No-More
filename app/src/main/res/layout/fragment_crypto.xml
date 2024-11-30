@@ -5,67 +5,61 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:padding="16dp">
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp">
 
-    <!-- Bitcoin Section -->
-    <TextView
-        android:id="@+id/tvBitcoinTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bitcoin Analysis"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="8dp" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/bitcoinChart"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        app:layout_constraintTop_toBottomOf="@id/tvBitcoinTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="8dp" />
-
-    <!-- All Other Cryptocurrencies Section -->
-    <TextView
-        android:id="@+id/tvOtherCryptoTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Other Cryptocurrencies"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/bitcoinChart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="8dp" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/otherCryptoChart"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        app:layout_constraintTop_toBottomOf="@id/tvOtherCryptoTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="8dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCrypto"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/otherCryptoChart"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="8dp"
-        android:layout_marginBottom="200dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:padding="8dp">
+
+        <!-- Cryptocurrency Chart Section -->
+        <TextView
+            android:id="@+id/tvCryptoTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cryptocurrency Analysis"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="8dp" />
+
+        <!-- Single WebView for All Cryptocurrencies -->
+        <WebView
+            android:id="@+id/cryptoWebView"
+            android:layout_width="0dp"
+            android:layout_height="400dp"
+            app:layout_constraintTop_toBottomOf="@id/tvCryptoTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="8dp" />
+
+        <!-- Select Cryptocurrency Section -->
+        <TextView
+            android:id="@+id/tvSelectCryptoTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Cryptocurrency"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/cryptoWebView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="8dp" />
+
+        <!-- RecyclerView for Selecting Cryptocurrencies -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCrypto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvSelectCryptoTitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="8dp"
+            android:layout_marginBottom="200dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

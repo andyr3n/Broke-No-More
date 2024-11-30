@@ -11,4 +11,5 @@
     <color name="yellow">#F5F378</color>
     <color name="purple">#DCC1FF</color>
     <color name="gray">#CCCCCC</color>
+    <color name="selected_item_background">#303F9F</color>
 </resources>

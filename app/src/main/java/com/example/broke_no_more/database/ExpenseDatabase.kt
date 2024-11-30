@@ -24,7 +24,7 @@ abstract class ExpenseDatabase : RoomDatabase() {
                     ExpenseDatabase::class.java,
                     "expense_database"
                 )
-                    .fallbackToDestructiveMigration() // For development purposes only
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance

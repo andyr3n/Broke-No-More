@@ -160,7 +160,7 @@ class ReceiptScannerActivity : AppCompatActivity() {
         val dateFormats = arrayOf(
             "MM/dd/yyyy",
             "MM/dd/yy",
-            "MM/dd",          // Added format without year
+            "MM/dd",
             "MM/yy",
             "yyyy-MM-dd",
             "M/d/yyyy",
