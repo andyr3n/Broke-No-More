@@ -1,6 +1,7 @@
 package com.example.broke_no_more.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,9 @@ class CalendarFragment : Fragment() {
     }
 
     private fun updateCalendar() {
+        Log.d("CalendarFragment", "Updating calendar")
+        //log expenses
+        Log.d("CalendarFragment", "Expenses: ${viewModel.allEntriesLiveData.value}")
         val monthFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         binding.monthText.text = monthFormat.format(calendar.time)
 
@@ -56,6 +60,10 @@ class CalendarFragment : Fragment() {
             val date = it.date.time
             SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
         } ?: emptyMap()
+
+        //log expense date attribute
+        Log.d("CalendarFragment", "expensesByDate: $expensesByDate")
+        Log.d("CalendarFragment",  "size of expenses by date: ${expensesByDate.size}")
 
         calendarAdapter = CalendarAdapter(daysInMonth, expensesByDate) { date ->
             showExpensesDialog(date)

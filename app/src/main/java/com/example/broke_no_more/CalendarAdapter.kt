@@ -1,5 +1,6 @@
 package com.example.broke_no_more.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +18,14 @@ class CalendarAdapter(
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
+        Log.d("CalendarAdapter", "Creating view holder")
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.calendar_day_item, parent, false)
         return CalendarViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
+        Log.d("CalendarAdapter", "Binding view holder for position $position")
         val date = days[position]
         val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
 
@@ -42,8 +45,10 @@ class CalendarAdapter(
 
             if (expenses.isNotEmpty()) {
                 expenseIndicator.visibility = View.VISIBLE
+                Log.d("CalendarAdapter", "Expense indicator visible for date $date")
             } else {
                 expenseIndicator.visibility = View.GONE
+                Log.d("CalendarAdapter", "Expense indicator gone for date $date")
             }
         }
     }
