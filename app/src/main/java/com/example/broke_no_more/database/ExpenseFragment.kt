@@ -32,12 +32,6 @@ class ExpenseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // go back to last fragment
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                findNavController().navigate(R.id.nav_history)
-//            }
-//        })
 
         val view = inflater.inflate(R.layout.fragment_expense, container, false)
 
