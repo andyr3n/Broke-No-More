@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_add_expense"
-    android:background="@color/black"
+    android:background="@color/white"
     tools:context=".ui.add_expense.AddExpenseFragment">
 
     <ImageView
@@ -28,7 +28,6 @@
         android:background="@drawable/blackbox_purplestroke"
         android:text="Add Receipt"
         android:textAllCaps="false"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,14 +47,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Amount: "
-            android:textColor="@color/white" />
+            android:text="Amount: "/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/white"
             android:inputType="number" />
     </LinearLayout>
 
@@ -74,19 +70,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date: "
-            android:textColor="@color/white" />
+            android:text="Date: "/>
 
         <EditText
             android:id="@+id/dateEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
             android:focusable="false"
             android:clickable="true"
-            android:textColor="@color/white"
-            android:hint="MM/DD/YYYY"
-            android:textColorHint="@color/white"/>
+            android:hint="MM/DD/YYYY"/>
     </LinearLayout>
 
     <!-- Category Section -->
@@ -102,14 +94,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Categories:"
-            android:textColor="@color/white" />
+            android:text="Categories:"/>
 
         <Spinner
             android:id="@+id/categorySpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
             android:layout_marginTop="8dp" />
     </LinearLayout>
 
@@ -125,14 +115,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Comment: "
-            android:textColor="@color/white" />
+            android:text="Comment: "/>
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/white" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <!-- Save and Cancel Buttons -->
@@ -159,7 +146,6 @@
         app:layout_constraintHorizontal_bias="0.649"
         app:layout_constraintStart_toEndOf="@+id/button2"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        android:background="@drawable/lightblack_box_purplestroke"
-        android:textColor="@color/purple" />
+        android:background="@drawable/lightblack_box_purplestroke" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

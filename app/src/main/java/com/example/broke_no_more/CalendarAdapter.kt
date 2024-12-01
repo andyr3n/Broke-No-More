@@ -1,6 +1,6 @@
 package com.example.broke_no_more.ui
 
-import android.util.Log
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +20,25 @@ class CalendarAdapter(
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
+        val displayMetrics = parent.context.resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels
+
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.calendar_day_item, parent, false)
+
+        val itemWidth = screenWidth / 9
+
+        val layoutParams = view.layoutParams
+        layoutParams.width = itemWidth
+        layoutParams.height = itemWidth
+
+        val margin = 2
+        val density = parent.context.resources.displayMetrics.density
+        val marginInPixels = (margin * density).toInt()
+
+        (layoutParams as ViewGroup.MarginLayoutParams).setMargins(marginInPixels, marginInPixels, marginInPixels, marginInPixels)
+
+        view.layoutParams = layoutParams
         return CalendarViewHolder(view)
     }
 
@@ -61,6 +78,3 @@ class CalendarAdapter(
         }
     }
 }
-
-
-

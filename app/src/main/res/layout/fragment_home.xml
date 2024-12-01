@@ -21,13 +21,15 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/addExpenseBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add Expense"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 style="@style/Widget.MaterialComponents.Button"
-                app:cornerRadius="25dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:textSize="16sp"
+                android:text="Add Expense"
+                app:cornerRadius="25dp" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -36,38 +38,47 @@
                 app:cardCornerRadius="8dp"
                 android:layout_marginBottom="16dp">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center"
+                    android:orientation="horizontal"
                     android:padding="14dp">
 
                     <ImageButton
                         android:id="@+id/prevMonthButton"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:background="@drawable/baseline_arrow_back_ios_24"
-                        android:contentDescription="Previous Month" />
+                        android:contentDescription="Previous Month"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/monthText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="January 2024"
-                        android:textSize="18sp"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
+                        android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/nextMonthButton"
+                        app:layout_constraintStart_toEndOf="@+id/prevMonthButton"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
                         android:id="@+id/nextMonthButton"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:background="@drawable/baseline_arrow_forward_ios_24"
-                        android:contentDescription="Next Month" />
-                </LinearLayout>
+                        android:contentDescription="Next Month"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
@@ -75,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:padding="16dp">
+                android:padding="8dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -147,6 +158,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp" />
+
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -154,8 +166,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@string/payment_due"
-                android:textColor="@color/purple"
+                android:text="Subscriptions"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_gravity="start" />
 
@@ -164,7 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="There's no payment due in the future!" />
+                android:text="No subsciprtions due this month!" />
 
             <LinearLayout
                 android:id="@+id/subscription_container"
@@ -182,9 +194,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/addSubscriptionBtn"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add Payment Due"
+                android:textAllCaps="false"
+                android:text="Add Subscription"
+                android:textSize="16sp"
                 android:layout_marginBottom="256dp"
                 android:paddingStart="50dp"
                 android:paddingEnd="50dp"
