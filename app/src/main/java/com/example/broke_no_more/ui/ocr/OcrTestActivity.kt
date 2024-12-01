@@ -16,6 +16,7 @@ import com.example.broke_no_more.R
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import java.util.logging.Handler
 import java.util.regex.Pattern
 
 class OcrTestActivity : AppCompatActivity() {
@@ -62,21 +63,25 @@ class OcrTestActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(TAG, "onActivityResult: requestCode=$requestCode, resultCode=$resultCode")
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
             val uri = data?.data
-            Log.d(TAG, "Image URI received: $uri")
             uri?.let {
                 val inputStream = contentResolver.openInputStream(uri)
                 val bitmap = BitmapFactory.decodeStream(inputStream)
                 imageView.setImageBitmap(bitmap)
-                Log.d(TAG, "Image displayed in ImageView")
 
-                // Process the image with OCR
-                processReceiptImage(bitmap)
+                // Launch the animation activity
+                val animationIntent = Intent(this, AnimationActivity::class.java)
+                startActivity(animationIntent)
+
+                // Start OCR processing
+                android.os.Handler().postDelayed({
+                    processReceiptImage(bitmap)
+                }, AnimationActivity.ANIMATION_DURATION)
             }
         }
     }
+
 
     private fun processReceiptImage(bitmap: Bitmap) {
         Log.d(TAG, "Starting OCR processing on the selected image")
