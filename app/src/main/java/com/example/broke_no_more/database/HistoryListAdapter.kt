@@ -30,7 +30,7 @@ class HistoryListAdapter(private val context: Context, private var expenseList: 
 
         val expense = expenseList[position]
 
-        val expenseInfo = expense.date.time.toString()
+        val expenseInfo = expense.date.time.toString().substring(0, 10) + " - " + expense.category
         val expenseDetails = "$" + expense.amount.toString()
 
         textViewInfo.text = expenseInfo

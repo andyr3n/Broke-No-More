@@ -47,7 +47,9 @@ class ExpenseFragment : Fragment() {
         val category = arguments?.getString("category")
         expenseId = arguments?.getLong("id")
 
-        dateEditText.setText(date)
+        if (date != null) {
+            dateEditText.setText(date.substring(0, 10))
+        }
         amountEditText.setText("$" + amount.toString())
         commentEditText.setText(comment.toString())
         categoryEditText.setText(category.toString())
