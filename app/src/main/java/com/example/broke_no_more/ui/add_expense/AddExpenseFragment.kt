@@ -89,7 +89,7 @@ class AddExpenseFragment : Fragment() {
         val spinner: Spinner = binding.categorySpinner
 
         // Predefined categories (these can be extended or fetched from a database)
-        val categories = listOf("Rent", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
+        val categories = listOf("Housing", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,

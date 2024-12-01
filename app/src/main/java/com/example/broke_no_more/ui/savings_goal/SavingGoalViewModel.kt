@@ -5,11 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class SavingGoalViewModel: ViewModel() {
-    private val _rentGoal = MutableLiveData<Double>()
-    val rentGoal: LiveData<Double>get() = _rentGoal
+    private val _housingGoal = MutableLiveData<Double>()
+    val housingGoal: LiveData<Double>get() = _housingGoal
 
     private val _clothesGoal = MutableLiveData<Double>()
     val clothesGoal: LiveData<Double>get()= _clothesGoal
+
+    private val _groceryGoal = MutableLiveData<Double>()
+    val groceryGoal: LiveData<Double>get() = _groceryGoal
 
     private val _entertainmentGoal = MutableLiveData<Double>()
     val entertainmentGoal: LiveData<Double>get()= _entertainmentGoal
@@ -17,8 +20,12 @@ class SavingGoalViewModel: ViewModel() {
     private val _uncategorizedGoal = MutableLiveData<Double>()
     val uncategorizedGoal: LiveData<Double>get() = _uncategorizedGoal
 
-    fun updateRentGoal(newGoal: Double){
-        _rentGoal.value = newGoal
+    fun updateGroceryGoal(newGoal: Double){
+        _groceryGoal.value = newGoal
+    }
+
+    fun updateHousingGoal(newGoal: Double){
+        _housingGoal.value = newGoal
     }
 
     fun updateClothesGoal(newGoal: Double){

@@ -33,18 +33,26 @@ class SavingsGoalFragment : Fragment() {
     private lateinit var clothesAmount: TextView
     private lateinit var entertainmentAmount: TextView
     private lateinit var uncategorizedAmount: TextView
+    private lateinit var housingAmount: TextView
+    private lateinit var groceryAmount: TextView
 
     private lateinit var clothesDetail: TextView
     private lateinit var entertainmentDetail: TextView
     private lateinit var uncategorizedDetail: TextView
+    private lateinit var housingDetail: TextView
+    private lateinit var groceryDetail: TextView
 
     private lateinit var clothesProgress: ProgressBar
     private lateinit var entertainmentProgress: ProgressBar
     private lateinit var uncategorizedProgress: ProgressBar
+    private lateinit var housingProgress: ProgressBar
+    private lateinit var groceryProgress: ProgressBar
 
     private lateinit var clothesGoalLayout: ConstraintLayout
     private lateinit var entertainmentGoalLayout: ConstraintLayout
     private lateinit var uncategorizedGoalLayout: ConstraintLayout
+    private lateinit var housingGoalLayout: ConstraintLayout
+    private lateinit var groceryGoalLayout: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,18 +67,26 @@ class SavingsGoalFragment : Fragment() {
         clothesAmount = binding.clothesAmount
         entertainmentAmount = binding.entertainmentAmount
         uncategorizedAmount = binding.uncategorizedAmount
+        housingAmount = binding.housingAmount
+        groceryAmount = binding.groceryAmount
 
         clothesDetail = binding.clothesDetail
         entertainmentDetail = binding.entertainmentDetail
         uncategorizedDetail = binding.uncategorizedDetail
+        housingDetail = binding.housingDetail
+        groceryDetail = binding.groceryDetail
 
         clothesProgress = binding.clothesProgress
         entertainmentProgress = binding.entertainmentProgress
         uncategorizedProgress = binding.uncategorizedProgress
+        housingProgress = binding.housingProgress
+        groceryProgress = binding.groceryProgress
 
         clothesGoalLayout = binding.clothesGoal
         entertainmentGoalLayout = binding.entertainmentGoal
         uncategorizedGoalLayout = binding.uncategorizedGoal
+        housingGoalLayout = binding.housingGoal
+        groceryGoalLayout = binding.groceryGoal
 
         //Declare variables for database
         database = ExpenseDatabase.getInstance(requireActivity())
@@ -83,25 +99,54 @@ class SavingsGoalFragment : Fragment() {
         val clothesGoal = getClothesGoal()
         val entertainmentGoal = getEntertainmentGoal()
         val uncategorizedGoal = getUncategorizedGoal()
-        println("Uncategorized Goal = $uncategorizedGoal")
+        val housingGoal = getHousingGoal()
+        val groceryGoal = getGroceryGoal()
 
         //Set Goal to save goal amount
         clothesAmount.text = "$$clothesGoal"
         entertainmentAmount.text = "$$entertainmentGoal"
         uncategorizedAmount.text = "$$uncategorizedGoal"
+        housingAmount.text = "$$housingGoal"
+        groceryAmount.text = "$$groceryGoal"
 
         //Tap to Change goal for each category
         clothesGoalLayout.setOnClickListener{ changeGoal("clothes") }
         entertainmentGoalLayout.setOnClickListener{ changeGoal("entertainment") }
         uncategorizedGoalLayout.setOnClickListener{changeGoal("other")}
+        housingGoalLayout.setOnClickListener{changeGoal("housing")}
+        groceryGoalLayout.setOnClickListener{changeGoal("grocery")}
 
         //Get saved total amount for each category
         val sharedPref = requireContext().getSharedPreferences("total spent", Context.MODE_PRIVATE)
         val clothesSpent = sharedPref.getFloat("clothes spent", 0.0F).toDouble()
         val entertainmentSpent = sharedPref.getFloat("entertainment spent", 0.0F).toDouble()
         val uncategorizedSpent = sharedPref.getFloat("other spent", 0.0F).toDouble()
+        val housingSpent = sharedPref.getFloat("housing spent", 0.0F).toDouble()
+        val grocerySpent = sharedPref.getFloat("grocery spent", 0.0F).toDouble()
 
         //Change the budget left (As default if have a goal amount)
+        if(groceryGoal != 0.0){
+            val amountLeft = groceryGoal - grocerySpent
+            if(amountLeft <= 0.0)
+                groceryDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+            else
+                groceryDetail.text = "You have $$amountLeft left in your budget !"
+
+            //Change the progress bar
+            groceryProgress.progress = ((grocerySpent / groceryGoal) * 100).toInt()
+        }
+
+        if(housingGoal != 0.0){
+            val amountLeft = housingGoal - housingSpent
+            if(amountLeft <= 0.0)
+                housingDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+            else
+                housingDetail.text = "You have $$amountLeft left in your budget !"
+
+            //Change the progress bar
+            housingProgress.progress = ((housingSpent / housingGoal) * 100).toInt()
+        }
+
         if(clothesGoal != 0.0){
             val amountLeft = clothesGoal - clothesSpent
             if(amountLeft <= 0.0)
@@ -144,9 +189,19 @@ class SavingsGoalFragment : Fragment() {
             //Loop through each category and save new total amount
             categoryTotals.forEach{(category, totalCategoryAmount) ->
                 when(category){
+                    "Housing" ->{
+                        val editor = sharedPref.edit()
+                        editor.putFloat("housing spent", totalCategoryAmount.toFloat())
+                        editor.apply()
+                    }
                     "Clothes" -> {
                         val editor = sharedPref.edit()
                         editor.putFloat("clothes spent", totalCategoryAmount.toFloat())
+                        editor.apply()
+                    }
+                    "Grocery" -> {
+                        val editor = sharedPref.edit()
+                        editor.putFloat("grocery spent", totalCategoryAmount.toFloat())
                         editor.apply()
                     }
                     "Entertainment" -> {
@@ -165,6 +220,40 @@ class SavingsGoalFragment : Fragment() {
 
 
         val savingGoalViewModel = ViewModelProvider(requireActivity())[SavingGoalViewModel::class.java]
+        savingGoalViewModel.groceryGoal.observe(viewLifecycleOwner){
+            groceryAmount.text = "$$it"//Update goal amount
+
+            if (it > 0.0){
+                //Update amount left
+                val amountLeft = it - grocerySpent
+                if(amountLeft <= 0.0){
+                    groceryDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                }
+                else
+                    groceryDetail.text = "You have $$amountLeft left in your budget !"
+
+                //Update progress
+                groceryProgress.progress = ((grocerySpent/ it) * 100).toInt()
+            }
+        }
+
+        savingGoalViewModel.housingGoal.observe(viewLifecycleOwner){
+            housingAmount.text = "$$it"//Update goal amount
+
+            if(it > 0.0){
+                //Update amount left
+                val amountLeft = it - housingSpent
+                if(amountLeft <= 0.0){
+                    housingDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                }
+                else{
+                    housingDetail.text = "You have $$amountLeft left in your budget !"
+                }
+                //Update progress
+                housingProgress.progress = ((housingSpent / it) * 100).toInt()
+            }
+        }
+
         savingGoalViewModel.clothesGoal.observe(viewLifecycleOwner){
             clothesAmount.text = "$$it"//Update goal amount
 
@@ -178,7 +267,8 @@ class SavingsGoalFragment : Fragment() {
                     clothesDetail.text = "You have $$amountLeft left in your budget !"
                 }
                 //Update progress
-                clothesProgress.progress = ((clothesSpent / it) * 100).toInt()            }
+                clothesProgress.progress = ((clothesSpent / it) * 100).toInt()
+            }
         }
 
         savingGoalViewModel.entertainmentGoal.observe(viewLifecycleOwner){
@@ -193,7 +283,7 @@ class SavingsGoalFragment : Fragment() {
                     entertainmentDetail.text = "You have $$amountLeft left in your budget !"
 
                 //Update progress
-                entertainmentProgress.progress = ((clothesSpent / it) * 100).toInt()
+                entertainmentProgress.progress = ((entertainmentSpent / it) * 100).toInt()
             }
         }
 
@@ -235,7 +325,9 @@ class SavingsGoalFragment : Fragment() {
                 //Send new update value to View Model
                 val savingGoalViewModel = ViewModelProvider(requireActivity())[SavingGoalViewModel::class.java]
                 when(name){
+                    "housing" -> savingGoalViewModel.updateHousingGoal(newGoalInput.toDouble())
                     "clothes" -> savingGoalViewModel.updateClothesGoal(newGoalInput.toDouble())
+                    "grocery" -> savingGoalViewModel.updateGroceryGoal(newGoalInput.toDouble())
                     "entertainment" -> savingGoalViewModel.updateEntertainmentGoal(newGoalInput.toDouble())
                     "other" -> savingGoalViewModel.updateUncategorizedGoal(newGoalInput.toDouble())
                 }
@@ -244,10 +336,22 @@ class SavingsGoalFragment : Fragment() {
             .show()
     }
 
+    private fun getHousingGoal(): Double{
+        val sharedPref = requireContext().getSharedPreferences("housing", Context.MODE_PRIVATE)
+        val housingGoal = sharedPref.getFloat("housing", 0.0F).toDouble()
+        return housingGoal
+    }
+
     private fun getClothesGoal(): Double{
         val sharedPref = requireContext().getSharedPreferences("clothes", Context.MODE_PRIVATE)
         val clothesGoal = sharedPref.getFloat("clothes", 0.0F).toDouble()
         return clothesGoal
+    }
+
+    private fun getGroceryGoal(): Double{
+        val sharedPref = requireContext().getSharedPreferences("grocery", Context.MODE_PRIVATE)
+        val groceryGoal = sharedPref.getFloat("grocery", 0.0F).toDouble()
+        return groceryGoal
     }
 
     private fun getEntertainmentGoal(): Double{
