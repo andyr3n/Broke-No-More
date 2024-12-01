@@ -1,6 +1,5 @@
 package com.example.broke_no_more.ui.home
 
-import android.content.Context
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
@@ -9,12 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.broke_no_more.R
 import com.example.broke_no_more.database.ExpenseDatabase
 import com.example.broke_no_more.database.ExpenseDatabaseDao
@@ -22,26 +20,20 @@ import com.example.broke_no_more.database.ExpenseRepository
 import com.example.broke_no_more.database.ExpenseViewModel
 import com.example.broke_no_more.database.ExpenseViewModelFactory
 import com.example.broke_no_more.databinding.FragmentHomeBinding
-import com.example.broke_no_more.ui.CalendarFragment
-import com.example.broke_no_more.ui.SavingsGoal.SavingsGoalFragment
+import com.example.broke_no_more.ui.CalendarAdapter
+import com.example.broke_no_more.ui.ExpensesDialogFragment
 import com.example.broke_no_more.ui.add_expense.AddExpenseFragment
 import com.example.broke_no_more.ui.subscription.SubscriptionFragment
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class HomeFragment : Fragment(){
 
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var editSpending: TextView
-    private lateinit var spendingGoalAmount: TextView
-    private lateinit var spendingGoalProcess: ProgressBar
-    private lateinit var haveSpentAmount: TextView
-    private lateinit var moreSaving: TextView
     private lateinit var addExpenseButton: Button
     private lateinit var addSubsriptionButton: Button
-    private lateinit var calendarButton: Button
 
     //Initialize for Database
     private lateinit var database: ExpenseDatabase
@@ -53,6 +45,10 @@ class HomeFragment : Fragment(){
     private lateinit var subscriptionContainer: LinearLayout
     private lateinit var textNoSubscription: TextView
 
+    //calendar
+    private val calendar = java.util.Calendar.getInstance()
+    private lateinit var calendarAdapter: CalendarAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,36 +57,26 @@ class HomeFragment : Fragment(){
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
-        homeViewModel.spendingGoal.observe(viewLifecycleOwner) { goal ->
-            updateSpendingGoal()
-        }
-        Log.i("HomeFragment", "onCreateView called")
+        //Declare variables for database
+        database = ExpenseDatabase.getInstance(requireActivity())
+        databaseDao = database.expenseDatabaseDao
+        repository = ExpenseRepository(databaseDao)
+        viewModelFactory = ExpenseViewModelFactory(repository)
+        this.expenseViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(ExpenseViewModel::class.java)
 
-        //Edit Spending Goal
-        editSpending = binding.editSpendingGoal
-        editSpending.setOnClickListener(){
-           //Open Dialog Fragment to Edit
-            val spendingDialog = MyDialog()
-            val bundle = Bundle()
-            bundle.putInt(MyDialog.DIALOG_KEY, MyDialog.SPENDING_GOAL)
-            spendingDialog.arguments = bundle
-            spendingDialog.show(requireActivity().supportFragmentManager, "Edit Spending Dialog")
+        setupCalendar()
+        setupObservers()
+
+        binding.prevMonthButton.setOnClickListener {
+            calendar.add(java.util.Calendar.MONTH, -1)
+            updateCalendar()
         }
 
-        updateSpendingGoal()
-
-        moreSaving = binding.savingMoreDetails
-        moreSaving.setOnClickListener(){
-
-            //Swap Fragment to SavingGoal
-            val savingGoalFragment = SavingsGoalFragment()
-            val manager = requireActivity().supportFragmentManager
-            val transaction = manager.beginTransaction()
-            transaction.replace(R.id.fragment_home, savingGoalFragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
+        binding.nextMonthButton.setOnClickListener {
+            calendar.add(java.util.Calendar.MONTH, 1)
+            updateCalendar()
         }
+
 
         addExpenseButton = binding.addExpenseBtn
         addExpenseButton.setOnClickListener(){
@@ -114,29 +100,11 @@ class HomeFragment : Fragment(){
             transaction.commit()
         }
 
-        calendarButton = binding.calendar
-        calendarButton.setOnClickListener(){
-            val calendarFragment = CalendarFragment()
-            val manager = requireActivity().supportFragmentManager
-            val transaction = manager.beginTransaction()
-            transaction.replace(R.id.fragment_home, calendarFragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
-        }
-
-        //Declare variables for database
-        database = ExpenseDatabase.getInstance(requireActivity())
-        databaseDao = database.expenseDatabaseDao
-        repository = ExpenseRepository(databaseDao)
-        viewModelFactory = ExpenseViewModelFactory(repository)
-        expenseViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(ExpenseViewModel::class.java)
-
-
         subscriptionContainer = binding.subscriptionContainer
         textNoSubscription = binding.noPaymentDueHeader
 
         //Inflate first 3 rows for subscription
-        expenseViewModel.allSubscriptionsLiveData.observe(viewLifecycleOwner){
+        this.expenseViewModel.allSubscriptionsLiveData.observe(viewLifecycleOwner){
             subscriptionContainer.removeAllViews()//Remove old view
 
             // Inflate first 3 subscription
@@ -159,42 +127,6 @@ class HomeFragment : Fragment(){
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun updateSpendingGoal() {
-        val spentAmount = getSpentAmount()
-        val spendGoal = getSpendingGoal()
-        spendingGoalAmount = binding.spendingGoalAmount
-        spendingGoalAmount.text = "$" + spendGoal
-        spendingGoalProcess = binding.spendingProgress
-        val spendPercentage = (( spentAmount/ spendGoal) * 100).toInt()
-        spendingGoalProcess.progress = spendPercentage
-        haveSpentAmount = binding.haveSpentText
-        haveSpentAmount.text = "You have spent $$spentAmount/ $$spendGoal this month"
-    }
-
-    //Get saved spending goal
-    private fun getSpendingGoal(): Double {
-        val sharedPref = requireContext().getSharedPreferences("SPENDING GOAL", Context.MODE_PRIVATE)
-        val goal = sharedPref.getString("spendgoal", "")
-        var goalDouble = 0.0
-        if (goal != null) {
-            if(goal.isNotEmpty())//Only if user entered a value and saved
-                goalDouble = goal.toDouble()//Convert from string to double
-        }
-        return goalDouble
-    }
-
-    //Get saved spent amount
-    private fun getSpentAmount(): Double{
-        val sharedPref = requireContext().getSharedPreferences("SPENDING GOAL", Context.MODE_PRIVATE)
-        val spent = sharedPref.getString("spent amount", "")
-        var spentDouble = 0.0
-        if (spent != null) {
-            if(spent.isNotEmpty())//Only if user entered a value and saved
-                spentDouble = spent.toDouble()//Convert from string to double
-        }
-        return spentDouble
     }
 
     //Display subscription
@@ -220,6 +152,62 @@ class HomeFragment : Fragment(){
         //Calculate how many days left from today until due date
         val daysLeft = selectedDay - today
         return daysLeft
+    }
+
+    private fun setupCalendar() {
+        binding.calendarRecyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
+        updateCalendar()
+    }
+
+    private fun updateCalendar() {
+        Log.d("CalendarFragment", "Updating calendar")
+        //log expenses
+        Log.d("CalendarFragment", "Expenses: ${this.expenseViewModel.allEntriesLiveData.value}")
+        val monthFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        binding.monthText.text = monthFormat.format(calendar.time)
+
+        val daysInMonth = getDaysInMonth(calendar)
+
+        val expensesByDate = this.expenseViewModel.allEntriesLiveData.value?.groupBy {
+            val date = it.date.time
+            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
+        } ?: emptyMap()
+
+        //log expense date attribute
+        Log.d("CalendarFragment", "expensesByDate: $expensesByDate")
+        Log.d("CalendarFragment",  "size of expenses by date: ${expensesByDate.size}")
+
+        calendarAdapter = CalendarAdapter(daysInMonth, expensesByDate) { date ->
+            showExpensesDialog(date)
+        }
+        binding.calendarRecyclerView.adapter = calendarAdapter
+    }
+
+    private fun setupObservers() {
+        this.expenseViewModel.allEntriesLiveData.observe(viewLifecycleOwner) {
+            updateCalendar()
+        }
+    }
+
+    private fun getDaysInMonth(calendar: java.util.Calendar): List<Date> {
+        val days = mutableListOf<Date>()
+        val tempCalendar = calendar.clone() as java.util.Calendar
+
+        tempCalendar.set(java.util.Calendar.DAY_OF_MONTH, 1)
+        val firstDayOfMonth = tempCalendar.get(java.util.Calendar.DAY_OF_WEEK) - 1
+
+        tempCalendar.add(java.util.Calendar.DAY_OF_MONTH, -firstDayOfMonth)
+
+        for (i in 0 until 42) {
+            days.add(tempCalendar.time)
+            tempCalendar.add(java.util.Calendar.DAY_OF_MONTH, 1)
+        }
+        return days
+    }
+
+    private fun showExpensesDialog(date: Date) {
+        val dialog = ExpensesDialogFragment.newInstance(date)
+        dialog.show(parentFragmentManager, "ExpensesDialogFragment")
     }
 
 }

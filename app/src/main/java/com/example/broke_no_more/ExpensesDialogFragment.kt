@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.broke_no_more.R
 import com.example.broke_no_more.database.ExpenseDatabase
 import com.example.broke_no_more.database.ExpenseFragment
@@ -76,10 +77,7 @@ class ExpensesDialogFragment : DialogFragment() {
 
                 dismiss()
 
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_calendar, expenseFragment)
-                    .addToBackStack(null)
-                    .commit()
+                findNavController().navigate(R.id.action_home_to_expenseFragment, bundle)
             }
         }
 

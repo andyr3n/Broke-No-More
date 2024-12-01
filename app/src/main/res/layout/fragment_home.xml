@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/white"
     tools:context=".ui.home.HomeFragment"
     android:id="@+id/fragment_home">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,127 +33,111 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/budgetAmount">
         </Button>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/purple_box"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/spendingGoal_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Spending Goal: "
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
-
-            <TextView
-                android:id="@+id/spendingGoal_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$0"
-                app:layout_constraintStart_toEndOf="@+id/spendingGoal_header"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
-
-            <TextView
-                android:id="@+id/edit_spendingGoal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="Edit"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
-
-            <ProgressBar
-                android:id="@+id/spendingProgress"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spendingGoal_amount"
-                android:max="100"
-                android:progress="0"
-                android:progressDrawable="@drawable/process_bar">
-            </ProgressBar>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/have_spentText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spendingProgress">
-            </TextView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/prevMonthButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="&lt;"
+                    android:textSize="25sp"
+                    android:contentDescription="Previous Month"
+                    android:background="@null" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/yellow_box"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp">
+                <TextView
+                    android:id="@+id/monthText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="January 2024"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/savingGoal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Saving Goal: "
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
+                <Button
+                    android:id="@+id/nextMonthButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="&gt;"
+                    android:textSize="25sp"
+                    android:contentDescription="Next Month"
+                    android:background="@null" />
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$0"
-                app:layout_constraintStart_toEndOf="@+id/savingGoal"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
-
-            <ProgressBar
-                android:id="@+id/savingProgress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/savingGoal"
-                android:max="100"
-                android:progress="0"
-                android:progressDrawable="@drawable/process_bar">
-            </ProgressBar>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SUN"
+                    android:textAlignment="center"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MON"
+                    android:textAlignment="center"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TUE"
+                    android:textAlignment="center"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="WED"
+                    android:textAlignment="center"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="THU"
+                    android:textAlignment="center"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="FRI"
+                    android:textAlignment="center"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SAT"
+                    android:textAlignment="center"
+                    android:textSize="16sp"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/savingMoreDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/savingProgress"
-                android:layout_marginTop="10dp"
-                android:text="@string/more_detail">
-            </TextView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/calendarRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"/>
+
+
+        </LinearLayout>
 
         <TextView
             android:layout_marginTop="10dp"
@@ -169,8 +155,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="There's no payment due in the future !"
-            android:textColor="@color/white">
+            android:text="There's no payment due in the future !">
         </TextView>
 
         <LinearLayout
@@ -193,6 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="200dp"
             android:focusable="true"
             android:text="Add Payment Due"
             android:textAllCaps="false"
@@ -202,19 +188,6 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp">
         </Button>
-        <Button
-            android:id="@+id/calendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:focusable="true"
-            android:text="Calendar"
-            android:textAllCaps="false"
-            android:clickable="true"
-            android:textColor="@color/purple"
-            android:background="@drawable/blackbox_purplestroke"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
-        </Button>
     </LinearLayout>
+    </ScrollView>
 </FrameLayout>
