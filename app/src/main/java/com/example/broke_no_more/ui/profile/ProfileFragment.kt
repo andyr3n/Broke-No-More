@@ -83,9 +83,6 @@ class ProfileFragment : Fragment(), ProfilePagerAdapter.ProfileFragmentListener 
         return view
     }
 
-// Inside setupViewPager()
-
-// Inside setupViewPager()
 
     private fun setupViewPager() {
         pagerAdapter = ProfilePagerAdapter(requireContext(), sharedPreferences, this)

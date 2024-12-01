@@ -64,11 +64,11 @@ class ProfilePagerAdapter(
         fun bind() {
             // Load and display the "Saving For" value
             binding.textViewSavingFor.text =
-                sharedPreferences.getString("saving_for", "Travel")
+                sharedPreferences.getString("saving_for", "Add your goal !")
 
             // Load and display the "Wallet" value
             binding.textViewWallet.text =
-                sharedPreferences.getString("wallet", "$1,200")
+                sharedPreferences.getString("wallet", "How much do you have ?")
 
             // Load and display the profile image
             val imagePath = sharedPreferences.getString("profile_image_path", null)
@@ -77,10 +77,10 @@ class ProfilePagerAdapter(
                 if (file.exists()) {
                     binding.imageViewProfile.setImageURI(Uri.fromFile(file))
                 } else {
-                    binding.imageViewProfile.setImageResource(R.drawable.ic_profile) // Default image
+                    binding.imageViewProfile.setImageResource(R.drawable.ic_profile)
                 }
             } else {
-                binding.imageViewProfile.setImageResource(R.drawable.ic_profile) // Default image
+                binding.imageViewProfile.setImageResource(R.drawable.ic_profile)
             }
 
             // Handle Profile Image Click
@@ -121,10 +121,10 @@ class ProfilePagerAdapter(
 
         fun bind() {
             // Load and display personal details
-            binding.textViewName.text = sharedPreferences.getString("name", "John Doe")
-            binding.textViewAge.text = sharedPreferences.getString("age", "30")
-            binding.textViewJob.text = sharedPreferences.getString("job", "Software Engineer")
-            binding.textViewHobby.text = sharedPreferences.getString("hobby", "Photography")
+            binding.textViewName.text = sharedPreferences.getString("name", "Enter your name")
+            binding.textViewAge.text = sharedPreferences.getString("age", "Enter your age")
+            binding.textViewJob.text = sharedPreferences.getString("job", "Enter your job")
+            binding.textViewHobby.text = sharedPreferences.getString("hobby", "Enter your hobby")
 
 
             // Handle "Name" Field Click
@@ -183,7 +183,6 @@ class ProfilePagerAdapter(
 
         }
     }
-
 
     interface ProfileFragmentListener {
         fun onChangeImageClicked()
