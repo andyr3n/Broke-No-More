@@ -9,13 +9,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.broke_no_more.MainActivity
 import com.example.broke_no_more.R
-import com.example.broke_no_more.ui.ocr.OcrTestActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class SignInActivity : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+
+        // Initialize FirebaseAuth
+        auth = FirebaseAuth.getInstance()
 
         // Find views
         val etEmail: EditText = findViewById(R.id.etEmail)
@@ -24,29 +29,67 @@ class SignInActivity : AppCompatActivity() {
         val tvForgotPassword: TextView = findViewById(R.id.tvForgotPassword)
         val tvSignUp: TextView = findViewById(R.id.tvSignUp)
 
-
-
         // Handle Sign In Button click
         btnSignIn.setOnClickListener {
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
 
-            // Mock validation
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please enter your email and password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Navigate directly to HomeFragment via MainActivity
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("navigateToHome", true)
-            startActivity(intent)
-            finish()
+            // Authenticate user with Firebase
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        if (user != null && user.isEmailVerified) {
+                            // Navigate to MainActivity
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.putExtra("navigateToHome", true)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Please verify your email address.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "Authentication failed: ${task.exception?.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
         }
 
         // Handle Forgot Password click
         tvForgotPassword.setOnClickListener {
-            Toast.makeText(this, "Forgot Password clicked", Toast.LENGTH_SHORT).show()
+            val email = etEmail.text.toString().trim()
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Please enter your email address.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(
+                            this,
+                            "Password reset email sent.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "Failed to send reset email: ${task.exception?.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
         }
 
         // Navigate to Sign Up screen

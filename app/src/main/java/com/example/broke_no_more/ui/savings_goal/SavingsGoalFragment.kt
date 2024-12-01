@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -48,11 +49,11 @@ class SavingsGoalFragment : Fragment() {
     private lateinit var housingProgress: ProgressBar
     private lateinit var groceryProgress: ProgressBar
 
-    private lateinit var clothesGoalLayout: ConstraintLayout
-    private lateinit var entertainmentGoalLayout: ConstraintLayout
-    private lateinit var uncategorizedGoalLayout: ConstraintLayout
-    private lateinit var housingGoalLayout: ConstraintLayout
-    private lateinit var groceryGoalLayout: ConstraintLayout
+    private lateinit var clothesGoalLayout: CardView
+    private lateinit var entertainmentGoalLayout: CardView
+    private lateinit var uncategorizedGoalLayout: CardView
+    private lateinit var housingGoalLayout: CardView
+    private lateinit var groceryGoalLayout: CardView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

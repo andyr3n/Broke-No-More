@@ -6,6 +6,7 @@ plugins {
 
     // Database support with Room
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -86,6 +87,14 @@ dependencies {
     implementation(libs.play.services.mlkit.text.recognition.common)
     implementation(libs.play.services.mlkit.text.recognition)
     implementation (libs.androidx.viewpager2)
+    implementation (libs.glide)
+    implementation(libs.firebase.auth.ktx)
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+    implementation (libs.easypermissions)
+    implementation (libs.material.v190)
+    implementation(libs.lottie)
+
+
 
     // MPAndroidChart Library for graphing and charts
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
@@ -114,6 +123,10 @@ dependencies {
     // OkHttp for handling HTTP requests
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    //Sign in & Sign up
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    implementation("com.google.firebase:firebase-analytics")
 }
 
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name TextAppearance -->
+    <style name="AppNameTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/facultyglyphic_regular</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- Motivational Quote TextAppearance -->
+    <style name="QuoteTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/edua_vicwant_pre_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+</resources>

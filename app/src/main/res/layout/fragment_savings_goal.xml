@@ -1,338 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:id="@+id/fragment_saving_goal"
-    android:background="@color/white">
+    android:background="#F5F5F5">
 
-    <!-- Toolbar with title and back button enabled in Activity -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:id="@+id/fragment_saving_goal">
+
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Your Budget Goal"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
-    </androidx.appcompat.widget.Toolbar>
-
-    <!-- Savings Breakdown Title -->
-    <TextView
-        android:id="@+id/savingBreakdownTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Here is the breakdown of your saving plans:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/purple_box"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:id="@+id/housing_goal">
+            android:text="Your Budget Goal!"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/housing_name"
+            android:id="@+id/savingBreakdownTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Housing: "
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="10dp">
-        </TextView>
+            android:text="Here is the breakdown of your saving plans:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/housing_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$0"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toEndOf="@+id/housing_name"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/housing_progress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+
+        <!-- Categories -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/housing_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp"
-            android:progress="0"
-            android:progressDrawable="@drawable/process_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/housing_amount">
-        </ProgressBar>
+            android:layout_marginTop="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp"
+            android:backgroundTint="@color/white">
 
-        <TextView
-            android:id="@+id/housing_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap to enter your goal !"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/housing_progress">
-        </TextView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/purple_box"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:id="@+id/grocery_goal">
+                <TextView
+                    android:id="@+id/housing_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Housing: "
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/grocery_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Grocery: "
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="10dp">
-        </TextView>
+                <TextView
+                    android:id="@+id/housing_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/grocery_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$0"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toEndOf="@+id/grocery_name"
-            app:layout_constraintTop_toTopOf="parent" />
+                <ProgressBar
+                    android:id="@+id/housing_progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progress="0"/>
 
-        <ProgressBar
-            android:id="@+id/grocery_progress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                <TextView
+                    android:id="@+id/housing_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap to enter your goal!"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Grocery Goal -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/grocery_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp"
-            android:progress="0"
-            android:progressDrawable="@drawable/process_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/grocery_amount">
-        </ProgressBar>
+            android:layout_marginTop="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp"
+            android:backgroundTint="@color/white">
 
-        <TextView
-            android:id="@+id/grocery_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap to enter your goal !"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/grocery_progress">
-        </TextView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
+                <TextView
+                    android:id="@+id/grocery_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grocery: "
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/purple_box"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:id="@+id/clothes_goal">
+                <TextView
+                    android:id="@+id/grocery_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/clothes_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Clothes: "
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="10dp">
-        </TextView>
+                <ProgressBar
+                    android:id="@+id/grocery_progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progress="0"/>
 
-        <TextView
-            android:id="@+id/clothes_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$0"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toEndOf="@+id/clothes_name"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/grocery_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap to enter your goal!"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-        <ProgressBar
-            android:id="@+id/clothes_progress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        <!-- Clothes Goal -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clothes_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp"
-            android:progress="0"
-            android:progressDrawable="@drawable/process_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clothes_amount">
-        </ProgressBar>
+            android:layout_marginTop="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp"
+            android:backgroundTint="@color/white">
 
-        <TextView
-            android:id="@+id/clothes_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap to enter your goal !"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clothes_progress">
-        </TextView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/purple_box"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:id="@+id/entertainment_goal">
+                <TextView
+                    android:id="@+id/clothes_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clothes: "
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/entertainment_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Entertainment: "
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="10dp">
-        </TextView>
+                <TextView
+                    android:id="@+id/clothes_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/entertainment_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$0"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toEndOf="@+id/entertainment_name"
-            app:layout_constraintTop_toTopOf="parent">
-        </TextView>
+                <ProgressBar
+                    android:id="@+id/clothes_progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progress="0"/>
 
-        <ProgressBar
-            android:id="@+id/entertainment_progress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                <TextView
+                    android:id="@+id/clothes_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap to enter your goal!"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Entertainment Goal -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/entertainment_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp"
-            android:progress="0"
-            android:progressDrawable="@drawable/process_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/entertainment_amount">
-        </ProgressBar>
+            android:layout_marginTop="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp"
+            android:backgroundTint="@color/white">
 
-        <TextView
-            android:id="@+id/entertainment_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap to enter your goal !"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/entertainment_progress">
-        </TextView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/purple_box"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:id="@+id/uncategorized_goal">
+                <TextView
+                    android:id="@+id/entertainment_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entertainment: "
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/uncategorized_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Other: "
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="10dp">
-        </TextView>
+                <TextView
+                    android:id="@+id/entertainment_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/uncategorized_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$0"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintStart_toEndOf="@+id/uncategorized_name"
-            app:layout_constraintTop_toTopOf="parent">
-        </TextView>
+                <ProgressBar
+                    android:id="@+id/entertainment_progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progress="0"/>
 
-        <ProgressBar
-            android:id="@+id/uncategorized_progress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                <TextView
+                    android:id="@+id/entertainment_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap to enter your goal!"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Uncategorized Goal -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/uncategorized_goal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp"
-            android:progress="0"
-            android:progressDrawable="@drawable/process_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uncategorized_amount">
-        </ProgressBar>
+            android:layout_marginTop="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp"
+            android:backgroundTint="@color/white">
 
-        <TextView
-            android:id="@+id/uncategorized_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap to enter your goal !"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uncategorized_progress">
-        </TextView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-    <!-- Add More Goals Button -->
-<!--    <Button-->
-<!--        android:id="@+id/addMoreGoals"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_horizontal"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:background="@drawable/blackbox_yellowstroke"-->
-<!--        android:padding="10dp"-->
-<!--        android:text="Add more goals"-->
-<!--        android:textColor="@color/white" />-->
-</LinearLayout>
+                <TextView
+                    android:id="@+id/uncategorized_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Uncategorized: "
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
+                <TextView
+                    android:id="@+id/uncategorized_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <ProgressBar
+                    android:id="@+id/uncategorized_progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progress="0"/>
+
+                <TextView
+                    android:id="@+id/uncategorized_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap to enter your goal!"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+    </LinearLayout>
+</ScrollView>
