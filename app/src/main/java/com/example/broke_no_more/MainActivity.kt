@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         // Configure top-level destinations for the app bar
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_expense_report, R.id.nav_savings_goal, R.id.nav_crypto)
+            setOf(R.id.nav_home, R.id.nav_expense_report, R.id.nav_savings_goal, R.id.nav_crypto, R.id.nav_profile)
         )
 
         // Set up action bar with NavController

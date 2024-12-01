@@ -24,6 +24,7 @@ import com.example.broke_no_more.ui.ocr.OcrTestActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import android.icu.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class AddExpenseFragment : Fragment() {
@@ -114,7 +115,7 @@ class AddExpenseFragment : Fragment() {
                     calendar.set(Calendar.MONTH, month)
                     calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                     dateEditText.setText(dateFormat.format(calendar.time))
-                    selectedCalendar = calendar
+                    selectedCalendar = calendar.clone() as Calendar
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -124,9 +125,6 @@ class AddExpenseFragment : Fragment() {
         }
     }
 
-    /**
-     * Handle the result from the OCR activity.
-     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -144,10 +142,19 @@ class AddExpenseFragment : Fragment() {
             if (dateMatch != null) {
                 val dateValueRaw = dateMatch.value
                 Log.d(TAG, "Date extracted raw: $dateValueRaw")
-                val formattedDate = parseDate(dateValueRaw)
-                if (formattedDate != null) {
+                val parsedDate = parseDate(dateValueRaw)
+                if (parsedDate != null) {
+                    // Update the calendar with the parsed date
+                    calendar.time = parsedDate
+
+                    // Format the date and set it to the EditText
+                    val formattedDate = SimpleDateFormat("MM/dd/yyyy", Locale.US).format(parsedDate)
                     binding.dateEditText.setText(formattedDate)
                     Log.d(TAG, "Date set to EditText: $formattedDate")
+
+                    // Clone the updated calendar to selectedCalendar
+                    selectedCalendar = calendar.clone() as Calendar
+                    Log.d(TAG, "selectedCalendar updated with parsed date.")
                 } else {
                     Log.w(TAG, "Date parsing failed, raw value set: $dateValueRaw")
                     binding.dateEditText.setText(dateValueRaw) // Set raw date if parsing fails
@@ -178,8 +185,9 @@ class AddExpenseFragment : Fragment() {
     }
 
 
+
     // Parsing function similar to ReceiptScannerActivity
-    private fun parseDate(text: String): String? {
+    private fun parseDate(text: String): Date? {
         val dateFormats = arrayOf(
             "MM/dd/yyyy",
             "MM/dd/yy",
@@ -197,8 +205,7 @@ class AddExpenseFragment : Fragment() {
                 sdf.isLenient = false
                 val date = sdf.parse(text)
                 if (date != null) {
-                    val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US) // Convert to DD/MM/YYYY
-                    return outputFormat.format(date)
+                    return date
                 }
             } catch (e: ParseException) {
                 Log.d(TAG, "parseDate: Failed to parse '$text' with format '$format'")
@@ -207,7 +214,6 @@ class AddExpenseFragment : Fragment() {
         Log.w(TAG, "parseDate: Unable to parse date from text '$text'")
         return null
     }
-
 
     // Saving the data
     private fun saveExpenseData() {
@@ -227,17 +233,11 @@ class AddExpenseFragment : Fragment() {
             return
         }
 
-        // Convert dateText (DD/MM/YYYY) to Calendar
-        // TODO this breaks everything cus wrong date maybe ocr not work now
-//        val selectedCalendar = Calendar.getInstance()
-//        try {
-//            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-//            selectedCalendar.time = sdf.parse(dateText) ?: throw ParseException("Invalid Date", 0)
-//        } catch (e: ParseException) {
-//            Toast.makeText(requireContext(), "Invalid date format", Toast.LENGTH_SHORT).show()
-//            Log.e(TAG, "Date parsing failed: ${e.message}")
-//            return
-//        }
+        // Ensure selectedCalendar is initialized
+        if (!::selectedCalendar.isInitialized) {
+            Toast.makeText(requireContext(), "Please select a date", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         // Create and save the expense object
         val expense = Expense(
@@ -261,6 +261,7 @@ class AddExpenseFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
         Log.d(TAG, "Navigated back after saving expense.")
     }
+
 
 }
 

@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollViewDetails"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/linearLayoutDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Name -->
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: John Doe"
+            android:textSize="18sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Age -->
+        <TextView
+            android:id="@+id/textViewAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age: 30"
+            android:textSize="18sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Job -->
+        <TextView
+            android:id="@+id/textViewJob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Job: Software Engineer"
+            android:textSize="18sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Hobby -->
+        <TextView
+            android:id="@+id/textViewHobby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hobby: Photography"
+            android:textSize="18sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Interested In Getting Section -->
+        <TextView
+            android:id="@+id/textViewInterestedIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Interested In Getting:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Saving For -->
+        <TextView
+            android:id="@+id/textViewInterestedSavingFor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="• Savings for a new car"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Wallet -->
+        <TextView
+            android:id="@+id/textViewInterestedWallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="• Upgrading wallet"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</ScrollView>

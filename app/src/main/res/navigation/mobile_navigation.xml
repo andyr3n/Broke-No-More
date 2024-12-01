@@ -38,5 +38,13 @@
         android:name="com.example.broke_no_more.ui.crypto.CryptoFragment"
         android:label="Crypto Analysis"
         tools:layout="@layout/fragment_crypto" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.broke_no_more.ui.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+
+
 </navigation>
 
