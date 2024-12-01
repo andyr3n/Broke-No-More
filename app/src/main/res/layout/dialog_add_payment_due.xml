@@ -26,42 +26,49 @@
         app:layout_constraintStart_toEndOf="@+id/text_name"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_due_date"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Due Date: "
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_name" />
+        app:layout_constraintTop_toBottomOf="@+id/text_name"
+        android:id="@+id/payment_due_layout">
 
-    <TextView
-        android:id="@+id/text_choosen_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="27dp"
-        android:hint=""
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/button_chooseDueDate"
-        app:layout_constraintStart_toEndOf="@+id/text_due_date"
-        app:layout_constraintTop_toBottomOf="@+id/edit_payment_name" />
+        <TextView
+            android:id="@+id/text_due_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Due Date: "
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
-    <Button
-        android:id="@+id/button_chooseDueDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/yellow_box"
-        android:text="Choose Date"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.981"
-        app:layout_constraintStart_toEndOf="@+id/text_choosen_date"
-        app:layout_constraintTop_toBottomOf="@+id/edit_payment_name" />
+        <TextView
+            android:id="@+id/text_choosen_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+            android:hint=""
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/button_chooseDueDate"
+            app:layout_constraintStart_toEndOf="@+id/text_due_date"
+            app:layout_constraintTop_toBottomOf="@+id/edit_payment_name" />
+
+        <Button
+            android:id="@+id/button_chooseDueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/yellow_box"
+            android:text="Choose Date"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.981"
+            app:layout_constraintStart_toEndOf="@+id/text_choosen_date"
+            app:layout_constraintTop_toBottomOf="@+id/edit_payment_name" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/text_payment_amount"
@@ -72,7 +79,7 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_due_date" />
+        app:layout_constraintTop_toBottomOf="@+id/payment_due_layout" />
 
     <EditText
         android:id="@+id/edit_payment_amount"
@@ -84,6 +91,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toEndOf="@+id/text_payment_amount"
-        app:layout_constraintTop_toBottomOf="@+id/button_chooseDueDate" />
+        app:layout_constraintTop_toBottomOf="@+id/payment_due_layout" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

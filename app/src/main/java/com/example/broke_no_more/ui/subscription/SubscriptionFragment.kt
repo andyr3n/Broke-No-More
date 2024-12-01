@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -45,6 +46,10 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var recyclerView: RecyclerView
     private var subscriptionList = ArrayList<Expense>()
     private lateinit var subscriptionListAdapter: SubscriptionListAdapter
+
+    private lateinit var prevMonthBtn: ImageButton
+    private lateinit var nextMonthBtn: ImageButton
+    private lateinit var calendar: Calendar
 
     //Initialize for Database
     private lateinit var database: ExpenseDatabase
@@ -83,22 +88,26 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         expenseViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(ExpenseViewModel::class.java)
 
         //Set up Recycler View with adapter to inflate custom rows
-        subscriptionListAdapter = SubscriptionListAdapter(requireContext(), subscriptionList, expenseViewModel)
+        subscriptionListAdapter = SubscriptionListAdapter(requireContext(), subscriptionList, expenseViewModel, 1)
         recyclerView = binding.subscriptionRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = subscriptionListAdapter
 
-        //Inflates only rows is Subscription (isSubscription == true)
-        expenseViewModel.allSubscriptionsLiveData.observe(viewLifecycleOwner){
-            //Filter the list to have daysLeft > 0
-            val filteredList = it.filter { calculateDayLeft(it.date.get(Calendar.DAY_OF_MONTH)) >= 0 }
+        calendar = Calendar.getInstance()
+        setUpSubscription()
 
-            //Change to new list
-            subscriptionListAdapter.replace(filteredList)
-            subscriptionListAdapter.notifyDataSetChanged()
+        //Set up Month and Year Card View
+        prevMonthBtn = binding.prevMonthButton
+        nextMonthBtn = binding.nextMonthButton
 
-            //Update total this month
-            totalAmountSubscription.text = "$${filteredList.sumOf { it.amount }}"
+        prevMonthBtn.setOnClickListener{
+            calendar.add(java.util.Calendar.MONTH, -1)
+            setUpSubscription()
+        }
+
+        nextMonthBtn.setOnClickListener{
+            calendar.add(java.util.Calendar.MONTH, 1)
+            setUpSubscription()
         }
 
         //Swipe Left to delete the subscription
@@ -183,13 +192,7 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     //Add to database
                     expenseViewModel.insert(subscriptionExpense)
                 }
-
-                //If due date not yet passed
-                if(daysLeft >= 0){
-                    displayPaymentDue(name, daysLeft, amount)//Display new added info to UI
-                }
-                else
-                    Toast.makeText(requireContext(), "Added reminder for next month", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Added successfully", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Cancel", null)
             .show()
@@ -217,7 +220,25 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         return daysLeft
     }
 
+    private fun setUpSubscription(){
+        val monthFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        binding.monthText.text = monthFormat.format(calendar.time)
+
+        //Inflates only rows is Subscription (isSubscription == true)
+        expenseViewModel.allSubscriptionsLiveData.observe(viewLifecycleOwner){ list ->
+            //Filter the list to match chosen Month
+            val currentMonth = calendar.get(Calendar.MONTH)
+            val currentMonthList = list.filter { it.date.get(Calendar.MONTH) == currentMonth }
+            subscriptionListAdapter.replace(currentMonthList)
+            subscriptionListAdapter.notifyDataSetChanged()
+
+            //Update total this month
+            totalAmountSubscription.text = "$${currentMonthList.sumOf { it.amount }}"
+        }
+    }
+
     data class PaymentDue(val name: String, val date: Calendar, val amount: Double?)
+    data class MonthItem(val month: String, var isSelected: Boolean = false)
 
     override fun onDestroyView() {
         super.onDestroyView()

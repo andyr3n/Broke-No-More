@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
 class SubscriptionListAdapter(private val context: Context, private var subscriptionList: MutableList<Expense>,
-    private val expenseViewModel: ExpenseViewModel):
+    private val expenseViewModel: ExpenseViewModel, private val month: Int):
     RecyclerView.Adapter<SubscriptionListAdapter.MyViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -44,9 +44,9 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
     }
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val paymentName = itemView.findViewById<TextView>(R.id.payment_name)
-        val paymentDue = itemView.findViewById<TextView>(R.id.payment_due)
-        val paymentAmount = itemView.findViewById<TextView>(R.id.payment_amount)
+        val paymentName: TextView = itemView.findViewById(R.id.payment_name)
+        val paymentDue: TextView = itemView.findViewById(R.id.payment_due)
+        val paymentAmount: TextView = itemView.findViewById(R.id.payment_amount)
     }
 
     private fun calculateDayLeft(selectedDay: Int): Int{
