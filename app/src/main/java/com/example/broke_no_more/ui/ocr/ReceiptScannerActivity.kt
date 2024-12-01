@@ -156,7 +156,6 @@ class ReceiptScannerActivity : AppCompatActivity() {
 
 
     private fun parseDate(text: String): String? {
-        // Define possible date formats, including MM/dd
         val dateFormats = arrayOf(
             "MM/dd/yyyy",
             "MM/dd/yy",
@@ -174,22 +173,15 @@ class ReceiptScannerActivity : AppCompatActivity() {
                 sdf.isLenient = false
                 val date = sdf.parse(text)
                 if (date != null) {
-                    // If year is missing, assume the current year
-                    val calendar = Calendar.getInstance()
-                    calendar.time = date
-                    if (format == "MM/dd") {
-                        calendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
-                        return SimpleDateFormat("MMM dd, yyyy", Locale.US).format(calendar.time)
-                    }
-                    // Format the date to a standard format, e.g., "MMM dd, yyyy"
-                    return SimpleDateFormat("MMM dd, yyyy", Locale.US).format(date)
+                    val outputFormat = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+                    val formattedDate = outputFormat.format(date)
+                    Log.d(TAG, "Formatted date: $formattedDate")
+                    return formattedDate
                 }
             } catch (e: ParseException) {
-                // Continue to try the next format
                 Log.d(TAG, "parseDate: Failed to parse '$text' with format '$format'")
             }
         }
-        // If no format matches, return null
         Log.w(TAG, "parseDate: Unable to parse date from text '$text'")
         return null
     }

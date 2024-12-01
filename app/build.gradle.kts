@@ -85,9 +85,11 @@ dependencies {
     implementation(libs.vision.common)
     implementation(libs.play.services.mlkit.text.recognition.common)
     implementation(libs.play.services.mlkit.text.recognition)
+    implementation (libs.androidx.viewpager2)
 
     // MPAndroidChart Library for graphing and charts
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation(libs.firebase.firestore.ktx)
 
     // Room for database
     val room_version = "2.6.0"
