@@ -16,7 +16,7 @@ import com.example.broke_no_more.R
 
 class HistoryFragment : Fragment() {
     private lateinit var listView: ListView
-    private lateinit var adapter: MyListAdapter
+    private lateinit var adapter: HistoryListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +37,7 @@ class HistoryFragment : Fragment() {
         val repository = ExpenseRepository(databaseDao)
         val viewModelFactory = ExpenseViewModelFactory(repository)
         val expenseViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(ExpenseViewModel::class.java)
-        adapter = MyListAdapter(requireContext(), emptyList())
+        adapter = HistoryListAdapter(requireContext(), emptyList())
         listView.adapter = adapter
         expenseViewModel.allEntriesLiveData.observe(viewLifecycleOwner) {
             adapter.replace(it)
@@ -52,6 +52,7 @@ class HistoryFragment : Fragment() {
                     putString("date", it.date.time.toString())
                     putDouble("amount", it.amount)
                     putString("comment", it.comment)
+                    putString("category", it.category)
                 }
                 val expenseFragment = ExpenseFragment()
                 expenseFragment.arguments = bundle

@@ -171,6 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:text="Subscriptions"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_gravity="start" />
@@ -186,7 +187,6 @@
                 android:id="@+id/subscription_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
