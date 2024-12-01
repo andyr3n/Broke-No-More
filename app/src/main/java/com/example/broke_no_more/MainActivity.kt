@@ -2,6 +2,7 @@ package com.example.broke_no_more
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,6 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.broke_no_more.assistant.AIChatDialogFragment
 import com.example.broke_no_more.databinding.ActivityMainBinding
+import com.example.broke_no_more.ui.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -63,4 +65,18 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_profile -> {
+                val profileFragment = ProfileFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment_content_main, profileFragment)
+                    .addToBackStack(null)
+                    .commit()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 }

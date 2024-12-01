@@ -95,6 +95,7 @@ dependencies {
     // MPAndroidChart Library for graphing and charts
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.androidx.cardview)
 
     // Room for database
     val room_version = "2.6.0"

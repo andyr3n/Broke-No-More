@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.broke_no_more.R
 import com.example.broke_no_more.database.ExpenseDatabase
 import com.example.broke_no_more.database.ExpenseFragment
@@ -21,6 +23,8 @@ import java.util.Locale
 class ExpensesDialogFragment : DialogFragment() {
     private lateinit var listView: ListView
     private lateinit var adapter: MyListAdapter
+    private lateinit var dateTextView: TextView
+    private lateinit var emptyTextView: TextView
 
     companion object {
         private const val ARG_DATE = "date"
@@ -39,7 +43,11 @@ class ExpensesDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_expense_dialog, container, false)
+
+        // Initialize views
         listView = view.findViewById(R.id.listViewEntries)
+        dateTextView = view.findViewById(R.id.dateTextView)
+        emptyTextView = view.findViewById(R.id.emptyTextView)
 
         val database = ExpenseDatabase.getInstance(requireActivity())
         val databaseDao = database.expenseDatabaseDao
@@ -50,6 +58,13 @@ class ExpensesDialogFragment : DialogFragment() {
 
         adapter = MyListAdapter(requireContext(), emptyList())
         listView.adapter = adapter
+
+        // Set the date in the TextView
+        getDate()?.let { selectedDate ->
+            val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(selectedDate)
+            dateTextView.text = formattedDate
+        }
+
         expenseViewModel.allEntriesLiveData.observe(viewLifecycleOwner) {
             val selectedDate = getDate()
             val formattedSelectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate)
@@ -57,6 +72,11 @@ class ExpensesDialogFragment : DialogFragment() {
             val filteredExpenses = it.filter { expense ->
                 val expenseDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(expense.date.time)
                 expenseDate == formattedSelectedDate
+            }
+            if (filteredExpenses.isEmpty()) {
+                emptyTextView.visibility = View.VISIBLE
+            } else {
+                emptyTextView.visibility = View.GONE
             }
             adapter.replace(filteredExpenses)
             adapter.notifyDataSetChanged()
@@ -70,16 +90,14 @@ class ExpensesDialogFragment : DialogFragment() {
                     putString("date", it.date.time.toString())
                     putDouble("amount", it.amount)
                     putString("comment", it.comment)
+                    putString("category", it.category)
                 }
                 val expenseFragment = ExpenseFragment()
                 expenseFragment.arguments = bundle
 
                 dismiss()
 
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_calendar, expenseFragment)
-                    .addToBackStack(null)
-                    .commit()
+                findNavController().navigate(R.id.action_home_to_expenseFragment, bundle)
             }
         }
 
@@ -101,4 +119,5 @@ class ExpensesDialogFragment : DialogFragment() {
         return arguments?.getSerializable(ARG_DATE) as? Date
     }
 }
+
 

@@ -10,7 +10,11 @@
         android:id="@+id/nav_home"
         android:name="com.example.broke_no_more.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_expenseFragment"
+            app:destination="@id/nav_expense" />
+    </fragment>
 
     <!-- Expense Report Fragment -->
     <fragment
@@ -19,18 +23,26 @@
         android:label="Expense Report"
         tools:layout="@layout/expense_report"/>
 
+    <fragment
+        android:id="@+id/nav_expense_dialog"
+        android:name="com.example.broke_no_more.ui.ExpensesDialogFragment"
+        android:label="Expense Dialog"
+        tools:layout="@layout/fragment_expense_dialog">
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/nav_expense"
+        android:name="com.example.broke_no_more.database.ExpenseFragment"
+        android:label="Expense"
+        tools:layout="@layout/fragment_expense" />
+
     <!-- Savings Goal Fragment -->
     <fragment
         android:id="@+id/nav_savings_goal"
         android:name="com.example.broke_no_more.ui.SavingsGoal.SavingsGoalFragment"
         android:label="Savings Goal"
         tools:layout="@layout/fragment_savings_goal" />
-
-    <fragment
-        android:id="@+id/nav_history"
-        android:name="com.example.broke_no_more.ui.home.HistoryFragment"
-        android:label="History"
-        tools:layout="@layout/fragment_history" />
 
     <!-- Crypto Fragment -->
     <fragment

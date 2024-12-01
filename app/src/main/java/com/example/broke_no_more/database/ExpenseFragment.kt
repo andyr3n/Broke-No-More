@@ -18,6 +18,7 @@ class ExpenseFragment : Fragment() {
     private lateinit var dateEditText: EditText
     private lateinit var amountEditText: EditText
     private lateinit var commentEditText: EditText
+    private lateinit var categoryEditText: EditText
     private lateinit var expenseViewModel: ExpenseViewModel
     private var expenseId: Long? = null
 
@@ -38,15 +39,18 @@ class ExpenseFragment : Fragment() {
         dateEditText = view.findViewById(R.id.dateEditText)
         amountEditText = view.findViewById(R.id.amountEditText)
         commentEditText = view.findViewById(R.id.commentEditText)
+        categoryEditText = view.findViewById(R.id.categoryEditText)
 
         val date = arguments?.getString("date")
         val amount = arguments?.getDouble("amount")
         val comment = arguments?.getString("comment")
+        val category = arguments?.getString("category")
         expenseId = arguments?.getLong("id")
 
         dateEditText.setText(date)
         amountEditText.setText("$" + amount.toString())
         commentEditText.setText(comment.toString())
+        categoryEditText.setText(category.toString())
 
         return view
     }

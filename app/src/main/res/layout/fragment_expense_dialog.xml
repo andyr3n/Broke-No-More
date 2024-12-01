@@ -7,13 +7,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:layout_margin="4dp"
+            android:gravity="center" />
 
         <ListView
             android:id="@+id/listViewEntries"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
+        <TextView
+            android:id="@+id/emptyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No expenses found"
+            android:textSize="16sp"
+            android:textColor="#999"
+            android:gravity="center"
+            android:visibility="gone" />
+
     </LinearLayout>
 </FrameLayout>
-

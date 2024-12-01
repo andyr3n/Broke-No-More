@@ -4,238 +4,209 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="#F5F5F5"
     tools:context=".ui.home.HomeFragment"
     android:id="@+id/fragment_home">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/myWallet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My Wallet"
-            android:textColor="@color/white"
-            android:textSize="20sp">
-        </TextView>
-
-        <TextView
-            android:id="@+id/budgetAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$0"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myWallet">
-        </TextView>
-
-        <Button
-            android:id="@+id/addExpenseBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Your Expense"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:padding="15dp"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/round_black_yellowstroke"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/budgetAmount">
-        </Button>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/purple_box"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp">
-
-            <TextView
-                android:id="@+id/spendingGoal_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Spending Goal: "
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
-
-            <TextView
-                android:id="@+id/spendingGoal_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$0"
-                app:layout_constraintStart_toEndOf="@+id/spendingGoal_header"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
-
-            <TextView
-                android:id="@+id/edit_spendingGoal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="Edit"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
-
-            <ProgressBar
-                android:id="@+id/spendingProgress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spendingGoal_amount"
-                android:max="100"
-                android:progress="0"
-                android:progressDrawable="@drawable/process_bar">
-            </ProgressBar>
-
-            <TextView
-                android:id="@+id/have_spentText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spendingProgress">
-            </TextView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/yellow_box"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:padding="5dp">
-
-            <TextView
-                android:id="@+id/savingGoal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Saving Goal: "
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$0"
-                app:layout_constraintStart_toEndOf="@+id/savingGoal"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
-
-            <ProgressBar
-                android:id="@+id/savingProgress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/savingGoal"
-                android:max="100"
-                android:progress="0"
-                android:progressDrawable="@drawable/process_bar">
-            </ProgressBar>
-
-            <TextView
-                android:id="@+id/savingMoreDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/savingProgress"
-                android:layout_marginTop="10dp"
-                android:text="@string/more_detail">
-            </TextView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/payment_due"
-            android:textColor="@color/purple"
-            android:textStyle="bold"
-            android:layout_gravity="start">
-        </TextView>
-
-        <TextView
-            android:id="@+id/noPaymentDueHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="There's no payment due in the future !"
-            android:textColor="@color/white">
-        </TextView>
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/subscription_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subsciption_header">
+            android:gravity="center"
+            android:padding="12dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addExpenseBtn"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:layout_margin="4dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:padding="14dp"
+                android:textSize="16sp"
+                android:text="Add Expense"
+                app:cornerRadius="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="16dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <ImageButton
+                        android:id="@+id/prevMonthButton"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/baseline_arrow_back_ios_24"
+                        android:contentDescription="Previous Month"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/monthText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="January 2024"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/nextMonthButton"
+                        app:layout_constraintStart_toEndOf="@+id/prevMonthButton"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/nextMonthButton"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/baseline_arrow_forward_ios_24"
+                        android:contentDescription="Next Month"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SUN"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MON"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TUE"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="WED"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="THU"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="FRI"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="SAT"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="16dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/calendarRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="Subscriptions"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_gravity="start" />
+
+            <TextView
+                android:id="@+id/noPaymentDueHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="No subsciprtions due this month!" />
+
+            <LinearLayout
+                android:id="@+id/subscription_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subsciption_header">
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addSubscriptionBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:text="Add Subscription"
+                android:textSize="16sp"
+                android:layout_marginBottom="256dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="4dp"
+                android:padding="14dp"
+                app:cornerRadius="8dp" />
+
         </LinearLayout>
-
-
-        <Button
-            android:id="@+id/addSubscriptionBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:focusable="true"
-            android:text="Add Payment Due"
-            android:textAllCaps="false"
-            android:clickable="true"
-            android:textColor="@color/purple"
-            android:background="@drawable/blackbox_purplestroke"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
-        </Button>
-        <Button
-            android:id="@+id/calendar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:focusable="true"
-            android:text="Calendar"
-            android:textAllCaps="false"
-            android:clickable="true"
-            android:textColor="@color/purple"
-            android:background="@drawable/blackbox_purplestroke"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
-        </Button>
-    </LinearLayout>
+    </ScrollView>
 </FrameLayout>

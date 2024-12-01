@@ -24,6 +24,7 @@ import com.example.broke_no_more.ui.ocr.OcrTestActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.widget.Button
 import java.util.Date
 import java.util.Locale
 
@@ -41,6 +42,8 @@ class AddExpenseFragment : Fragment() {
     // Calendar instance for date selection
     private val calendar: Calendar = Calendar.getInstance()
     private lateinit var selectedCalendar: Calendar
+
+    private lateinit var cancelBtn: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,6 +77,13 @@ class AddExpenseFragment : Fragment() {
             saveExpenseData()
         }
 
+        //Cancel adding new expense
+        cancelBtn = binding.cancelAddExpense
+        cancelBtn.setOnClickListener{
+            Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_SHORT).show()
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
         return root
     }
 
@@ -90,7 +100,7 @@ class AddExpenseFragment : Fragment() {
         val spinner: Spinner = binding.categorySpinner
 
         // Predefined categories (these can be extended or fetched from a database)
-        val categories = listOf("Rent", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
+        val categories = listOf("Housing", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
