@@ -24,6 +24,7 @@ import com.example.broke_no_more.ui.ocr.OcrTestActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.widget.Button
 import java.util.Date
 import java.util.Locale
 
@@ -41,6 +42,8 @@ class AddExpenseFragment : Fragment() {
     // Calendar instance for date selection
     private val calendar: Calendar = Calendar.getInstance()
     private lateinit var selectedCalendar: Calendar
+
+    private lateinit var cancelBtn: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,6 +75,13 @@ class AddExpenseFragment : Fragment() {
         binding.button2.setOnClickListener {
             Log.d(TAG, "Save button clicked.")
             saveExpenseData()
+        }
+
+        //Cancel adding new expense
+        cancelBtn = binding.cancelAddExpense
+        cancelBtn.setOnClickListener{
+            Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_SHORT).show()
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         return root
