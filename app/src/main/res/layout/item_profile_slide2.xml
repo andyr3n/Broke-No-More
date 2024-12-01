@@ -1,149 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollViewDetails"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewSlide2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@color/white"
+    app:useCompatPadding="true"
+    android:layout_marginTop="24dp"
+    android:layout_marginBottom="24dp">
 
-    <LinearLayout
-        android:id="@+id/linearLayoutDetails"
+    <ScrollView
+        android:id="@+id/scrollViewDetails"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-        <!-- Label and Editable Name -->
-        <TextView
-            android:id="@+id/textViewNameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/editTextName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="John Doe"
-            android:textSize="18sp"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Label and Editable Age -->
-        <TextView
-            android:id="@+id/textViewAgeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Age:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/editTextAge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="30"
-            android:textSize="18sp"
-            android:inputType="number"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Label and Editable Job -->
-        <TextView
-            android:id="@+id/textViewJobLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Job:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/editTextJob"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Software Engineer"
-            android:textSize="18sp"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Label and Editable Hobby -->
-        <TextView
-            android:id="@+id/textViewHobbyLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hobby:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/editTextHobby"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Photography"
-            android:textSize="18sp"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Interested In Getting Section -->
-        <TextView
-            android:id="@+id/textViewInterestedIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Interested In Getting:"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Label and Editable Saving For -->
-        <TextView
-            android:id="@+id/textViewInterestedSavingForLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="• Savings for a new car:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/editTextInterestedSavingFor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint=""
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Label and Editable Wallet -->
-        <TextView
-            android:id="@+id/textViewInterestedWalletLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="• Upgrading wallet:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/editTextInterestedWallet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint=""
-            android:textSize="18sp"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Save and Cancel Buttons -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/linearLayoutDetails"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/buttonSaveProfile"
+            <!-- Label and Editable Name -->
+            <TextView
+                android:id="@+id/textViewNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save" />
+                android:text="Name:"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
 
-            <Button
-                android:id="@+id/buttonCancelProfile"
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="John Doe"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/editable_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Label and Editable Age -->
+            <TextView
+                android:id="@+id/textViewAgeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
-                android:layout_marginStart="16dp" />
+                android:text="Age:"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/textViewAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="30"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/editable_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Label and Editable Job -->
+            <TextView
+                android:id="@+id/textViewJobLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Job:"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/textViewJob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Software Engineer"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/editable_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Label and Editable Hobby -->
+            <TextView
+                android:id="@+id/textViewHobbyLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hobby:"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/textViewHobby"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Photography"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:background="@drawable/editable_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="12dp" />
+
         </LinearLayout>
 
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+</com.google.android.material.card.MaterialCardView>

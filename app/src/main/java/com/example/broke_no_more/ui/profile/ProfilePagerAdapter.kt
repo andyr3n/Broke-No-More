@@ -1,16 +1,20 @@
 package com.example.broke_no_more.ui.profile
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.broke_no_more.R
+import com.example.broke_no_more.databinding.DialogEditFieldBinding
 import com.example.broke_no_more.databinding.ItemProfileSlide1Binding
 import com.example.broke_no_more.databinding.ItemProfileSlide2Binding
 import java.io.File
+
 
 class ProfilePagerAdapter(
     private val context: Context,
@@ -54,16 +58,19 @@ class ProfilePagerAdapter(
         }
     }
 
-    // ViewHolder for Slide 1
     inner class Slide1ViewHolder(private val binding: ItemProfileSlide1Binding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
-            // Load saved data
-            binding.editTextSavingFor.setText(sharedPreferences.getString("saving_for", "Travel"))
-            binding.editTextWallet.setText(sharedPreferences.getString("wallet", "$1,200"))
+            // Load and display the "Saving For" value
+            binding.textViewSavingFor.text =
+                sharedPreferences.getString("saving_for", "Travel")
 
-            // Load profile image
+            // Load and display the "Wallet" value
+            binding.textViewWallet.text =
+                sharedPreferences.getString("wallet", "$1,200")
+
+            // Load and display the profile image
             val imagePath = sharedPreferences.getString("profile_image_path", null)
             if (imagePath != null) {
                 val file = File(imagePath)
@@ -76,73 +83,143 @@ class ProfilePagerAdapter(
                 binding.imageViewProfile.setImageResource(R.drawable.ic_profile) // Default image
             }
 
-            // Handle Save Button
-            binding.buttonSaveProfile.setOnClickListener {
-                // Save data to SharedPreferences
-                with(sharedPreferences.edit()) {
-                    putString("saving_for", binding.editTextSavingFor.text.toString())
-                    putString("wallet", binding.editTextWallet.text.toString())
-                    apply()
-                }
-                Toast.makeText(context, "Profile Slide 1 saved!", Toast.LENGTH_SHORT).show()
-            }
-
-            // Handle Cancel Button
-            binding.buttonCancelProfile.setOnClickListener {
-                // Reload data to discard changes
-                binding.editTextSavingFor.setText(sharedPreferences.getString("saving_for", "Travel"))
-                binding.editTextWallet.setText(sharedPreferences.getString("wallet", "$1,200"))
-            }
-
-            // Handle ImageView Click
+            // Handle Profile Image Click
             binding.imageViewProfile.setOnClickListener {
                 listener.onChangeImageClicked()
+            }
+
+            // Handle "Saving For" Field Click
+            binding.textViewSavingFor.setOnClickListener {
+                showEditDialog(
+                    title = "Edit Saving For",
+                    currentValue = binding.textViewSavingFor.text.toString(),
+                    onSave = { newValue ->
+                        binding.textViewSavingFor.text = newValue
+                        sharedPreferences.edit().putString("saving_for", newValue).apply()
+                        Toast.makeText(context, "Saving For updated!", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+
+            // Handle "Wallet" Field Click
+            binding.textViewWallet.setOnClickListener {
+                showEditDialog(
+                    title = "Edit Wallet",
+                    currentValue = binding.textViewWallet.text.toString(),
+                    onSave = { newValue ->
+                        binding.textViewWallet.text = newValue
+                        sharedPreferences.edit().putString("wallet", newValue).apply()
+                        Toast.makeText(context, "Wallet updated!", Toast.LENGTH_SHORT).show()
+                    }
+                )
             }
         }
     }
 
-    // ViewHolder for Slide 2
     inner class Slide2ViewHolder(private val binding: ItemProfileSlide2Binding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
-            // Load saved data
-            binding.editTextName.setText(sharedPreferences.getString("name", "John Doe"))
-            binding.editTextAge.setText(sharedPreferences.getString("age", "30"))
-            binding.editTextJob.setText(sharedPreferences.getString("job", "Software Engineer"))
-            binding.editTextHobby.setText(sharedPreferences.getString("hobby", "Photography"))
-            binding.editTextInterestedSavingFor.setText(sharedPreferences.getString("interested_saving_for", "• Savings for a new car"))
-            binding.editTextInterestedWallet.setText(sharedPreferences.getString("interested_wallet", "• Upgrading wallet"))
+            // Load and display personal details
+            binding.textViewName.text = sharedPreferences.getString("name", "John Doe")
+            binding.textViewAge.text = sharedPreferences.getString("age", "30")
+            binding.textViewJob.text = sharedPreferences.getString("job", "Software Engineer")
+            binding.textViewHobby.text = sharedPreferences.getString("hobby", "Photography")
 
-            // Handle Save Button
-            binding.buttonSaveProfile.setOnClickListener {
-                // Save data to SharedPreferences
-                with(sharedPreferences.edit()) {
-                    putString("name", binding.editTextName.text.toString())
-                    putString("age", binding.editTextAge.text.toString())
-                    putString("job", binding.editTextJob.text.toString())
-                    putString("hobby", binding.editTextHobby.text.toString())
-                    putString("interested_saving_for", binding.editTextInterestedSavingFor.text.toString())
-                    putString("interested_wallet", binding.editTextInterestedWallet.text.toString())
-                    apply()
-                }
-                Toast.makeText(context, "Profile Slide 2 saved!", Toast.LENGTH_SHORT).show()
+
+            // Handle "Name" Field Click
+            binding.textViewName.setOnClickListener {
+                showEditDialog(
+                    title = "Edit Name",
+                    currentValue = binding.textViewName.text.toString(),
+                    onSave = { newValue ->
+                        binding.textViewName.text = newValue
+                        sharedPreferences.edit().putString("name", newValue).apply()
+                        Toast.makeText(context, "Name updated!", Toast.LENGTH_SHORT).show()
+                    }
+                )
             }
 
-            // Handle Cancel Button
-            binding.buttonCancelProfile.setOnClickListener {
-                // Reload data to discard changes
-                binding.editTextName.setText(sharedPreferences.getString("name", "John Doe"))
-                binding.editTextAge.setText(sharedPreferences.getString("age", "30"))
-                binding.editTextJob.setText(sharedPreferences.getString("job", "Software Engineer"))
-                binding.editTextHobby.setText(sharedPreferences.getString("hobby", "Photography"))
-                binding.editTextInterestedSavingFor.setText(sharedPreferences.getString("interested_saving_for", "• Savings for a new car"))
-                binding.editTextInterestedWallet.setText(sharedPreferences.getString("interested_wallet", "• Upgrading wallet"))
+            // Handle "Age" Field Click
+            binding.textViewAge.setOnClickListener {
+                showEditDialog(
+                    title = "Edit Age",
+                    currentValue = binding.textViewAge.text.toString(),
+                    inputType = InputType.TYPE_CLASS_NUMBER,
+                    onSave = { newValue ->
+                        // Optional: Validate the age input here
+                        binding.textViewAge.text = newValue
+                        sharedPreferences.edit().putString("age", newValue).apply()
+                        Toast.makeText(context, "Age updated!", Toast.LENGTH_SHORT).show()
+                    }
+                )
             }
+
+            // Handle "Job" Field Click
+            binding.textViewJob.setOnClickListener {
+                showEditDialog(
+                    title = "Edit Job",
+                    currentValue = binding.textViewJob.text.toString(),
+                    onSave = { newValue ->
+                        binding.textViewJob.text = newValue
+                        sharedPreferences.edit().putString("job", newValue).apply()
+                        Toast.makeText(context, "Job updated!", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+
+            // Handle "Hobby" Field Click
+            binding.textViewHobby.setOnClickListener {
+                showEditDialog(
+                    title = "Edit Hobby",
+                    currentValue = binding.textViewHobby.text.toString(),
+                    onSave = { newValue ->
+                        binding.textViewHobby.text = newValue
+                        sharedPreferences.edit().putString("hobby", newValue).apply()
+                        Toast.makeText(context, "Hobby updated!", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+
         }
     }
 
+
     interface ProfileFragmentListener {
         fun onChangeImageClicked()
+    }
+
+
+    private fun showEditDialog(
+        title: String,
+        currentValue: String,
+        inputType: Int = InputType.TYPE_CLASS_TEXT,
+        onSave: (String) -> Unit
+    ) {
+        // Inflate the custom dialog layout using View Binding
+        val dialogBinding = DialogEditFieldBinding.inflate(LayoutInflater.from(context))
+
+        // Set the current value in the EditText
+        dialogBinding.editTextField.setText(currentValue)
+        dialogBinding.editTextField.inputType = inputType
+
+        // Build and display the AlertDialog
+        AlertDialog.Builder(context)
+            .setTitle(title)
+            .setView(dialogBinding.root)
+            .setPositiveButton("Save") { dialog, _ ->
+                val newValue = dialogBinding.editTextField.text.toString().trim()
+                if (newValue.isNotEmpty()) {
+                    onSave(newValue)
+                } else {
+                    Toast.makeText(context, "Value cannot be empty!", Toast.LENGTH_SHORT).show()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.cancel()
+            }
+            .create()
+            .show()
     }
 }

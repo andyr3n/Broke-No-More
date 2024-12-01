@@ -89,6 +89,7 @@ dependencies {
     implementation (libs.glide)
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
     implementation (libs.easypermissions)
+    implementation (libs.material.v190)
 
 
 

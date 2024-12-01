@@ -34,6 +34,8 @@ class ProfileFragment : Fragment(), ProfilePagerAdapter.ProfileFragmentListener 
     private var imageUri: Uri? = null
     private var imagePath: String? = null
 
+    private var tabLayoutMediator: TabLayoutMediator? = null
+
     // Camera and Gallery Launchers
     private val cameraLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -81,16 +83,26 @@ class ProfileFragment : Fragment(), ProfilePagerAdapter.ProfileFragmentListener 
         return view
     }
 
+// Inside setupViewPager()
+
+// Inside setupViewPager()
+
     private fun setupViewPager() {
         pagerAdapter = ProfilePagerAdapter(requireContext(), sharedPreferences, this)
         binding.viewPagerProfile.adapter = pagerAdapter
 
-        // Link TabLayout with ViewPager2 using TabLayoutMediator
-        TabLayoutMediator(binding.tabLayoutIndicators, binding.viewPagerProfile) { tab, position ->
-            // Configure tab titles or icons here if needed
-            // For example:
-            // tab.text = "Tab ${(position + 1)}"
-        }.attach()
+        // Apply PageTransformer
+        binding.viewPagerProfile.setPageTransformer(ZoomOutPageTransformer())
+
+        // Initialize TabLayoutMediator
+        tabLayoutMediator = TabLayoutMediator(binding.tabLayoutIndicators, binding.viewPagerProfile) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Profile"
+                1 -> tab.text = "Details"
+                else -> tab.text = "Tab ${position + 1}"
+            }
+        }
+        tabLayoutMediator?.attach()
 
         // Optional: Set page change callbacks or other configurations
         binding.viewPagerProfile.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -101,8 +113,11 @@ class ProfileFragment : Fragment(), ProfilePagerAdapter.ProfileFragmentListener 
         })
     }
 
+
+
     override fun onDestroyView() {
         super.onDestroyView()
+        tabLayoutMediator?.detach()
         binding.viewPagerProfile.unregisterOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {})
         _binding = null
     }

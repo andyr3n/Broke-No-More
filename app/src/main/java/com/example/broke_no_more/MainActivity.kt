@@ -68,15 +68,13 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_profile -> {
-                val profileFragment = ProfileFragment()
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.nav_host_fragment_content_main, profileFragment)
-                    .addToBackStack(null)
-                    .commit()
+                // Use NavController to navigate to ProfileFragment
+                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.nav_profile)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 
 }
