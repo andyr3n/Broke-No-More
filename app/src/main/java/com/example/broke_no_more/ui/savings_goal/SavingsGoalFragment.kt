@@ -124,62 +124,6 @@ class SavingsGoalFragment : Fragment() {
         val housingSpent = sharedPref.getFloat("housing spent", 0.0F).toDouble()
         val grocerySpent = sharedPref.getFloat("grocery spent", 0.0F).toDouble()
 
-        //Change the budget left (As default if have a goal amount)
-        if(groceryGoal != 0.0){
-            val amountLeft = groceryGoal - grocerySpent
-            if(amountLeft <= 0.0)
-                groceryDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-            else
-                groceryDetail.text = "You have $$amountLeft left in your budget !"
-
-            //Change the progress bar
-            groceryProgress.progress = ((grocerySpent / groceryGoal) * 100).toInt()
-        }
-
-        if(housingGoal != 0.0){
-            val amountLeft = housingGoal - housingSpent
-            if(amountLeft <= 0.0)
-                housingDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-            else
-                housingDetail.text = "You have $$amountLeft left in your budget !"
-
-            //Change the progress bar
-            housingProgress.progress = ((housingSpent / housingGoal) * 100).toInt()
-        }
-
-        if(clothesGoal != 0.0){
-            val amountLeft = clothesGoal - clothesSpent
-            if(amountLeft <= 0.0)
-                clothesDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-            else
-                clothesDetail.text = "You have $$amountLeft left in your budget !"
-
-            //Change Progress bar
-            clothesProgress.progress = ((clothesSpent / clothesGoal) * 100).toInt()
-        }
-
-        if(entertainmentGoal != 0.0){
-            val amountLeft = entertainmentGoal - entertainmentSpent
-            if(amountLeft <= 0.0)
-                entertainmentDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-            else
-                entertainmentDetail.text = "You have $$amountLeft left in your budget !"
-
-            //Change Progress bar
-            entertainmentProgress.progress = ((entertainmentSpent / entertainmentGoal) * 100).toInt()
-        }
-
-        if( uncategorizedGoal != 0.0){
-            val amountLeft = uncategorizedGoal - uncategorizedSpent
-            if(amountLeft <= 0.0)
-                uncategorizedDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-            else
-                uncategorizedDetail.text = "You have $$amountLeft left in your budget !"
-
-            //Change Progress bar
-            uncategorizedProgress.progress = ((uncategorizedSpent / uncategorizedGoal) * 100).toInt()
-        }
-
         //Observe every time add a new entry or delete an entry to change total amount for each category
         expenseViewModel.allEntriesLiveData.observe(viewLifecycleOwner) { expense ->
             //Group expense by group
@@ -190,34 +134,111 @@ class SavingsGoalFragment : Fragment() {
             categoryTotals.forEach{(category, totalCategoryAmount) ->
                 when(category){
                     "Housing" ->{
+                        //Save new total spent amount
                         val editor = sharedPref.edit()
                         editor.putFloat("housing spent", totalCategoryAmount.toFloat())
                         editor.apply()
+
+                        //Update amount left after added new expense
+                        if(housingGoal != 0.0) {
+                            val amountLeft = housingGoal - totalCategoryAmount
+                            if (amountLeft <= 0.0) {
+                                housingDetail.text =
+                                    "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                            } else {
+                                housingDetail.text = "You have $$amountLeft left in your budget !"
+                            }
+                            //Progress bar
+                            housingProgress.progress =
+                                ((totalCategoryAmount / housingGoal) * 100).toInt()
+                        }
                     }
                     "Clothes" -> {
+                        //Save new total spent amount
                         val editor = sharedPref.edit()
                         editor.putFloat("clothes spent", totalCategoryAmount.toFloat())
                         editor.apply()
+
+                        //Update amount left after added new expense
+                        if(clothesGoal != 0.0) {
+                            val amountLeft = clothesGoal - totalCategoryAmount
+                            if (amountLeft <= 0.0) {
+                                clothesDetail.text =
+                                    "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                            } else {
+                                clothesDetail.text = "You have $$amountLeft left in your budget !"
+                            }
+
+                            //Progress bar
+                            clothesProgress.progress =
+                                ((totalCategoryAmount / clothesGoal) * 100).toInt()
+                        }
                     }
                     "Grocery" -> {
+                        //Save new total spent amount
                         val editor = sharedPref.edit()
                         editor.putFloat("grocery spent", totalCategoryAmount.toFloat())
                         editor.apply()
+
+                        //Update amount left after added new expense
+                        if(groceryGoal != 0.0) {
+                            val amountLeft = groceryGoal - totalCategoryAmount
+                            if (amountLeft <= 0.0) {
+                                groceryDetail.text =
+                                    "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                            } else {
+                                groceryDetail.text = "You have $$amountLeft left in your budget !"
+                            }
+
+                            //Progress bar
+                            groceryProgress.progress =
+                                ((totalCategoryAmount / groceryGoal) * 100).toInt()
+                        }
                     }
                     "Entertainment" -> {
+                        //Save new total spent amount
                         val editor = sharedPref.edit()
                         editor.putFloat("entertainment spent", totalCategoryAmount.toFloat())
                         editor.apply()
+
+                        //Update amount left after added new expense
+                        if(entertainmentGoal != 0.0) {
+                            val amountLeft = entertainmentGoal - totalCategoryAmount
+                            if (amountLeft <= 0.0) {
+                                entertainmentDetail.text =
+                                    "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                            } else {
+                                entertainmentDetail.text =
+                                    "You have $$amountLeft left in your budget !"
+                            }
+
+                            //Progress bar
+                            entertainmentProgress.progress =
+                                ((totalCategoryAmount / entertainmentGoal) * 100).toInt()
+                        }
                     }
                     "Miscellaneous" -> {
                         val editor = sharedPref.edit()
                         editor.putFloat("other spent", totalCategoryAmount.toFloat())
                         editor.apply()
+
+                        //Update amount left after added new expense
+                        if(uncategorizedGoal != 0.0){
+                            val amountLeft = uncategorizedGoal - totalCategoryAmount
+                            if(amountLeft <= 0.0){
+                                uncategorizedDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                            }
+                            else{
+                                uncategorizedDetail.text = "You have $$amountLeft left in your budget !"
+                            }
+
+                            //Progress bar
+                            uncategorizedProgress.progress = ((totalCategoryAmount / uncategorizedGoal) * 100).toInt()
+                        }
                     }
                 }
             }
         }
-
 
         val savingGoalViewModel = ViewModelProvider(requireActivity())[SavingGoalViewModel::class.java]
         savingGoalViewModel.groceryGoal.observe(viewLifecycleOwner){
@@ -301,6 +322,62 @@ class SavingsGoalFragment : Fragment() {
                 //Update progress
                 uncategorizedProgress.progress = ((uncategorizedSpent / it) * 100).toInt()
             }
+        }
+
+        //Change the budget left (As default if have a goal amount)
+        if(groceryGoal != 0.0){
+            val amountLeft = groceryGoal - grocerySpent
+            if(amountLeft <= 0.0)
+                groceryDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+            else
+                groceryDetail.text = "You have $$amountLeft left in your budget !"
+
+            //Change the progress bar
+            groceryProgress.progress = ((grocerySpent / groceryGoal) * 100).toInt()
+        }
+
+        if(housingGoal != 0.0){
+            val amountLeft = housingGoal - housingSpent
+            if(amountLeft <= 0.0)
+                housingDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+            else
+                housingDetail.text = "You have $$amountLeft left in your budget !"
+
+            //Change the progress bar
+            housingProgress.progress = ((housingSpent / housingGoal) * 100).toInt()
+        }
+
+        if(clothesGoal != 0.0){
+            val amountLeft = clothesGoal - clothesSpent
+            if(amountLeft <= 0.0)
+                clothesDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+            else
+                clothesDetail.text = "You have $$amountLeft left in your budget !"
+
+            //Change Progress bar
+            clothesProgress.progress = ((clothesSpent / clothesGoal) * 100).toInt()
+        }
+
+        if(entertainmentGoal != 0.0){
+            val amountLeft = entertainmentGoal - entertainmentSpent
+            if(amountLeft <= 0.0)
+                entertainmentDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+            else
+                entertainmentDetail.text = "You have $$amountLeft left in your budget !"
+
+            //Change Progress bar
+            entertainmentProgress.progress = ((entertainmentSpent / entertainmentGoal) * 100).toInt()
+        }
+
+        if( uncategorizedGoal != 0.0){
+            val amountLeft = uncategorizedGoal - uncategorizedSpent
+            if(amountLeft <= 0.0)
+                uncategorizedDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+            else
+                uncategorizedDetail.text = "You have $$amountLeft left in your budget !"
+
+            //Change Progress bar
+            uncategorizedProgress.progress = ((uncategorizedSpent / uncategorizedGoal) * 100).toInt()
         }
         return root
     }
