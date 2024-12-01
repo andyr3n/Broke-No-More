@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:cardCornerRadius="16dp"
-    app:cardElevation="8dp"
+    app:cardElevation="4dp"
     app:cardBackgroundColor="@color/white"
     app:useCompatPadding="true"
-    android:layout_marginTop="24dp"
-    android:layout_marginBottom="24dp">
+    android:layout_margin="4dp">
 
     <LinearLayout
         android:id="@+id/slide1Layout"
@@ -38,8 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Saving For:"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Travel"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:padding="12dp"
             android:background="@drawable/editable_background"
@@ -61,8 +61,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Wallet:"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
         <TextView
@@ -70,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="$1,200"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:padding="12dp"
             android:background="@drawable/editable_background"

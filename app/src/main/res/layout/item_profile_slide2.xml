@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:cardCornerRadius="16dp"
-    app:cardElevation="8dp"
+    app:cardElevation="4dp"
     app:cardBackgroundColor="@color/white"
     app:useCompatPadding="true"
-    android:layout_marginTop="24dp"
-    android:layout_marginBottom="24dp">
+    android:layout_margin="4dp">
 
     <ScrollView
         android:id="@+id/scrollViewDetails"
@@ -29,8 +28,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name:"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <TextView
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="John Doe"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:padding="12dp"
                 android:background="@drawable/editable_background"
@@ -52,8 +52,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Age:"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <TextView
@@ -61,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="30"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:padding="12dp"
                 android:background="@drawable/editable_background"
@@ -75,8 +76,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Job:"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <TextView
@@ -84,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Software Engineer"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:padding="12dp"
                 android:background="@drawable/editable_background"
@@ -98,8 +100,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hobby:"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <TextView
@@ -107,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Photography"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:padding="12dp"
                 android:background="@drawable/editable_background"
