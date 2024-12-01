@@ -15,7 +15,7 @@
         android:text="Bitcoin"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cryptoSymbol" />
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="BTC"
         android:textSize="14sp"
-        android:textColor="#D3D3D3"
+        android:textColor="@color/gray"
         app:layout_constraintEnd_toStartOf="@+id/cryptoPrice"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

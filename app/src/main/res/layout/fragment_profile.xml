@@ -5,7 +5,8 @@
     android:id="@+id/profileFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.ProfileFragment">
+    tools:context=".ui.profile.ProfileFragment"
+    android:background="@color/cardview_light_background">
 
     <!-- TabLayout for slide indicators -->
     <com.google.android.material.tabs.TabLayout

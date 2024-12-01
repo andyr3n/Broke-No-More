@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_subscription"
     android:clickable="true"
-    android:background="@color/black"
-    android:focusable="true">
+    android:focusable="true"
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -23,8 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Total in This Month: "
-            android:textSize="20sp"
-            android:textColor="@color/white">
+            android:textSize="20sp">
         </TextView>
 
         <TextView
@@ -32,8 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="$0"
-            android:textSize="20sp"
-            android:textColor="@color/white" />
+            android:textSize="20sp"/>
     </LinearLayout>
 
     <TextView
@@ -42,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Your Subscription"
-        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
