@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/slide1Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp">
 
-    <!-- User Profile Picture -->
+    <!-- User Profile Picture (Clickable) -->
     <ImageView
         android:id="@+id/imageViewProfile"
         android:layout_width="120dp"
@@ -15,23 +16,63 @@
         android:contentDescription="@string/profile_picture"
         android:layout_marginBottom="24dp"
         android:scaleType="centerCrop"
-        android:background="@drawable/circle_background" />
+        android:background="@drawable/circle_background"
+        android:clickable="true"
+        android:focusable="true" />
 
-    <!-- Saving For Section -->
+    <!-- Label and Editable Saving For Section -->
     <TextView
-        android:id="@+id/textViewSavingFor"
+        android:id="@+id/textViewSavingForLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Saving For: Travel"
+        android:text="Saving For:"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/editTextSavingFor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Travel"
         android:textSize="18sp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Wallet Section -->
+    <!-- Label and Editable Wallet Section -->
     <TextView
-        android:id="@+id/textViewWallet"
+        android:id="@+id/textViewWalletLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wallet: $1,200"
-        android:textSize="18sp" />
+        android:text="Wallet:"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/editTextWallet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="$1,200"
+        android:textSize="18sp"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Save and Cancel Buttons -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonSaveProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/buttonCancelProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
 
 </LinearLayout>

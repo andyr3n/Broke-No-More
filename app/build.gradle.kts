@@ -86,6 +86,11 @@ dependencies {
     implementation(libs.play.services.mlkit.text.recognition.common)
     implementation(libs.play.services.mlkit.text.recognition)
     implementation (libs.androidx.viewpager2)
+    implementation (libs.glide)
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+    implementation (libs.easypermissions)
+
+
 
     // MPAndroidChart Library for graphing and charts
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
