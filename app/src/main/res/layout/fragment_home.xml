@@ -14,27 +14,6 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/myWallet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My Wallet"
-            android:textColor="@color/white"
-            android:textSize="20sp">
-        </TextView>
-
-        <TextView
-            android:id="@+id/budgetAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$0"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myWallet">
-        </TextView>
-
         <Button
             android:id="@+id/addExpenseBtn"
             android:layout_width="wrap_content"
