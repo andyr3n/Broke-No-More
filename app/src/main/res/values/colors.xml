@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#1A1A1A</color>
-    <color name="light_black">#2F2F2F</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="yellow">#F5F378</color>
-    <color name="purple">#DCC1FF</color>
-    <color name="gray">#CCCCCC</color>
+    <color name="purple_200">#D1A0FF</color>
+    <color name="purple_500">#9C44F4</color>
+    <color name="purple_700">#5F1F91</color>
+    <color name="teal_200">#80E0D8</color>
+    <color name="teal_700">#006B6B</color>
+    <color name="black">#121212</color>
+    <color name="light_black">#333333</color>
+    <color name="white">#FFFFFF</color>
+    <color name="yellow">#FFEB3B</color>
+    <color name="purple">#B085FF</color>
+    <color name="gray">#B0B0B0</color>
     <color name="selected_item_background">#303F9F</color>
+    <color name="accent_green">#4CAF50</color>
+    <color name="accent_orange">#FF5722</color>
+    <color name="soft_blue">#3D8EBC</color>
+    <color name="background_light">#F5F5F5</color>
+    <color name="surface_dark">#212121</color>
 </resources>

@@ -160,9 +160,6 @@ class HomeFragment : Fragment(){
     }
 
     private fun updateCalendar() {
-        Log.d("CalendarFragment", "Updating calendar")
-        //log expenses
-        Log.d("CalendarFragment", "Expenses: ${this.expenseViewModel.allEntriesLiveData.value}")
         val monthFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         binding.monthText.text = monthFormat.format(calendar.time)
 
@@ -173,14 +170,11 @@ class HomeFragment : Fragment(){
             SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
         } ?: emptyMap()
 
-        //log expense date attribute
-        Log.d("CalendarFragment", "expensesByDate: $expensesByDate")
-        Log.d("CalendarFragment",  "size of expenses by date: ${expensesByDate.size}")
-
-        calendarAdapter = CalendarAdapter(daysInMonth, expensesByDate) { date ->
+        calendarAdapter = CalendarAdapter(daysInMonth, expensesByDate, calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)) { date ->
             showExpensesDialog(date)
         }
         binding.calendarRecyclerView.adapter = calendarAdapter
+
     }
 
     private fun setupObservers() {
@@ -198,7 +192,12 @@ class HomeFragment : Fragment(){
 
         tempCalendar.add(java.util.Calendar.DAY_OF_MONTH, -firstDayOfMonth)
 
-        for (i in 0 until 42) {
+        val daysInMonth = calendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH)
+        var maxDays = 35
+        if ((firstDayOfMonth == 5 && daysInMonth == 31) || (firstDayOfMonth == 6 && daysInMonth >= 30)) {
+            maxDays = 42
+        }
+        for (i in 0 until maxDays) {
             days.add(tempCalendar.time)
             tempCalendar.add(java.util.Calendar.DAY_OF_MONTH, 1)
         }

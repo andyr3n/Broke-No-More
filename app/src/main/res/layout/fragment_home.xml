@@ -4,40 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#F5F5F5"
     tools:context=".ui.home.HomeFragment"
     android:id="@+id/fragment_home">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
 
-        <Button
-            android:id="@+id/addExpenseBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Your Expense"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:padding="15dp"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/round_black_yellowstroke"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/budgetAmount">
-        </Button>
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addExpenseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Expense"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.MaterialComponents.Button"
+                app:cornerRadius="25dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="14dp">
+
+                    <ImageButton
+                        android:id="@+id/prevMonthButton"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/baseline_arrow_back_ios_24"
+                        android:contentDescription="Previous Month" />
+
+                    <TextView
+                        android:id="@+id/monthText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="January 2024"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp" />
+
+                    <ImageButton
+                        android:id="@+id/nextMonthButton"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/baseline_arrow_forward_ios_24"
+                        android:contentDescription="Next Month" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,148 +77,119 @@
                 android:gravity="center"
                 android:padding="16dp">
 
-                <Button
-                    android:id="@+id/prevMonthButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&lt;"
-                    android:textSize="25sp"
-                    android:contentDescription="Previous Month"
-                    android:background="@null" />
-
-                <TextView
-                    android:id="@+id/monthText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="January 2024"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/nextMonthButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&gt;"
-                    android:textSize="25sp"
-                    android:contentDescription="Next Month"
-                    android:background="@null" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:padding="16dp">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="SUN"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="MON"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="TUE"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="WED"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="THU"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="FRI"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="SAT"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/calendarRecyclerView"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"/>
+                android:layout_height="wrap_content"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="16dp">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/calendarRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/payment_due"
+                android:textColor="@color/purple"
+                android:textStyle="bold"
+                android:layout_gravity="start" />
+
+            <TextView
+                android:id="@+id/noPaymentDueHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="There's no payment due in the future!" />
+
+            <LinearLayout
+                android:id="@+id/subscription_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subsciption_header">
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addSubscriptionBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Payment Due"
+                android:layout_marginBottom="256dp"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
+                app:cornerRadius="25dp" />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/payment_due"
-            android:textColor="@color/purple"
-            android:textStyle="bold"
-            android:layout_gravity="start">
-        </TextView>
-
-        <TextView
-            android:id="@+id/noPaymentDueHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="There's no payment due in the future !">
-        </TextView>
-
-        <LinearLayout
-            android:id="@+id/subscription_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subsciption_header">
-        </LinearLayout>
-
-
-        <Button
-            android:id="@+id/addSubscriptionBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="200dp"
-            android:focusable="true"
-            android:text="Add Payment Due"
-            android:textAllCaps="false"
-            android:clickable="true"
-            android:textColor="@color/purple"
-            android:background="@drawable/blackbox_purplestroke"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
-        </Button>
-    </LinearLayout>
     </ScrollView>
 </FrameLayout>

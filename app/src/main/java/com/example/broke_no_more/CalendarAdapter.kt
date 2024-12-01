@@ -14,23 +14,33 @@ import java.util.*
 class CalendarAdapter(
     private val days: List<Date>,
     private val expensesByDate: Map<String, List<Expense>>,
+    private val currentMonth: Int,
+    private val currentYear: Int,
     private val onDateClick: (Date) -> Unit
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
-        Log.d("CalendarAdapter", "Creating view holder")
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.calendar_day_item, parent, false)
         return CalendarViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-        Log.d("CalendarAdapter", "Binding view holder for position $position")
         val date = days[position]
-        val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
 
-        holder.bind(date, expensesByDate[formattedDate] ?: emptyList())
-        holder.itemView.setOnClickListener { onDateClick(date) }
+        val dateCalendar = Calendar.getInstance()
+        dateCalendar.time = date
+        val isSameMonth = dateCalendar.get(Calendar.MONTH) == currentMonth &&
+                dateCalendar.get(Calendar.YEAR) == currentYear
+
+        if (isSameMonth) {
+            holder.itemView.visibility = View.VISIBLE
+            val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
+            holder.bind(date, expensesByDate[formattedDate] ?: emptyList())
+            holder.itemView.setOnClickListener { onDateClick(date) }
+        } else {
+            holder.itemView.visibility = View.INVISIBLE
+        }
     }
 
     override fun getItemCount(): Int = days.size
@@ -45,12 +55,12 @@ class CalendarAdapter(
 
             if (expenses.isNotEmpty()) {
                 expenseIndicator.visibility = View.VISIBLE
-                Log.d("CalendarAdapter", "Expense indicator visible for date $date")
             } else {
-                expenseIndicator.visibility = View.GONE
-                Log.d("CalendarAdapter", "Expense indicator gone for date $date")
+                expenseIndicator.visibility = View.INVISIBLE
             }
         }
     }
 }
+
+
 
