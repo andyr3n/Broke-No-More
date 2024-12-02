@@ -5,16 +5,15 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.broke_no_more.databinding.FragmentAddExpenseBinding
+import com.example.broke_no_more.databinding.ActivityAddExpenseBinding
 import com.example.broke_no_more.database.Expense
 import com.example.broke_no_more.database.ExpenseDatabase
 import com.example.broke_no_more.database.ExpenseRepository
@@ -24,36 +23,29 @@ import com.example.broke_no_more.ui.ocr.OcrTestActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import android.icu.util.Calendar
-import android.widget.Button
 import java.util.Date
 import java.util.Locale
 
-class AddExpenseFragment : Fragment() {
+class AddExpenseActivity : AppCompatActivity() {
 
     companion object {
-        private const val TAG = "AddExpenseFragment"
+        private const val TAG = "AddExpenseActivity"
     }
 
-    private var _binding: FragmentAddExpenseBinding? = null
-    private val binding get() = _binding!!
-
+    private lateinit var binding: ActivityAddExpenseBinding
     private lateinit var viewModel: ExpenseViewModel
 
-    // Calendar instance for date selection
     private val calendar: Calendar = Calendar.getInstance()
     private lateinit var selectedCalendar: Calendar
-
     private lateinit var cancelBtn: Button
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAddExpenseBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityAddExpenseBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Initialize ViewModel
-        val database = ExpenseDatabase.getInstance(requireActivity())
+        val database = ExpenseDatabase.getInstance(this)
         val repository = ExpenseRepository(database.expenseDatabaseDao)
         val viewModelFactory = ExpenseViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ExpenseViewModel::class.java)
@@ -67,7 +59,7 @@ class AddExpenseFragment : Fragment() {
         // Set up the "Add Receipt" button to launch OCR
         binding.button.setOnClickListener {
             Log.d(TAG, "Add Receipt button clicked. Launching OcrTestActivity.")
-            val intent = Intent(requireContext(), OcrTestActivity::class.java)
+            val intent = Intent(this, OcrTestActivity::class.java)
             startActivityForResult(intent, 2001)
         }
 
@@ -77,20 +69,12 @@ class AddExpenseFragment : Fragment() {
             saveExpenseData()
         }
 
-        //Cancel adding new expense
+        // Cancel adding new expense
         cancelBtn = binding.cancelAddExpense
         cancelBtn.setOnClickListener{
-            Toast.makeText(requireContext(), "Cancelled", Toast.LENGTH_SHORT).show()
-            requireActivity().supportFragmentManager.popBackStack()
+            Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
+            onBackPressed()
         }
-
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        Log.d(TAG, "onDestroyView: AddExpenseFragment destroyed")
     }
 
     /**
@@ -98,11 +82,9 @@ class AddExpenseFragment : Fragment() {
      */
     private fun setupCategorySpinner() {
         val spinner: Spinner = binding.categorySpinner
-
-        // Predefined categories (these can be extended or fetched from a database)
         val categories = listOf("Housing", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
         val adapter = ArrayAdapter(
-            requireContext(),
+            this,
             android.R.layout.simple_spinner_item,
             categories
         )
@@ -119,7 +101,7 @@ class AddExpenseFragment : Fragment() {
 
         dateEditText.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
-                requireContext(),
+                this,
                 { _, year, month, dayOfMonth ->
                     calendar.set(Calendar.YEAR, year)
                     calendar.set(Calendar.MONTH, month)
@@ -156,22 +138,16 @@ class AddExpenseFragment : Fragment() {
                 if (parsedDate != null) {
                     // Update the calendar with the parsed date
                     calendar.time = parsedDate
-
-                    // Format the date and set it to the EditText
                     val formattedDate = SimpleDateFormat("MM/dd/yyyy", Locale.US).format(parsedDate)
                     binding.dateEditText.setText(formattedDate)
-                    Log.d(TAG, "Date set to EditText: $formattedDate")
-
-                    // Clone the updated calendar to selectedCalendar
                     selectedCalendar = calendar.clone() as Calendar
                     Log.d(TAG, "selectedCalendar updated with parsed date.")
                 } else {
-                    Log.w(TAG, "Date parsing failed, raw value set: $dateValueRaw")
                     binding.dateEditText.setText(dateValueRaw) // Set raw date if parsing fails
                 }
             } else {
                 Log.w(TAG, "Date not found in recognized text.")
-                Toast.makeText(requireContext(), "Date not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Date not found", Toast.LENGTH_SHORT).show()
             }
 
             // Extract total amount
@@ -185,28 +161,15 @@ class AddExpenseFragment : Fragment() {
                     Log.d(TAG, "Total amount set to EditText: $maxAmount")
                 }
             } else {
-                Log.w(TAG, "Total amount not found in recognized text.")
-                Toast.makeText(requireContext(), "Total amount not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Total amount not found", Toast.LENGTH_SHORT).show()
             }
-
-            Toast.makeText(requireContext(), "Receipt data added successfully", Toast.LENGTH_SHORT).show()
-            Log.d(TAG, "Receipt data added successfully.")
         }
     }
 
-
-
-    // Parsing function similar to ReceiptScannerActivity
     private fun parseDate(text: String): Date? {
         val dateFormats = arrayOf(
-            "MM/dd/yyyy",
-            "MM/dd/yy",
-            "MM/dd",
-            "MM/yy",
-            "yyyy-MM-dd",
-            "M/d/yyyy",
-            "M/d/yy",
-            "M/yy"
+            "MM/dd/yyyy", "MM/dd/yy", "MM/dd", "MM/yy",
+            "yyyy-MM-dd", "M/d/yyyy", "M/d/yy", "M/yy"
         )
 
         for (format in dateFormats) {
@@ -225,7 +188,6 @@ class AddExpenseFragment : Fragment() {
         return null
     }
 
-    // Saving the data
     private fun saveExpenseData() {
         val amountEditText = binding.linearLayout.getChildAt(1) as EditText
         val dateEditText = binding.dateEditText
@@ -239,13 +201,13 @@ class AddExpenseFragment : Fragment() {
 
         // Validate the inputs
         if (amountText.isEmpty() || dateText.isEmpty() || selectedCategory.isEmpty()) {
-            Toast.makeText(requireContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
             return
         }
 
         // Ensure selectedCalendar is initialized
         if (!::selectedCalendar.isInitialized) {
-            Toast.makeText(requireContext(), "Please select a date", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please select a date", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -258,22 +220,9 @@ class AddExpenseFragment : Fragment() {
         )
 
         viewModel.insert(expense)
-        Log.d(TAG, "Expense inserted into database: $expense")
-
-        Toast.makeText(
-            requireContext(),
-            "Expense saved:\nAmount=$amountText\nDate=$dateText\nCategory=$selectedCategory\nComment=$commentText",
-            Toast.LENGTH_SHORT
-        ).show()
-        Log.d(TAG, "Expense data saved successfully.")
+        Toast.makeText(this, "Expense saved", Toast.LENGTH_SHORT).show()
 
         // Navigate back
-        requireActivity().onBackPressedDispatcher.onBackPressed()
-        Log.d(TAG, "Navigated back after saving expense.")
+        onBackPressed()
     }
-
-
 }
-
-
-

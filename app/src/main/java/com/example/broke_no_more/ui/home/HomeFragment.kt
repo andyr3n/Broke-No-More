@@ -1,5 +1,6 @@
 package com.example.broke_no_more.ui.home
 
+import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
@@ -22,7 +23,7 @@ import com.example.broke_no_more.database.ExpenseViewModelFactory
 import com.example.broke_no_more.databinding.FragmentHomeBinding
 import com.example.broke_no_more.ui.CalendarAdapter
 import com.example.broke_no_more.ui.ExpensesDialogFragment
-import com.example.broke_no_more.ui.add_expense.AddExpenseFragment
+import com.example.broke_no_more.ui.add_expense.AddExpenseActivity
 import com.example.broke_no_more.ui.subscription.SubscriptionFragment
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -81,12 +82,8 @@ class HomeFragment : Fragment(){
         addExpenseButton = binding.addExpenseBtn
         addExpenseButton.setOnClickListener(){
             //Swap Fragment to addExpense
-            val addExpenseFragment = AddExpenseFragment()
-            val manager = requireActivity().supportFragmentManager
-            val transaction = manager.beginTransaction()
-            transaction.replace(R.id.fragment_home, addExpenseFragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
+            val intent = Intent(requireContext(), AddExpenseActivity::class.java)
+            startActivity(intent)
         }
 
         //Swap to SubscriptionFragment

@@ -44,6 +44,8 @@
         <activity android:name=".ui.ocr.OcrTestActivity" />
         <activity android:name=".ui.ocr.AnimationActivity" />
         <activity android:name=".ui.profile.ProfileActivity"/>
+        <activity android:name=".ui.add_expense.AddExpenseActivity"/>
+
 
 
     </application>
