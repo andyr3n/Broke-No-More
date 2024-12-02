@@ -68,7 +68,7 @@
             android:id="@+id/tvSelectCryptoTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Cryptocurrency"
+            android:text="Select Crypto currency"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/black"

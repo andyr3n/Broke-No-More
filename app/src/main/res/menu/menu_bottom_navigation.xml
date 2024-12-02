@@ -17,15 +17,12 @@
             android:id="@+id/nav_savings_goal"
             android:icon="@android:drawable/ic_menu_manage"
             android:title="Savings" />
+
         <!-- Add Crypto Option -->
         <item
             android:id="@+id/nav_crypto"
             android:icon="@drawable/ic_crypto"
             android:title="Crypto" />
-        <!-- New Profile menu item -->
-<!--        <item-->
-<!--            android:id="@+id/nav_profile"-->
-<!--            android:icon="@drawable/ic_profile"-->
-<!--            android:title="Profile" />-->
+
     </group>
 </menu>

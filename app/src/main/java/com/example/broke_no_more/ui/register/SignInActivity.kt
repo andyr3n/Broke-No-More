@@ -2,6 +2,7 @@ package com.example.broke_no_more.ui.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -14,10 +15,58 @@ import com.google.firebase.auth.FirebaseAuth
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var tvTitle: TextView
+    private val titleText = "Broke No More"
+    private val delay: Long = 150
+    private val dotAnimationDelay: Long = 500
+    private var isDotAnimating = true
+    private fun startTypingAnimation() {
+        val handler = Handler()
+        tvTitle.text = ""
+
+        // Typing animation for "Broke No More"
+        for (i in titleText.indices) {
+            handler.postDelayed({
+                tvTitle.append(titleText[i].toString())
+                if (i == titleText.length - 1) {
+                    // Start dot animation after text is fully typed
+                    startDotAnimation(handler)
+                }
+            }, delay * i)
+        }
+    }
+    private fun startDotAnimation(handler: Handler) {
+        var dotCount = 0
+        val maxDots = 3
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                if (!isDotAnimating) return
+
+                // Update the dots
+                val baseText = titleText + ".".repeat(dotCount)
+                tvTitle.text = baseText
+
+                // Increment dots or reset
+                dotCount = (dotCount + 1) % (maxDots + 1)
+
+                // Repeat the animation
+                handler.postDelayed(this, dotAnimationDelay)
+            }
+        }, dotAnimationDelay)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        isDotAnimating = false // Stop animation when activity is destroyed
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+
+        tvTitle = findViewById(R.id.tvTitle)
+
+        startTypingAnimation()
 
         // Initialize FirebaseAuth
         auth = FirebaseAuth.getInstance()

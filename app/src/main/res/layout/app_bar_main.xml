@@ -17,6 +17,7 @@
             android:background="@android:color/white"
             app:titleTextColor="@android:color/black"
             app:popupTheme="@style/Theme.BrokeNoMore.PopupOverlay" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_main" />
