@@ -16,10 +16,12 @@ class SignInActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var tvTitle: TextView
+    private lateinit var btnLoginAsGuest: Button
     private val titleText = "Broke No More"
     private val delay: Long = 150
     private val dotAnimationDelay: Long = 500
     private var isDotAnimating = true
+
     private fun startTypingAnimation() {
         val handler = Handler()
         tvTitle.text = ""
@@ -35,6 +37,7 @@ class SignInActivity : AppCompatActivity() {
             }, delay * i)
         }
     }
+
     private fun startDotAnimation(handler: Handler) {
         var dotCount = 0
         val maxDots = 3
@@ -65,6 +68,7 @@ class SignInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_in)
 
         tvTitle = findViewById(R.id.tvTitle)
+        btnLoginAsGuest = findViewById(R.id.btnLoginAsGuest) // Initialize the new button
 
         startTypingAnimation()
 
@@ -144,6 +148,15 @@ class SignInActivity : AppCompatActivity() {
         // Navigate to Sign Up screen
         tvSignUp.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
+        }
+
+        // Handle "Login as Guest" Button click
+        btnLoginAsGuest.setOnClickListener {
+            // Navigate to MainActivity without authentication
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("isGuest", true) // Optional: Pass an extra to indicate guest login
+            startActivity(intent)
+            finish()
         }
     }
 }
