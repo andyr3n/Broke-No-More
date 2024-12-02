@@ -10,8 +10,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import androidx.room.Room
 import com.example.broke_no_more.BuildConfig
 import com.example.broke_no_more.R
+import com.example.broke_no_more.database.Expense
+import com.example.broke_no_more.database.ExpenseDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +30,7 @@ class AIChatDialogFragment : DialogFragment() {
     private lateinit var userInput: EditText
     private lateinit var sendButton: Button
     private lateinit var chatOutput: TextView
+    private lateinit var database: ExpenseDatabase
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -44,6 +48,13 @@ class AIChatDialogFragment : DialogFragment() {
         userInput = view.findViewById(R.id.userInput)
         sendButton = view.findViewById(R.id.sendButton)
         chatOutput = view.findViewById(R.id.chatOutput)
+
+        // Initialize Room Database
+        database = Room.databaseBuilder(
+            requireContext(),
+            ExpenseDatabase::class.java,
+            "expense_database"
+        ).build()
 
         sendButton.setOnClickListener {
             val userMessage = userInput.text.toString().trim()
@@ -63,8 +74,13 @@ class AIChatDialogFragment : DialogFragment() {
         // Use OpenAI API to get a response
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val responseText = fetchResponseFromAPI(message)
-                // Update UI on the main thread
+                val expenses = database.expenseDatabaseDao.getAllExpenses()
+                val subscriptions = database.expenseDatabaseDao.getAllSubscriptions()
+
+                val personalizedPrompt = buildPersonalizedPrompt(message, expenses, subscriptions)
+
+                val responseText = fetchResponseFromAPI(personalizedPrompt)
+
                 CoroutineScope(Dispatchers.Main).launch {
                     chatOutput.append("AI: $responseText\n")
                 }
@@ -74,6 +90,30 @@ class AIChatDialogFragment : DialogFragment() {
                 }
             }
         }
+    }
+
+    private fun buildPersonalizedPrompt(
+        userMessage: String,
+        expenses: List<Expense>,
+        subscriptions: List<Expense>
+    ): String {
+        val totalExpense = expenses.sumOf { it.amount }
+        val subscriptionDetails = subscriptions.joinToString("\n") {
+            "- ${it.subscriptionName}: \$${it.amount} (${if (it.isMonthly) "Monthly" else "Annually"})"
+        }
+
+        return """
+            You are a financial assistant. Provide tailored financial tips for the following user:
+            
+            User's Message: "$userMessage"
+            
+            Financial Data:
+            - Total Monthly Expenses: $$totalExpense
+            - Subscriptions:
+            $subscriptionDetails
+
+            Give actionable advice based on this data.
+        """.trimIndent()
     }
 
     private fun fetchResponseFromAPI(message: String): String {
@@ -121,8 +161,7 @@ class AIChatDialogFragment : DialogFragment() {
             "Error: Unable to fetch a response."
         }
     }
-
-
 }
+
 
 
