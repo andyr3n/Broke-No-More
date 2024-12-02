@@ -19,7 +19,7 @@ import java.time.Duration
 import java.time.LocalDate
 
 class SubscriptionListAdapter(private val context: Context, private var subscriptionList: MutableList<Expense>,
-    private val expenseViewModel: ExpenseViewModel, private val month: Int):
+    private val expenseViewModel: ExpenseViewModel, private var calendar: Calendar):
     RecyclerView.Adapter<SubscriptionListAdapter.MyViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,16 +34,23 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val subscription = subscriptionList[position]//Get subscription at specific position
+        val subscriptionDate = subscription.date//Subscription Date
 
         //Calculate how many days left from until due date
-        val subscriptionDate = subscription.date
         val daysLeft = calculateDayLeft(subscriptionDate.get(Calendar.YEAR),
             subscriptionDate.get(Calendar.MONTH), subscriptionDate.get(Calendar.DAY_OF_MONTH))
 
         //Set textView to saved information
         holder.paymentName.text = subscription.subscriptionName
-        holder.paymentDue.text = "Due in $daysLeft days"
-        holder.paymentAmount.setText("$${subscription.amount}")
+        if (subscription.isAnnually)
+            holder.paymentDue.text = "${subscriptionDate.time}"
+        else{
+            if(daysLeft < 0)
+                holder.paymentDue.text = "Past Due!"
+            else
+                holder.paymentDue.text = "Due in $daysLeft days"
+        }
+        holder.paymentAmount.text = "$${subscription.amount}"
     }
 
     override fun getItemCount(): Int {
@@ -60,11 +67,11 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
     private fun calculateDayLeft(selectedYear: Int, selectedMonth: Int, selectedDay: Int): Long {
         println("Selected day is: $selectedDay/ ${selectedMonth + 1}/ $selectedYear")
         val dueDate = LocalDate.of(selectedYear, selectedMonth + 1, selectedDay)
-
-        val today = LocalDate.now()
+        val today = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1,
+            calendar.get(Calendar.DAY_OF_MONTH))
 
         //Calculate how many days left from today until due date
-        val daysLeft = Duration.between(today.atStartOfDay(), dueDate.atStartOfDay()).toDays()
+        val daysLeft = Duration.between(dueDate.atStartOfDay(), today.atStartOfDay()).toDays()
         return daysLeft
     }
 
@@ -80,5 +87,10 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
         }
         subscriptionList.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    fun updateDate(newCalendar: Calendar){
+        calendar = newCalendar
+        notifyDataSetChanged()
     }
 }

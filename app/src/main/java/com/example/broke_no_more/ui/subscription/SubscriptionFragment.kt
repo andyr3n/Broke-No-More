@@ -89,12 +89,6 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         viewModelFactory = ExpenseViewModelFactory(repository)
         expenseViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(ExpenseViewModel::class.java)
 
-        //Set up Recycler View with adapter to inflate custom rows
-        subscriptionListAdapter = SubscriptionListAdapter(requireContext(), subscriptionList, expenseViewModel, 1)
-        recyclerView = binding.subscriptionRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = subscriptionListAdapter
-
         calendar = Calendar.getInstance()
         setUpSubscription()
 
@@ -103,14 +97,21 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         nextMonthBtn = binding.nextMonthButton
 
         prevMonthBtn.setOnClickListener{
-            calendar.add(java.util.Calendar.MONTH, -1)
+            calendar.add(Calendar.MONTH, -1)
             setUpSubscription()
         }
 
         nextMonthBtn.setOnClickListener{
-            calendar.add(java.util.Calendar.MONTH, 1)
+            calendar.add(Calendar.MONTH, 1)
             setUpSubscription()
         }
+
+        //Set up Recycler View with adapter to inflate custom rows
+        subscriptionListAdapter = SubscriptionListAdapter(requireContext(), subscriptionList, expenseViewModel,
+            calendar)
+        recyclerView = binding.subscriptionRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = subscriptionListAdapter
 
         //Swipe Left to delete the subscription
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
@@ -219,6 +220,7 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             var allList = currentMonthList + repeatMonthlyList + repeatAnnuallyList
             allList = allList.distinctBy { it.id }
 
+            subscriptionListAdapter.updateDate(calendar)
             subscriptionListAdapter.replace(allList)
             subscriptionListAdapter.notifyDataSetChanged()
 
