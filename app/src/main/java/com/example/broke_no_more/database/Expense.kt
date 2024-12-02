@@ -27,5 +27,7 @@ data class Expense(
     val comment: String? = null,
     var isSubscription: Boolean = false,
     var subscriptionName: String = "",
-    val category: String = "Uncategorized"
+    val category: String = "Uncategorized",
+    var isMonthly: Boolean = false,
+    var isAnnually: Boolean = false
 )

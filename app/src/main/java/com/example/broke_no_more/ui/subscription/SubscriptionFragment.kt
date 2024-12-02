@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -39,7 +41,6 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private val binding get() = _binding!!
 
     private lateinit var addPaymentBtn: FloatingActionButton
-    private val paymentDue = mutableListOf<PaymentDue>()
     private lateinit var totalAmountSubscription: TextView
     private var num = 0
 
@@ -49,6 +50,7 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var prevMonthBtn: ImageButton
     private lateinit var nextMonthBtn: ImageButton
+    private var recurrenceType = arrayOf("Monthly", "Annually")
     private lateinit var calendar: Calendar
 
     //Initialize for Database
@@ -142,9 +144,12 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
         val paymentDate = dialogView.findViewById<Button>(R.id.button_chooseDueDate)
         val chosenDate = dialogView.findViewById<TextView>(R.id.text_choosen_date)
         val paymentAmount = dialogView.findViewById<EditText>(R.id.edit_payment_amount)
+        val recurrenceSpinner = dialogView.findViewById<Spinner>(R.id.recurrence_spinner)
+        val spinnerAdapter: ArrayAdapter<CharSequence> = ArrayAdapter<CharSequence>(requireActivity(),
+            android.R.layout.simple_list_item_1, recurrenceType)
+        recurrenceSpinner.adapter = spinnerAdapter
 
         var date = Calendar.getInstance()//Choose current time as default
-        var daysLeft = 0
 
         paymentDate.setOnClickListener(){
             //Show DatePickerDialog to choose Date
@@ -154,10 +159,8 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 calendar.set(selectedYear, selectedMonth, selectedDay)
                 date = calendar
 
-                daysLeft = calculateDayLeft(selectedDay)
-
                 //Set format to day month (in text), year
-                chosenDate.setText(SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date.time))
+                chosenDate.text = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date.time)
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
             datePickerDialog.show()
         }
@@ -169,10 +172,6 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                 //Define name, amount and amount from user
                 var name = paymentName.text.toString()
                 val amount = paymentAmount.text.toString().toDoubleOrNull()?: 0.0
-
-                //Create new object paymentDue with info from input
-                val newPaymentDue = PaymentDue(name, date, amount)
-                paymentDue.add(newPaymentDue)
 
                 //Add default name if user does not enter anything
                 if(name.isEmpty()){
@@ -189,6 +188,12 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
                     subscriptionExpense.amount = amount
                     subscriptionExpense.isSubscription = true
 
+                    //Change recurrence status based on what user chose
+                    when(recurrenceSpinner.selectedItem.toString()){
+                        "Monthly" -> subscriptionExpense.isMonthly = true
+                        "Annually" -> subscriptionExpense.isAnnually = true
+                    }
+
                     //Add to database
                     expenseViewModel.insert(subscriptionExpense)
                 }
@@ -198,47 +203,29 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
             .show()
     }
 
-    //Display new added subscription to UI
-    private fun displayPaymentDue(name: String, daysLeft: Int, amount: Double){
-        val paymentView = layoutInflater.inflate(R.layout.subscription_list, null)
-        val paymentName = paymentView.findViewById<TextView>(R.id.payment_name)
-        val paymentDue = paymentView.findViewById<TextView>(R.id.payment_due)
-        val paymentAmount = paymentView.findViewById<TextView>(R.id.payment_amount)
-
-        paymentName.text = name
-        paymentDue.text = "Due in $daysLeft days"
-        paymentAmount.text = "$$amount"
-    }
-
-    private fun calculateDayLeft(selectedDay: Int): Int{
-        //Find current date
-        val calendar = Calendar.getInstance()
-        val today = calendar.get(Calendar.DAY_OF_MONTH)
-
-        //Calculate how many days left from today until due date
-        val daysLeft = selectedDay - today
-        return daysLeft
-    }
-
     private fun setUpSubscription(){
         val monthFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         binding.monthText.text = monthFormat.format(calendar.time)
 
         //Inflates only rows is Subscription (isSubscription == true)
         expenseViewModel.allSubscriptionsLiveData.observe(viewLifecycleOwner){ list ->
-            //Filter the list to match chosen Month
+            //Filter the list: Match current month/ is Monthly subscription/ is Annually subscription
             val currentMonth = calendar.get(Calendar.MONTH)
             val currentMonthList = list.filter { it.date.get(Calendar.MONTH) == currentMonth }
-            subscriptionListAdapter.replace(currentMonthList)
+            val repeatMonthlyList = list.filter { it.isMonthly }
+            val repeatAnnuallyList = list.filter { it.isAnnually  && it.date.get(Calendar.MONTH) == currentMonth}
+
+            //Combine all list and filter to keep distinct subscription on screen only
+            var allList = currentMonthList + repeatMonthlyList + repeatAnnuallyList
+            allList = allList.distinctBy { it.id }
+
+            subscriptionListAdapter.replace(allList)
             subscriptionListAdapter.notifyDataSetChanged()
 
             //Update total this month
-            totalAmountSubscription.text = "$${currentMonthList.sumOf { it.amount }}"
+            totalAmountSubscription.text = "$${allList.sumOf { it.amount }}"
         }
     }
-
-    data class PaymentDue(val name: String, val date: Calendar, val amount: Double?)
-    data class MonthItem(val month: String, var isSelected: Boolean = false)
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -2,10 +2,12 @@ package com.example.broke_no_more.ui.subscription
 
 import android.content.Context
 import android.icu.util.Calendar
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.broke_no_more.R
 import com.example.broke_no_more.database.Expense
@@ -13,6 +15,8 @@ import com.example.broke_no_more.database.ExpenseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import java.time.Duration
+import java.time.LocalDate
 
 class SubscriptionListAdapter(private val context: Context, private var subscriptionList: MutableList<Expense>,
     private val expenseViewModel: ExpenseViewModel, private val month: Int):
@@ -27,11 +31,14 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
         return MyViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val subscription = subscriptionList[position]//Get subscription at specific position
 
         //Calculate how many days left from until due date
-        val daysLeft = calculateDayLeft(subscription.date.get(Calendar.DAY_OF_MONTH))
+        val subscriptionDate = subscription.date
+        val daysLeft = calculateDayLeft(subscriptionDate.get(Calendar.YEAR),
+            subscriptionDate.get(Calendar.MONTH), subscriptionDate.get(Calendar.DAY_OF_MONTH))
 
         //Set textView to saved information
         holder.paymentName.text = subscription.subscriptionName
@@ -49,13 +56,15 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
         val paymentAmount: TextView = itemView.findViewById(R.id.payment_amount)
     }
 
-    private fun calculateDayLeft(selectedDay: Int): Int{
-        //Find current date
-        val calendar = Calendar.getInstance()
-        val today = calendar.get(Calendar.DAY_OF_MONTH)
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun calculateDayLeft(selectedYear: Int, selectedMonth: Int, selectedDay: Int): Long {
+        println("Selected day is: $selectedDay/ ${selectedMonth + 1}/ $selectedYear")
+        val dueDate = LocalDate.of(selectedYear, selectedMonth + 1, selectedDay)
+
+        val today = LocalDate.now()
 
         //Calculate how many days left from today until due date
-        val daysLeft = selectedDay - today
+        val daysLeft = Duration.between(today.atStartOfDay(), dueDate.atStartOfDay()).toDays()
         return daysLeft
     }
 
