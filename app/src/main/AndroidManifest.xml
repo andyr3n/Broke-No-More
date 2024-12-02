@@ -43,6 +43,7 @@
 
         <activity android:name=".ui.ocr.OcrTestActivity" />
         <activity android:name=".ui.ocr.AnimationActivity" />
+        <activity android:name=".ui.profile.ProfileActivity"/>
 
 
     </application>

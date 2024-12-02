@@ -55,7 +55,7 @@
         android:id="@+id/nav_profile"
         android:name="com.example.broke_no_more.ui.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/activity_profile" />
 
 
 </navigation>
