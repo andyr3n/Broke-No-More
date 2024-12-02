@@ -90,8 +90,8 @@ class ExpenseReportFragment : Fragment() {
         val categoryTotals = expenses.groupBy { it.category }
             .mapValues { entry -> entry.value.sumOf { it.amount } }
 
-        val entries = categoryTotals.map { (category, total) ->
-            PieEntry(total.toFloat(), category)
+        val entries = categoryTotals.map { (_, total) ->
+            PieEntry(total.toFloat())
         }
 
         val colors = listOf(
@@ -112,10 +112,10 @@ class ExpenseReportFragment : Fragment() {
         pieChart.description.isEnabled = false
         pieChart.setUsePercentValues(true)
         pieChart.setDrawHoleEnabled(false)
-        pieChart.setEntryLabelColor(Color.BLACK)
-        pieChart.setEntryLabelTextSize(12f)
+        pieChart.setEntryLabelColor(Color.TRANSPARENT) // Hide labels by making them transparent
         pieChart.invalidate()
     }
+
 
     private fun updateBarChart(barChart: BarChart, expenses: List<Expense>) {
         val monthKeyFormat = SimpleDateFormat("yyyy-MM", Locale.getDefault()) // For grouping
