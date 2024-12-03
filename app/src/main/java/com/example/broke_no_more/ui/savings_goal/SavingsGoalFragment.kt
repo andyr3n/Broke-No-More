@@ -145,12 +145,12 @@ class SavingsGoalFragment : Fragment() {
 
                         //Update amount left after added new expense
                         if(housingGoal != 0.0) {
-                            val amountLeft = housingGoal - totalCategoryAmount
+                            var amountLeft = housingGoal - totalCategoryAmount
                             if (amountLeft <= 0.0) {
                                 housingDetail.text =
-                                    "You have exceeded your budget by $${amountLeft.absoluteValue} !"
+                                    "You have exceeded your budget by $${String.format("%.2f", amountLeft.absoluteValue)} !"
                             } else {
-                                housingDetail.text = "You have $$amountLeft left in your budget !"
+                                housingDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
                             }
                             //Progress bar
                             housingProgress.progress =
@@ -165,12 +165,12 @@ class SavingsGoalFragment : Fragment() {
 
                         //Update amount left after added new expense
                         if(clothesGoal != 0.0) {
-                            val amountLeft = clothesGoal - totalCategoryAmount
+                            var amountLeft = clothesGoal - totalCategoryAmount
                             if (amountLeft <= 0.0) {
                                 clothesDetail.text =
-                                    "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                                    "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
                             } else {
-                                clothesDetail.text = "You have $$amountLeft left in your budget !"
+                                clothesDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
                             }
 
                             //Progress bar
@@ -186,12 +186,12 @@ class SavingsGoalFragment : Fragment() {
 
                         //Update amount left after added new expense
                         if(groceryGoal != 0.0) {
-                            val amountLeft = groceryGoal - totalCategoryAmount
+                            var amountLeft = groceryGoal - totalCategoryAmount
                             if (amountLeft <= 0.0) {
                                 groceryDetail.text =
-                                    "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                                    "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
                             } else {
-                                groceryDetail.text = "You have $$amountLeft left in your budget !"
+                                groceryDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
                             }
 
                             //Progress bar
@@ -207,13 +207,13 @@ class SavingsGoalFragment : Fragment() {
 
                         //Update amount left after added new expense
                         if(entertainmentGoal != 0.0) {
-                            val amountLeft = entertainmentGoal - totalCategoryAmount
+                            var amountLeft = entertainmentGoal - totalCategoryAmount
                             if (amountLeft <= 0.0) {
                                 entertainmentDetail.text =
-                                    "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                                    "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
                             } else {
                                 entertainmentDetail.text =
-                                    "You have $$amountLeft left in your budget !"
+                                    "You have $${String.format("%.2f", amountLeft)} left in your budget !"
                             }
 
                             //Progress bar
@@ -228,12 +228,12 @@ class SavingsGoalFragment : Fragment() {
 
                         //Update amount left after added new expense
                         if(uncategorizedGoal != 0.0){
-                            val amountLeft = uncategorizedGoal - totalCategoryAmount
+                            var amountLeft = uncategorizedGoal - totalCategoryAmount
                             if(amountLeft <= 0.0){
-                                uncategorizedDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                                uncategorizedDetail.text = "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
                             }
                             else{
-                                uncategorizedDetail.text = "You have $$amountLeft left in your budget !"
+                                uncategorizedDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
                             }
 
                             //Progress bar
@@ -250,12 +250,13 @@ class SavingsGoalFragment : Fragment() {
 
             if (it > 0.0){
                 //Update amount left
-                val amountLeft = it - grocerySpent
+                var amountLeft = it - grocerySpent
                 if(amountLeft <= 0.0){
-                    groceryDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                    groceryDetail.text = "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
                 }
-                else
-                    groceryDetail.text = "You have $$amountLeft left in your budget !"
+                else {
+                    groceryDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
+                }
 
                 //Update progress
                 groceryProgress.progress = ((grocerySpent/ it) * 100).toInt()
@@ -267,12 +268,12 @@ class SavingsGoalFragment : Fragment() {
 
             if(it > 0.0){
                 //Update amount left
-                val amountLeft = it - housingSpent
+                var amountLeft = it - housingSpent
                 if(amountLeft <= 0.0){
-                    housingDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                    housingDetail.text = "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
                 }
                 else{
-                    housingDetail.text = "You have $$amountLeft left in your budget !"
+                    housingDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
                 }
                 //Update progress
                 housingProgress.progress = ((housingSpent / it) * 100).toInt()
@@ -284,12 +285,12 @@ class SavingsGoalFragment : Fragment() {
 
             if(it > 0.0){
                 //Update amount left
-                val amountLeft = it - clothesSpent
+                var amountLeft = it - clothesSpent
                 if(amountLeft <= 0.0){
-                    clothesDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                    clothesDetail.text = "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
                 }
                 else{
-                    clothesDetail.text = "You have $$amountLeft left in your budget !"
+                    clothesDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
                 }
                 //Update progress
                 clothesProgress.progress = ((clothesSpent / it) * 100).toInt()
@@ -301,11 +302,14 @@ class SavingsGoalFragment : Fragment() {
 
             if(it > 0.0){
                 //Update amount left
-                val amountLeft = it - entertainmentSpent
-                if(amountLeft <= 0.0)
-                    entertainmentDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-                else
-                    entertainmentDetail.text = "You have $$amountLeft left in your budget !"
+                var amountLeft = it - entertainmentSpent
+                if(amountLeft <= 0.0) {
+                    entertainmentDetail.text =
+                        "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
+                }
+                else {
+                    entertainmentDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
+                }
 
                 //Update progress
                 entertainmentProgress.progress = ((entertainmentSpent / it) * 100).toInt()
@@ -317,11 +321,14 @@ class SavingsGoalFragment : Fragment() {
 
             if( it > 0.0){
                 //Update amount left
-                val amountLeft = it - uncategorizedSpent
-                if(amountLeft <= 0.0)
-                    uncategorizedDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-                else
-                    uncategorizedDetail.text = "You have $$amountLeft left in your budget !"
+                var amountLeft = it - uncategorizedSpent
+                if(amountLeft <= 0.0) {
+                    uncategorizedDetail.text =
+                        "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
+                }
+                else {
+                    uncategorizedDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
+                }
 
                 //Update progress
                 uncategorizedProgress.progress = ((uncategorizedSpent / it) * 100).toInt()
@@ -330,44 +337,56 @@ class SavingsGoalFragment : Fragment() {
 
         //Change the budget left (As default if have a goal amount)
         if(groceryGoal != 0.0){
-            val amountLeft = groceryGoal - grocerySpent
-            if(amountLeft <= 0.0)
-                groceryDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-            else
-                groceryDetail.text = "You have $$amountLeft left in your budget !"
+            var amountLeft = groceryGoal - grocerySpent
+            if(amountLeft <= 0.0) {
+                groceryDetail.text =
+                    "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
+            }
+            else{
+                groceryDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
+            }
 
             //Change the progress bar
             groceryProgress.progress = ((grocerySpent / groceryGoal) * 100).toInt()
         }
 
         if(housingGoal != 0.0){
-            val amountLeft = housingGoal - housingSpent
-            if(amountLeft <= 0.0)
-                housingDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-            else
-                housingDetail.text = "You have $$amountLeft left in your budget !"
+            var amountLeft = housingGoal - housingSpent
+            if(amountLeft <= 0.0) {
+                housingDetail.text =
+                    "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
+            }
+            else{
+                housingDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
+            }
 
             //Change the progress bar
             housingProgress.progress = ((housingSpent / housingGoal) * 100).toInt()
         }
 
         if(clothesGoal != 0.0){
-            val amountLeft = clothesGoal - clothesSpent
-            if(amountLeft <= 0.0)
-                clothesDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-            else
-                clothesDetail.text = "You have $$amountLeft left in your budget !"
+            var amountLeft = clothesGoal - clothesSpent
+            if(amountLeft <= 0.0) {
+                clothesDetail.text =
+                    "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
+            }
+            else {
+                clothesDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
+            }
 
             //Change Progress bar
             clothesProgress.progress = ((clothesSpent / clothesGoal) * 100).toInt()
         }
 
         if(entertainmentGoal != 0.0){
-            val amountLeft = entertainmentGoal - entertainmentSpent
-            if(amountLeft <= 0.0)
-                entertainmentDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-            else
-                entertainmentDetail.text = "You have $$amountLeft left in your budget !"
+            var amountLeft = entertainmentGoal - entertainmentSpent
+            if(amountLeft <= 0.0) {
+                entertainmentDetail.text =
+                    "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
+            }
+            else {
+                entertainmentDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
+            }
 
             //Change Progress bar
             entertainmentProgress.progress = ((entertainmentSpent / entertainmentGoal) * 100).toInt()
@@ -375,11 +394,12 @@ class SavingsGoalFragment : Fragment() {
 
         if( uncategorizedGoal != 0.0){
             val amountLeft = uncategorizedGoal - uncategorizedSpent
-            if(amountLeft <= 0.0)
-                uncategorizedDetail.text = "You have exceeded your budget by ${amountLeft.absoluteValue} !"
-            else
-                uncategorizedDetail.text = "You have $$amountLeft left in your budget !"
-
+            if(amountLeft <= 0.0){
+                uncategorizedDetail.text = "You have exceeded your budget by ${String.format("%.2f", amountLeft.absoluteValue)} !"
+            }
+            else {
+                uncategorizedDetail.text = "You have $${String.format("%.2f", amountLeft)} left in your budget !"
+            }
             //Change Progress bar
             uncategorizedProgress.progress = ((uncategorizedSpent / uncategorizedGoal) * 100).toInt()
         }
