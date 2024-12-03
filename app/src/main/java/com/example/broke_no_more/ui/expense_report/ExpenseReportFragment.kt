@@ -19,6 +19,7 @@ import com.example.broke_no_more.database.ExpenseRepository
 import com.example.broke_no_more.database.ExpenseViewModel
 import com.example.broke_no_more.database.ExpenseViewModelFactory
 import com.example.broke_no_more.database.HistoryFragment
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.XAxis
@@ -113,7 +114,16 @@ class ExpenseReportFragment : Fragment() {
         pieChart.description.isEnabled = false
         pieChart.setUsePercentValues(true)
         pieChart.setDrawHoleEnabled(false)
-        pieChart.setEntryLabelColor(Color.TRANSPARENT) // Hide labels on pie slices
+        pieChart.setEntryLabelColor(Color.TRANSPARENT)
+        pieChart.isDrawHoleEnabled = true
+        pieChart.setHoleRadius(50f)
+        pieChart.setTransparentCircleRadius(55f)
+        pieChart.setTransparentCircleColor(Color.WHITE)
+        pieChart.setTransparentCircleAlpha(10)
+        pieChart.setRotationEnabled(true)
+        pieChart.setRotationAngle(10f)
+        pieChart.animateY(1400, Easing.EaseInOutQuad)
+
 
         // Configure the legend
         val legend = pieChart.legend
