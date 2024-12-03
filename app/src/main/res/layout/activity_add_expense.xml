@@ -17,15 +17,6 @@
     android:layout_height="wrap_content"
     tools:context=".ui.add_expense.AddExpenseFragment">
 
-    <ImageView
-        android:id="@+id/receipt_image"
-        android:layout_width="1dp"
-        android:layout_height="6dp"
-        android:layout_marginTop="100dp"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.598"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button"
