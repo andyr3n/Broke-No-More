@@ -140,9 +140,10 @@ class ExpenseReportFragment : Fragment() {
         legend.orientation = com.github.mikephil.charting.components.Legend.LegendOrientation.HORIZONTAL
         legend.setDrawInside(false)
         legend.textColor = Color.BLACK
-        legend.textSize = 16f // text size
+        legend.textSize = 15f // text size
         legend.isWordWrapEnabled = true
         legend.xEntrySpace = 8f
+        legend.typeface = Typeface.create("sans-serif", Typeface.BOLD)
         //legend.yEntrySpace = 0f
         //legend.xEntrySpace = 20f // horizontal spacing
         //legend.yOffset = 20f // vertical spacing
