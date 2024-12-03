@@ -190,33 +190,55 @@ class ExpenseReportFragment : Fragment() {
             BarEntry(index.toFloat(), total)
         }
 
-        // Configure the BarDataSet
         val barDataSet = BarDataSet(entries, "Monthly Spending")
-        barDataSet.color = Color.CYAN
-        barDataSet.valueTextColor = Color.BLACK
-        barDataSet.valueTextSize = 12f
+        barDataSet.color = Color.parseColor("#999999")
+        barDataSet.valueTextColor = Color.parseColor("#999999")
+        barDataSet.valueTypeface = Typeface.create("sans-serif", Typeface.BOLD)
+        barDataSet.valueTextSize = 15f
+        barDataSet.setDrawValues(true)
+        barDataSet.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return "$${value.toInt()}"
+            }
+        }
 
-        // Configure BarData and assign it to the BarChart
         val barData = BarData(barDataSet)
-        barData.barWidth = 0.5f
+        barData.barWidth = 0.8f
         barChart.data = barData
 
-        // Configure x-axis with ascending month labels
         val xAxis = barChart.xAxis
-        xAxis.valueFormatter = IndexAxisValueFormatter(monthLabels) // Month names as x-axis labels
+        xAxis.valueFormatter = IndexAxisValueFormatter(monthLabels)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.textColor = Color.BLACK
-        xAxis.textSize = 12f
+        xAxis.textColor = Color.parseColor("#666666")
+        xAxis.typeface = Typeface.create("sans-serif", Typeface.BOLD)
+        xAxis.textSize = 15f
         xAxis.granularity = 1f
         xAxis.isGranularityEnabled = true
+        xAxis.setDrawGridLines(false)
+        xAxis.axisLineWidth = 2f
 
-        // Configure other chart settings
+        val yAxis = barChart.axisLeft
+        yAxis.textColor = Color.parseColor("#666666")
+        yAxis.typeface = Typeface.create("sans-serif", Typeface.BOLD)
+        yAxis.axisMinimum = 0f
+        yAxis.textSize = 15f
+        yAxis.setDrawGridLines(false)
+        yAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return "$${value.toInt()}"
+            }
+        }
+        yAxis.axisLineWidth = 2f
+
+        barChart.axisRight.isEnabled = false
         barChart.description.isEnabled = false
         barChart.setFitBars(true)
-        barChart.axisLeft.textColor = Color.BLACK
-        barChart.axisLeft.axisMinimum = 0f // Ensure the y-axis starts from 0
-        barChart.axisRight.isEnabled = false
-        barChart.legend.textColor = Color.BLACK
+        barChart.legend.isEnabled = false
+        barChart.animateY(1000)
+        barChart.setPinchZoom(false)
+        barChart.setScaleEnabled(false)
+        barChart.setExtraBottomOffset(20f)
+
 
         // Refresh the BarChart
         barChart.invalidate()
