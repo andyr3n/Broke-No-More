@@ -110,7 +110,6 @@ class ExpenseReportFragment : Fragment() {
         dataSet.valueTextSize = 16f
 
         val data = PieData(dataSet)
-        pieChart.data = data
         pieChart.description.isEnabled = false
         pieChart.setUsePercentValues(true)
         pieChart.setDrawHoleEnabled(false)
@@ -124,18 +123,20 @@ class ExpenseReportFragment : Fragment() {
         pieChart.setRotationAngle(10f)
         pieChart.animateY(1400, Easing.EaseInOutQuad)
 
-
         // Configure the legend
         val legend = pieChart.legend
         legend.isEnabled = true
         legend.verticalAlignment = com.github.mikephil.charting.components.Legend.LegendVerticalAlignment.BOTTOM
-        legend.horizontalAlignment = com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER
         legend.orientation = com.github.mikephil.charting.components.Legend.LegendOrientation.HORIZONTAL
         legend.setDrawInside(false)
         legend.textColor = Color.BLACK
-        legend.textSize = 15f // text size
-        legend.xEntrySpace = 20f // horizontal spacing
-        legend.yOffset = 20f // vertical spacing
+        legend.textSize = 12f // text size
+        legend.isWordWrapEnabled = true
+        legend.xEntrySpace = 8f
+        //legend.yEntrySpace = 0f
+        //legend.xEntrySpace = 20f // horizontal spacing
+        //legend.yOffset = 20f // vertical spacing
+        pieChart.data = data
         pieChart.invalidate()
     }
 
