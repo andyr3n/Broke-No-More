@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/nav_expense_report"
         android:name="com.example.broke_no_more.ui.expense_report.ExpenseReportFragment"
-        android:label="Expense Report"
+        android:label="Insight"
         tools:layout="@layout/expense_report"/>
 
     <fragment
@@ -41,7 +41,7 @@
     <fragment
         android:id="@+id/nav_savings_goal"
         android:name="com.example.broke_no_more.ui.SavingsGoal.SavingsGoalFragment"
-        android:label="Savings Goal"
+        android:label="Budget"
         tools:layout="@layout/fragment_savings_goal" />
 
     <!-- Crypto Fragment -->

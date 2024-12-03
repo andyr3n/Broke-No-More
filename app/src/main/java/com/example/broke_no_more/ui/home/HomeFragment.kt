@@ -111,7 +111,7 @@ class HomeFragment : Fragment(){
                 if(daysLeft >= 0 && count <= 3) {
                     addSubsriptionButton.text = "See More"//Change status if there are subscriptions saved
                     textNoSubscription.visibility = View.GONE//Remove text for no subscription
-                    displayPaymentDue(entry.subscriptionName, daysLeft, entry.amount)
+                    displayPaymentDue(entry.name, daysLeft, entry.amount)
                     count++
                 }
             }
