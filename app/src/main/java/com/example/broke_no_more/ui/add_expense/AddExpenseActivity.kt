@@ -204,13 +204,14 @@ class AddExpenseActivity : AppCompatActivity() {
         val categorySpinner: Spinner = binding.categorySpinner
         val nameEditText = binding.expenseName
 
+        val nameText = nameEditText.text.toString()
         val amountText = amountEditText.text.toString()
         val dateText = dateEditText.text.toString()
         val commentText = commentEditText.text.toString()
         val selectedCategory = categorySpinner.selectedItem.toString()
 
         // Validate the inputs
-        if (amountText.isEmpty() || dateText.isEmpty() || selectedCategory.isEmpty()) {
+        if (nameText.isEmpty() || amountText.isEmpty() || dateText.isEmpty() || selectedCategory.isEmpty()) {
             Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
             return
         }
