@@ -6,10 +6,12 @@
     android:background="#F5F5F5"
     android:clickable="true"
     android:focusable="true">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
         android:background="@android:color/white">
@@ -205,5 +207,9 @@
             android:text="Delete Expense"
             android:textAllCaps="false">
         </Button>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="128dp"/>
     </LinearLayout>
+</ScrollView>
 </FrameLayout>
