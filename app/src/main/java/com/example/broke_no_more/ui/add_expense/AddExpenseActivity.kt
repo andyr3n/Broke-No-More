@@ -234,10 +234,12 @@ class AddExpenseActivity : AppCompatActivity() {
         //Change Recurrence status based on what user chose
         when(recurrenceSpinner.selectedItem.toString()){
             "Monthly" ->{
+                expense.category = "Subscription"
                 expense.isSubscription = true
                 expense.isMonthly = true
             }
             "Annually" ->{
+                expense.category = "Subscription"
                 expense.isSubscription = true
                 expense.isAnnually = true
             }

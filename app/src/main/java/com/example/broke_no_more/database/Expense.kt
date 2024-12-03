@@ -22,12 +22,12 @@ data class Expense(
 //    @ColumnInfo(name = "expense_category")
 
     @ColumnInfo(name = "expense_column")
-    var name: String = "null",
+    var name: String = "",
     var date: Calendar = Calendar.getInstance(),
     var amount: Double = 0.0,
-    val comment: String? = null,
+    var comment: String? = null,
     var isSubscription: Boolean = false,
-    val category: String = "Miscellaneous",
+    var category: String = "Miscellaneous",
     var isMonthly: Boolean = false,
     var isAnnually: Boolean = false
 )
