@@ -131,7 +131,7 @@ class AIChatDialogFragment : DialogFragment() {
         }
 
         return """
-            You are a financial assistant. Reply according to the user message, if user asks non relating questions, reply accordingly:
+            You are a financial assistant. Give actionable advice based on this data, if user asks non relating questions, reply accordingly:
             
             User's Message: "$userMessage"
             
@@ -143,7 +143,6 @@ class AIChatDialogFragment : DialogFragment() {
             - Expense Breakdown by Category:
             $categoryDetails
 
-            Give actionable advice based on this data.
         """.trimIndent()
     }
 
