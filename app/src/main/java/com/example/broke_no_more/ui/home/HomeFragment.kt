@@ -162,12 +162,9 @@ class HomeFragment : Fragment(){
 
         val daysInMonth = getDaysInMonth(calendar)
 
-        val expensesByDate = this.expenseViewModel.allEntriesLiveData.value?.groupBy {
-            val date = it.date.time
-            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
-        } ?: emptyMap()
+        val allExpenses = this.expenseViewModel.allEntriesLiveData.value
 
-        calendarAdapter = CalendarAdapter(daysInMonth, expensesByDate, calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)) { date ->
+        calendarAdapter = CalendarAdapter(daysInMonth, allExpenses, calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)) { date ->
             showExpensesDialog(date)
         }
         binding.calendarRecyclerView.adapter = calendarAdapter

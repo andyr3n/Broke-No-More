@@ -13,7 +13,7 @@ import java.util.*
 
 class CalendarAdapter(
     private val days: List<Date>,
-    private val expensesByDate: Map<String, List<Expense>>,
+    private val allExpenses: List<Expense>?,
     private val currentMonth: Int,
     private val currentYear: Int,
     private val onDateClick: (Date) -> Unit
@@ -53,7 +53,22 @@ class CalendarAdapter(
         if (isSameMonth) {
             holder.itemView.visibility = View.VISIBLE
             val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
-            holder.bind(date, expensesByDate[formattedDate] ?: emptyList())
+            if (allExpenses != null) {
+                val filteredExpenses = allExpenses.filter { expense ->
+                    val expenseDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(expense.date.time)
+                    val selectedCalendar = Calendar.getInstance().apply {
+                        time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(formattedDate)
+                    }
+                    val isSameDay = expenseDate == formattedDate
+                    val isMonthlySubscription = expense.isMonthly &&
+                            expense.date.get(Calendar.DAY_OF_MONTH) == selectedCalendar.get(Calendar.DAY_OF_MONTH)
+                    val isAnnualSubscription = expense.isAnnually &&
+                            expense.date.get(Calendar.DAY_OF_MONTH) == selectedCalendar.get(Calendar.DAY_OF_MONTH) &&
+                            expense.date.get(Calendar.MONTH) == selectedCalendar.get(Calendar.MONTH)
+                    isSameDay || isMonthlySubscription || isAnnualSubscription
+                }
+                holder.bind(date, filteredExpenses)
+            }
             holder.itemView.setOnClickListener { onDateClick(date) }
         } else {
             holder.itemView.visibility = View.INVISIBLE

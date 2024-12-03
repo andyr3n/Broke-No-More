@@ -1,5 +1,6 @@
 package com.example.broke_no_more.ui
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -71,7 +72,21 @@ class ExpensesDialogFragment : DialogFragment() {
 
             val filteredExpenses = it.filter { expense ->
                 val expenseDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(expense.date.time)
-                expenseDate == formattedSelectedDate
+
+                val selectedCalendar = Calendar.getInstance().apply {
+                    time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(formattedSelectedDate)
+                }
+
+                val isSameDay = expenseDate == formattedSelectedDate
+
+                val isMonthlySubscription = expense.isMonthly &&
+                        expense.date.get(Calendar.DAY_OF_MONTH) == selectedCalendar.get(Calendar.DAY_OF_MONTH)
+
+                val isAnnualSubscription = expense.isAnnually &&
+                        expense.date.get(Calendar.DAY_OF_MONTH) == selectedCalendar.get(Calendar.DAY_OF_MONTH) &&
+                        expense.date.get(Calendar.MONTH) == selectedCalendar.get(Calendar.MONTH)
+
+                isSameDay || isMonthlySubscription || isAnnualSubscription
             }
             if (filteredExpenses.isEmpty()) {
                 emptyTextView.visibility = View.VISIBLE
