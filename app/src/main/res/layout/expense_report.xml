@@ -6,11 +6,14 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5"
     tools:context=".ui.expense_report.ExpenseReportFragment">
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:id="@+id/expense_report">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,7 +133,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:layout_marginBottom="64dp"
+                android:layout_marginBottom="4dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -172,8 +175,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="128dp" />
-
-    </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
 </ScrollView>
 
 
