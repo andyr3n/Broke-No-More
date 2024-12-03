@@ -108,7 +108,7 @@ class HomeFragment : Fragment(){
             var count = 0
             for(entry in it){
                 val daysLeft = calculateDayLeft(entry.date.get(Calendar.DAY_OF_MONTH))
-                if(daysLeft >= 0 && count <= 3) {
+                if(daysLeft >= 0 && count < 3) {
                     textNoSubscription.visibility = View.GONE//Remove text for no subscription
                     displayPaymentDue(entry.name, daysLeft, entry.amount)
                     count++
