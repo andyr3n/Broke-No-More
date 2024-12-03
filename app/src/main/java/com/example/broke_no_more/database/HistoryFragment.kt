@@ -49,6 +49,7 @@ class HistoryFragment : Fragment() {
             expense.let {
                 val bundle = Bundle().apply {
                     putLong("id", it.id)
+                    putString("name", it.name)
                     putString("date", it.date.time.toString())
                     putDouble("amount", it.amount)
                     putString("comment", it.comment)
