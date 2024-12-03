@@ -3,6 +3,7 @@ package com.example.broke_no_more.ui.register
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -23,7 +24,7 @@ class SignInActivity : AppCompatActivity() {
     private var isDotAnimating = true
 
     private fun startTypingAnimation() {
-        val handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
         tvTitle.text = ""
 
         // Typing animation for "Broke No More"
@@ -60,7 +61,7 @@ class SignInActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        isDotAnimating = false // Stop animation when activity is destroyed
+        isDotAnimating = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +69,7 @@ class SignInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_in)
 
         tvTitle = findViewById(R.id.tvTitle)
-        btnLoginAsGuest = findViewById(R.id.btnLoginAsGuest) // Initialize the new button
+        btnLoginAsGuest = findViewById(R.id.btnLoginAsGuest)
 
         startTypingAnimation()
 
@@ -98,10 +99,10 @@ class SignInActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         val user = auth.currentUser
                         if (user != null && user.isEmailVerified) {
-                            // Navigate to MainActivity
-                            val intent = Intent(this, MainActivity::class.java)
-                            intent.putExtra("navigateToHome", true)
-                            startActivity(intent)
+                            // Navigate to AnimationHomepage
+                            val animationIntent = Intent(this, AnimationHomepage::class.java)
+                            animationIntent.putExtra("navigateToHome", true)
+                            startActivity(animationIntent)
                             finish()
                         } else {
                             Toast.makeText(
@@ -152,10 +153,10 @@ class SignInActivity : AppCompatActivity() {
 
         // Handle "Login as Guest" Button click
         btnLoginAsGuest.setOnClickListener {
-            // Navigate to MainActivity without authentication
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("isGuest", true) // Optional: Pass an extra to indicate guest login
-            startActivity(intent)
+            // Navigate to AnimationHomepage with guest login flag
+            val animationIntent = Intent(this, AnimationHomepage::class.java)
+            animationIntent.putExtra("isGuest", true)
+            startActivity(animationIntent)
             finish()
         }
     }
