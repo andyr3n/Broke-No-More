@@ -2,12 +2,16 @@ package com.example.broke_no_more.assistant
 
 import android.app.Dialog
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.room.Room
@@ -31,6 +35,7 @@ class AIChatDialogFragment : DialogFragment() {
     private lateinit var userInput: EditText
     private lateinit var sendButton: Button
     private lateinit var chatOutput: TextView
+    private lateinit var chatScrollView: ScrollView
     private lateinit var database: ExpenseDatabase
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -49,6 +54,7 @@ class AIChatDialogFragment : DialogFragment() {
         userInput = view.findViewById(R.id.userInput)
         sendButton = view.findViewById(R.id.sendButton)
         chatOutput = view.findViewById(R.id.chatOutput)
+        chatScrollView = view.findViewById(R.id.chatScrollView)
 
         // Initialize Room Database
         database = Room.databaseBuilder(
@@ -56,6 +62,9 @@ class AIChatDialogFragment : DialogFragment() {
             ExpenseDatabase::class.java,
             "expense_database"
         ).build()
+
+        // Display a welcome message from the AI when the chat opens
+        displayStartMessage()
 
         sendButton.setOnClickListener {
             val userMessage = userInput.text.toString().trim()
@@ -67,9 +76,17 @@ class AIChatDialogFragment : DialogFragment() {
         return view
     }
 
+    private fun displayStartMessage() {
+        appendMessageToChat("AI", """
+            Hello! I'm your financial assistant. 
+            I can help you analyze your expenses, provide personalized financial tips, and answer your queries.
+            How can I assist you today?
+        """.trimIndent())
+    }
+
     private fun sendMessage(message: String) {
         // Display the user's message in the chat output
-        chatOutput.append("You: $message\n")
+        appendMessageToChat("You", message)
         userInput.text.clear()
 
         // Use OpenAI API to get a response
@@ -88,11 +105,11 @@ class AIChatDialogFragment : DialogFragment() {
 
                 // Update UI on the main thread
                 CoroutineScope(Dispatchers.Main).launch {
-                    chatOutput.append("AI: $responseText\n")
+                    appendMessageToChat("AI", responseText)
                 }
             } catch (e: Exception) {
                 CoroutineScope(Dispatchers.Main).launch {
-                    chatOutput.append("Error: Unable to fetch a response.\n")
+                    appendMessageToChat("AI", "Error: Unable to fetch a response.")
                 }
             }
         }
@@ -114,22 +131,21 @@ class AIChatDialogFragment : DialogFragment() {
         }
 
         return """
-        You are a financial assistant. Provide tailored financial tips for the following user:
-        
-        User's Message: "$userMessage"
-        
-        Financial Data:
-        - Total Monthly Expenses: $$totalExpense
-        - Subscriptions:
-        $subscriptionDetails
+            You are a financial assistant. Reply according to the user message, if user asks non relating questions, reply accordingly:
+            
+            User's Message: "$userMessage"
+            
+            Financial Data:
+            - Total Monthly Expenses: $$totalExpense
+            - Subscriptions:
+            $subscriptionDetails
 
-        - Expense Breakdown by Category:
-        $categoryDetails
+            - Expense Breakdown by Category:
+            $categoryDetails
 
-        Give actionable advice based on this data.
-    """.trimIndent()
+            Give actionable advice based on this data.
+        """.trimIndent()
     }
-
 
     private fun fetchResponseFromAPI(message: String): String {
         val apiKey = BuildConfig.OPENAI_API_KEY
@@ -176,7 +192,28 @@ class AIChatDialogFragment : DialogFragment() {
             "Error: Unable to fetch a response."
         }
     }
+
+    private fun appendMessageToChat(sender: String, message: String) {
+        val spannableSender = SpannableString("$sender: ").apply {
+            setSpan(StyleSpan(android.graphics.Typeface.BOLD), 0, this.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            chatOutput.append(spannableSender)
+            chatOutput.append(message)
+            chatOutput.append("\n\n") // Add margin between messages
+            scrollToBottom()
+        }
+    }
+
+    private fun scrollToBottom() {
+        chatScrollView.post {
+            chatScrollView.fullScroll(View.FOCUS_DOWN)
+        }
+    }
 }
+
+
+
 
 
 
