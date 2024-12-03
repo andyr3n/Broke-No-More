@@ -103,8 +103,7 @@
                 android:backgroundTint="#000000"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:padding="14dp"
-                android:layout_marginBottom="12dp" />
+                android:padding="14dp">
 
             <!-- Login as Guest Button with Removed Bottom Margin -->
             <Button
@@ -112,11 +111,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Login as Guest"
-                android:backgroundTint="#7F7F7F"
-                android:textColor="#FFFFFF"
+                android:backgroundTint="#ffeba7"
+                android:textColor="#000000"
                 android:textStyle="bold"
                 android:padding="14dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="12dp" />
 
             <TextView
                 android:id="@+id/tvForgotPassword"
