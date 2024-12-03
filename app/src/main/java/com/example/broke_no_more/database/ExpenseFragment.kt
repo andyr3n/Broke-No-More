@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +21,7 @@ class ExpenseFragment : Fragment() {
     private lateinit var commentEditText: EditText
     private lateinit var categoryEditText: EditText
     private lateinit var expenseViewModel: ExpenseViewModel
+    private lateinit var deleteBtn: Button
     private var expenseId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +55,15 @@ class ExpenseFragment : Fragment() {
         amountEditText.setText("$" + amount.toString())
         commentEditText.setText(comment.toString())
         categoryEditText.setText(category.toString())
+
+        //Delete expense
+        deleteBtn = view.findViewById(R.id.delete_expense_button)
+        deleteBtn.setOnClickListener{
+            if(expenseId != null){
+                expenseViewModel.deleteExpenseById(expenseId!!)//Delete current expense viewing
+                parentFragmentManager.popBackStack()//Going back to HomeFragment
+            }
+        }
 
         return view
     }
