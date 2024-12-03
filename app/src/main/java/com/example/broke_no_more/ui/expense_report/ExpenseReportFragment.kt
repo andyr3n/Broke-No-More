@@ -90,8 +90,8 @@ class ExpenseReportFragment : Fragment() {
         val categoryTotals = expenses.groupBy { it.category }
             .mapValues { entry -> entry.value.sumOf { it.amount } }
 
-        val entries = categoryTotals.map { (_, total) ->
-            PieEntry(total.toFloat())
+        val entries = categoryTotals.map { (category, total) ->
+            PieEntry(total.toFloat(), category) // Include category name for legend
         }
 
         val colors = listOf(
@@ -102,19 +102,32 @@ class ExpenseReportFragment : Fragment() {
             Color.parseColor("#9E9E9E")  // Miscellaneous
         )
 
-        val dataSet = PieDataSet(entries, "Expense Categories")
+        val dataSet = PieDataSet(entries, "")
         dataSet.colors = colors
         dataSet.valueTextColor = Color.BLACK
-        dataSet.valueTextSize = 12f
+        dataSet.valueTextSize = 16f
 
         val data = PieData(dataSet)
         pieChart.data = data
         pieChart.description.isEnabled = false
         pieChart.setUsePercentValues(true)
         pieChart.setDrawHoleEnabled(false)
-        pieChart.setEntryLabelColor(Color.TRANSPARENT) // Hide labels by making them transparent
+        pieChart.setEntryLabelColor(Color.TRANSPARENT) // Hide labels on pie slices
+
+        // Configure the legend
+        val legend = pieChart.legend
+        legend.isEnabled = true
+        legend.verticalAlignment = com.github.mikephil.charting.components.Legend.LegendVerticalAlignment.BOTTOM
+        legend.horizontalAlignment = com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER
+        legend.orientation = com.github.mikephil.charting.components.Legend.LegendOrientation.HORIZONTAL
+        legend.setDrawInside(false)
+        legend.textColor = Color.BLACK
+        legend.textSize = 15f // text size
+        legend.xEntrySpace = 20f // horizontal spacing
+        legend.yOffset = 20f // vertical spacing
         pieChart.invalidate()
     }
+
 
 
     private fun updateBarChart(barChart: BarChart, expenses: List<Expense>) {
