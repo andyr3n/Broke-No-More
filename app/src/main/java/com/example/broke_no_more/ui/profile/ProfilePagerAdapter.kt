@@ -64,11 +64,11 @@ class ProfilePagerAdapter(
         fun bind() {
             // Load and display the "Saving For" value
             binding.textViewSavingFor.text =
-                sharedPreferences.getString("saving_for", "Add your goal !")
+                sharedPreferences.getString("saving_for", "")
 
             // Load and display the "Wallet" value
             binding.textViewWallet.text =
-                sharedPreferences.getString("wallet", "How much do you have ?")
+                sharedPreferences.getString("wallet", "")
 
             // Load and display the profile image
             val imagePath = sharedPreferences.getString("profile_image_path", null)
@@ -121,10 +121,10 @@ class ProfilePagerAdapter(
 
         fun bind() {
             // Load and display personal details
-            binding.textViewName.text = sharedPreferences.getString("name", "Enter your name")
-            binding.textViewAge.text = sharedPreferences.getString("age", "Enter your age")
-            binding.textViewJob.text = sharedPreferences.getString("job", "Enter your job")
-            binding.textViewHobby.text = sharedPreferences.getString("hobby", "Enter your hobby")
+            binding.textViewName.text = sharedPreferences.getString("name", "")
+            binding.textViewAge.text = sharedPreferences.getString("age", "")
+            binding.textViewJob.text = sharedPreferences.getString("job", "")
+            binding.textViewHobby.text = sharedPreferences.getString("hobby", "")
 
 
             // Handle "Name" Field Click

@@ -10,7 +10,6 @@
         android:id="@+id/editTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter value"
         android:textSize="16sp" />
 
 </LinearLayout>
