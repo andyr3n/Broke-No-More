@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.room.Room
 import com.example.broke_no_more.BuildConfig
 import com.example.broke_no_more.R
+import com.example.broke_no_more.database.CategoryExpense
 import com.example.broke_no_more.database.Expense
 import com.example.broke_no_more.database.ExpenseDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -74,13 +75,18 @@ class AIChatDialogFragment : DialogFragment() {
         // Use OpenAI API to get a response
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                // Fetch data from the database
                 val expenses = database.expenseDatabaseDao.getAllExpenses()
                 val subscriptions = database.expenseDatabaseDao.getAllSubscriptions()
+                val categoryBreakdown = database.expenseDatabaseDao.getCategoryExpenseBreakdown()
 
-                val personalizedPrompt = buildPersonalizedPrompt(message, expenses, subscriptions)
+                // Generate a personalized prompt
+                val personalizedPrompt = buildPersonalizedPrompt(message, expenses, subscriptions, categoryBreakdown)
 
+                // Call OpenAI API with the personalized prompt
                 val responseText = fetchResponseFromAPI(personalizedPrompt)
 
+                // Update UI on the main thread
                 CoroutineScope(Dispatchers.Main).launch {
                     chatOutput.append("AI: $responseText\n")
                 }
@@ -95,26 +101,35 @@ class AIChatDialogFragment : DialogFragment() {
     private fun buildPersonalizedPrompt(
         userMessage: String,
         expenses: List<Expense>,
-        subscriptions: List<Expense>
+        subscriptions: List<Expense>,
+        categoryBreakdown: List<CategoryExpense>
     ): String {
         val totalExpense = expenses.sumOf { it.amount }
         val subscriptionDetails = subscriptions.joinToString("\n") {
             "- ${it.name}: \$${it.amount} (${if (it.isMonthly) "Monthly" else "Annually"})"
         }
 
-        return """
-            You are a financial assistant. Provide tailored financial tips for the following user:
-            
-            User's Message: "$userMessage"
-            
-            Financial Data:
-            - Total Monthly Expenses: $$totalExpense
-            - Subscriptions:
-            $subscriptionDetails
+        val categoryDetails = categoryBreakdown.joinToString("\n") {
+            "- ${it.category}: \$${"%.2f".format(it.total)}"
+        }
 
-            Give actionable advice based on this data.
-        """.trimIndent()
+        return """
+        You are a financial assistant. Provide tailored financial tips for the following user:
+        
+        User's Message: "$userMessage"
+        
+        Financial Data:
+        - Total Monthly Expenses: $$totalExpense
+        - Subscriptions:
+        $subscriptionDetails
+
+        - Expense Breakdown by Category:
+        $categoryDetails
+
+        Give actionable advice based on this data.
+    """.trimIndent()
     }
+
 
     private fun fetchResponseFromAPI(message: String): String {
         val apiKey = BuildConfig.OPENAI_API_KEY
