@@ -127,12 +127,15 @@ class SavingsGoalFragment : Fragment() {
 
         //Observe every time add a new entry or delete an entry to change total amount for each category
         expenseViewModel.allEntriesLiveData.observe(viewLifecycleOwner) { expense ->
+            val categoryList = listOf("Housing", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
+
             //Group expense by group
             val categoryTotals = expense.groupBy { it.category }
                 .mapValues { entry -> entry.value.sumOf { it.amount } }
 
             //Loop through each category and save new total amount
-            categoryTotals.forEach{(category, totalCategoryAmount) ->
+            categoryList.forEach{ category ->
+                val totalCategoryAmount = categoryTotals[category] ?: 0.0
                 when(category){
                     "Housing" ->{
                         //Save new total spent amount
@@ -145,7 +148,7 @@ class SavingsGoalFragment : Fragment() {
                             val amountLeft = housingGoal - totalCategoryAmount
                             if (amountLeft <= 0.0) {
                                 housingDetail.text =
-                                    "You have exceeded your budget by ${amountLeft.absoluteValue} !"
+                                    "You have exceeded your budget by $${amountLeft.absoluteValue} !"
                             } else {
                                 housingDetail.text = "You have $$amountLeft left in your budget !"
                             }
