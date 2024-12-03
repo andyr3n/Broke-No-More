@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    android:paddingBottom="80dp"
     tools:context=".ui.expense_report.ExpenseReportFragment">
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:id="@+id/expense_report">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -115,7 +115,7 @@
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/monthlyBarChart"
                         android:layout_width="0dp"
-                        android:layout_height="200dp"
+                        android:layout_height="128dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -169,7 +169,11 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="128dp" />
+
+    </LinearLayout>
 </ScrollView>
 
 

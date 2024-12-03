@@ -200,7 +200,7 @@
                 android:textAllCaps="false"
                 android:text="Add Subscription"
                 android:textSize="16sp"
-                android:layout_marginBottom="256dp"
+                android:layout_marginBottom="128dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:layout_marginTop="4dp"
