@@ -98,12 +98,12 @@ class ExpenseReportFragment : Fragment() {
         }
 
         val colors = listOf(
-            Color.parseColor("#FF5722"), // Rent
-            Color.parseColor("#FFC107"), // Grocery
-            Color.parseColor("#03A9F4"), // Clothes
-            Color.parseColor("#8BC34A"), // Entertainment
-            Color.parseColor("#9772ED"), //Subscription
-            Color.parseColor("#9E9E9E")  // Miscellaneous
+            Color.parseColor("#FFD700"),
+            Color.parseColor("#FF6347"),
+            Color.parseColor("#40E0D0"),
+            Color.parseColor("#8A2BE2"),
+            Color.parseColor("#9772ED"),
+            Color.parseColor("#9E9E9E")
         )
 
         val dataSet = PieDataSet(entries, "")
@@ -125,13 +125,14 @@ class ExpenseReportFragment : Fragment() {
         pieChart.setDrawHoleEnabled(false)
         pieChart.setEntryLabelColor(Color.TRANSPARENT)
         pieChart.isDrawHoleEnabled = true
-        pieChart.setHoleRadius(50f)
-        pieChart.setTransparentCircleRadius(55f)
+        pieChart.setHoleRadius(60f)
+        pieChart.setTransparentCircleRadius(65f)
         pieChart.setTransparentCircleColor(Color.WHITE)
         pieChart.setTransparentCircleAlpha(10)
         pieChart.setRotationEnabled(true)
         pieChart.setRotationAngle(10f)
         pieChart.animateY(1400, Easing.EaseInOutQuad)
+
 
         // Configure the legend
         val legend = pieChart.legend
@@ -140,9 +141,10 @@ class ExpenseReportFragment : Fragment() {
         legend.orientation = com.github.mikephil.charting.components.Legend.LegendOrientation.HORIZONTAL
         legend.setDrawInside(false)
         legend.textColor = Color.BLACK
-        legend.textSize = 16f // text size
+        legend.textSize = 15f // text size
         legend.isWordWrapEnabled = true
         legend.xEntrySpace = 8f
+        legend.typeface = Typeface.create("sans-serif", Typeface.BOLD)
         //legend.yEntrySpace = 0f
         //legend.xEntrySpace = 20f // horizontal spacing
         //legend.yOffset = 20f // vertical spacing

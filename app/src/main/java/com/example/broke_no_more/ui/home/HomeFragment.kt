@@ -109,7 +109,6 @@ class HomeFragment : Fragment(){
             for(entry in it){
                 val daysLeft = calculateDayLeft(entry.date.get(Calendar.DAY_OF_MONTH))
                 if(daysLeft >= 0 && count <= 3) {
-                    addSubsriptionButton.text = "See More"//Change status if there are subscriptions saved
                     textNoSubscription.visibility = View.GONE//Remove text for no subscription
                     displayPaymentDue(entry.name, daysLeft, entry.amount)
                     count++
