@@ -38,18 +38,19 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
 
         //Calculate how many days left from until due date
         val daysLeft = calculateDayLeft(subscriptionDate.get(Calendar.YEAR),
-            subscriptionDate.get(Calendar.MONTH), subscriptionDate.get(Calendar.DAY_OF_MONTH))
+            subscriptionDate.get(Calendar.MONTH), subscriptionDate.get(Calendar.DAY_OF_MONTH),
+            subscription.isAnnually)
 
         //Set textView to saved information
         holder.paymentName.text = subscription.subscriptionName
-        if (subscription.isAnnually)
-            holder.paymentDue.text = "${subscriptionDate.time}"
-        else{
-            if(daysLeft < 0)
-                holder.paymentDue.text = "Past Due!"
-            else
-                holder.paymentDue.text = "Due in $daysLeft days"
+
+        if(daysLeft < 0) {
+            holder.paymentDue.text = "Past Due!"
         }
+        else {
+            holder.paymentDue.text = "Due in $daysLeft days"
+        }
+
         holder.paymentAmount.text = "$${subscription.amount}"
     }
 
@@ -64,13 +65,14 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun calculateDayLeft(selectedYear: Int, selectedMonth: Int, selectedDay: Int): Long {
+    private fun calculateDayLeft(selectedYear: Int, selectedMonth: Int, selectedDay: Int, isAnnually: Boolean): Long {
         println("Selected day is: $selectedDay/ ${selectedMonth + 1}/ $selectedYear")
         val dueDate = LocalDate.of(selectedYear, selectedMonth + 1, selectedDay)
         val today = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1,
             calendar.get(Calendar.DAY_OF_MONTH))
 
         //Calculate how many days left from today until due date
+        val currentCalendar = Calendar.getInstance()
         val daysLeft = Duration.between(dueDate.atStartOfDay(), today.atStartOfDay()).toDays()
         return daysLeft
     }
