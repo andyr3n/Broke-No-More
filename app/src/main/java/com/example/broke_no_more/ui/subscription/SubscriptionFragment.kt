@@ -39,10 +39,7 @@ import java.util.Locale
 class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
     private var _binding: FragmentSubscriptionBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var addPaymentBtn: FloatingActionButton
     private lateinit var totalAmountSubscription: TextView
-    private var num = 0
 
     private lateinit var recyclerView: RecyclerView
     private var subscriptionList = ArrayList<Expense>()
@@ -50,7 +47,6 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var prevMonthBtn: ImageButton
     private lateinit var nextMonthBtn: ImageButton
-    private var recurrenceType = arrayOf("Monthly", "Annually")
     private lateinit var calendar: Calendar
 
     //Initialize for Database
@@ -75,12 +71,6 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
         //Initialize variables in view to use
         totalAmountSubscription = binding.totalAmountSubsciption
-
-        //Add new subscription information
-        addPaymentBtn = binding.addSubsciptionButton
-        addPaymentBtn.setOnClickListener{
-            addPaymentDue()
-        }
 
         //Declare variables for database
         database = ExpenseDatabase.getInstance(requireActivity())
@@ -136,72 +126,6 @@ class SubscriptionFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
 
         return root
-    }
-
-
-    private fun addPaymentDue(){
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_payment_due, null)
-        val paymentName = dialogView.findViewById<EditText>(R.id.edit_payment_name)
-        val paymentDate = dialogView.findViewById<Button>(R.id.button_chooseDueDate)
-        val chosenDate = dialogView.findViewById<TextView>(R.id.text_choosen_date)
-        val paymentAmount = dialogView.findViewById<EditText>(R.id.edit_payment_amount)
-        val recurrenceSpinner = dialogView.findViewById<Spinner>(R.id.recurrence_spinner)
-        val spinnerAdapter: ArrayAdapter<CharSequence> = ArrayAdapter<CharSequence>(requireActivity(),
-            android.R.layout.simple_list_item_1, recurrenceType)
-        recurrenceSpinner.adapter = spinnerAdapter
-
-        var date = Calendar.getInstance()//Choose current time as default
-
-        paymentDate.setOnClickListener(){
-            //Show DatePickerDialog to choose Date
-            val calendar = Calendar.getInstance()
-            val datePickerDialog = DatePickerDialog(requireContext(),{ _, selectedYear, selectedMonth, selectedDay ->
-                //Set date to chosen date
-                calendar.set(selectedYear, selectedMonth, selectedDay)
-                date = calendar
-
-                //Set format to day month (in text), year
-                chosenDate.text = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault()).format(date.time)
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
-            datePickerDialog.show()
-        }
-
-        AlertDialog.Builder(requireContext())
-            .setTitle("Add New Subscription")//Set title
-            .setView(dialogView)
-            .setPositiveButton("Save"){_, _ ->
-                //Define name, amount and amount from user
-                var name = paymentName.text.toString()
-                val amount = paymentAmount.text.toString().toDoubleOrNull()?: 0.0
-
-                //Add default name if user does not enter anything
-                if(name.isEmpty()){
-                    num++
-                    name = "Subscription $num"
-                }
-
-                //Insert new added subscription to database
-                CoroutineScope(IO).launch {
-                    //Create a new object Expense
-                    val subscriptionExpense = Expense()
-                    subscriptionExpense.subscriptionName = name
-                    subscriptionExpense.date = date
-                    subscriptionExpense.amount = amount
-                    subscriptionExpense.isSubscription = true
-
-                    //Change recurrence status based on what user chose
-                    when(recurrenceSpinner.selectedItem.toString()){
-                        "Monthly" -> subscriptionExpense.isMonthly = true
-                        "Annually" -> subscriptionExpense.isAnnually = true
-                    }
-
-                    //Add to database
-                    expenseViewModel.insert(subscriptionExpense)
-                }
-                Toast.makeText(requireContext(), "Added successfully", Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
     }
 
     private fun setUpSubscription(){

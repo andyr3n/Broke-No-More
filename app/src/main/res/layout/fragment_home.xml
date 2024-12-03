@@ -181,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="No subsciprtions due this month!" />
+                android:text="No subscriptions due this month!" />
 
             <LinearLayout
                 android:id="@+id/subscription_container"

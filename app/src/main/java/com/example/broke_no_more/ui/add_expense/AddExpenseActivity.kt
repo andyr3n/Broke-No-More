@@ -23,6 +23,7 @@ import com.example.broke_no_more.ui.ocr.OcrTestActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import android.icu.util.Calendar
+import com.example.broke_no_more.R
 import java.util.Date
 import java.util.Locale
 
@@ -38,11 +39,19 @@ class AddExpenseActivity : AppCompatActivity() {
     private val calendar: Calendar = Calendar.getInstance()
     private lateinit var selectedCalendar: Calendar
     private lateinit var cancelBtn: Button
+    private var recurrenceType = arrayOf("Never", "Monthly", "Annually")
+    private lateinit var recurrenceSpinner: Spinner
+    private lateinit var spinnerAdapter: ArrayAdapter<CharSequence>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddExpenseBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        recurrenceSpinner = findViewById(R.id.recurrence_spinner)
+        spinnerAdapter = ArrayAdapter<CharSequence>(this, android.R.layout.simple_list_item_1, recurrenceType)
+        recurrenceSpinner.adapter = spinnerAdapter
 
         // Initialize ViewModel
         val database = ExpenseDatabase.getInstance(this)
@@ -82,7 +91,7 @@ class AddExpenseActivity : AppCompatActivity() {
      */
     private fun setupCategorySpinner() {
         val spinner: Spinner = binding.categorySpinner
-        val categories = listOf("Housing", "Grocery", "Clothes", "Entertainment", "Miscellaneous")
+        val categories = listOf("Housing", "Grocery", "Clothes", "Entertainment", "Subscription", "Miscellaneous")
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -193,6 +202,7 @@ class AddExpenseActivity : AppCompatActivity() {
         val dateEditText = binding.dateEditText
         val commentEditText = binding.linearLayout4.getChildAt(1) as EditText
         val categorySpinner: Spinner = binding.categorySpinner
+        val nameEditText = binding.expenseName
 
         val amountText = amountEditText.text.toString()
         val dateText = dateEditText.text.toString()
@@ -213,11 +223,24 @@ class AddExpenseActivity : AppCompatActivity() {
 
         // Create and save the expense object
         val expense = Expense(
+            name = nameEditText.text.toString(),
             date = selectedCalendar,
             amount = amountText.toDouble(),
             comment = commentText,
             category = selectedCategory
         )
+
+        //Change Recurrence status based on what user chose
+        when(recurrenceSpinner.selectedItem.toString()){
+            "Monthly" ->{
+                expense.isSubscription = true
+                expense.isMonthly = true
+            }
+            "Annually" ->{
+                expense.isSubscription = true
+                expense.isAnnually = true
+            }
+        }
 
         viewModel.insert(expense)
         Toast.makeText(this, "Expense saved", Toast.LENGTH_SHORT).show()

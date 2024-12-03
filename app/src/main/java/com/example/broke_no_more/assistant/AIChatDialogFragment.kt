@@ -99,7 +99,7 @@ class AIChatDialogFragment : DialogFragment() {
     ): String {
         val totalExpense = expenses.sumOf { it.amount }
         val subscriptionDetails = subscriptions.joinToString("\n") {
-            "- ${it.subscriptionName}: \$${it.amount} (${if (it.isMonthly) "Monthly" else "Annually"})"
+            "- ${it.name}: \$${it.amount} (${if (it.isMonthly) "Monthly" else "Annually"})"
         }
 
         return """
