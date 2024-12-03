@@ -2,6 +2,7 @@ package com.example.broke_no_more.ui.expense_report
 
 import CategoryAdapter
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,6 +31,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -106,8 +108,16 @@ class ExpenseReportFragment : Fragment() {
 
         val dataSet = PieDataSet(entries, "")
         dataSet.colors = colors
-        dataSet.valueTextColor = Color.BLACK
-        dataSet.valueTextSize = 16f
+        dataSet.valueTextColor = Color.WHITE
+        dataSet.valueTextSize = 12f
+        val typefaceBold = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        dataSet.valueTypeface = typefaceBold
+        dataSet.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                val percent = value
+                return "%.1f%%".format(percent)
+            }
+        }
 
         val data = PieData(dataSet)
         pieChart.description.isEnabled = false
