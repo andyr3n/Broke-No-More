@@ -17,6 +17,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 class SubscriptionListAdapter(private val context: Context, private var subscriptionList: MutableList<Expense>,
     private val expenseViewModel: ExpenseViewModel, private var calendar: Calendar):
@@ -41,16 +43,26 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
             subscriptionDate.get(Calendar.MONTH), subscriptionDate.get(Calendar.DAY_OF_MONTH),
             subscription.isAnnually)
 
-        //Set textView to saved information
+        //Display subscription's name
         holder.paymentName.text = subscription.name
 
-        if(daysLeft < 0) {
-            holder.paymentDue.text = "Past Due!"
-        }
-        else {
-            holder.paymentDue.text = "Due in $daysLeft days"
-        }
+//        if(daysLeft < 0) {
+//            holder.paymentDue.text = "Past Due!"
+//        }
+//        else {
+//            holder.paymentDue.text = "Due in $daysLeft days"
+//        }
 
+        //Display Due date
+        val day = subscriptionDate.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val year = calendar.get(Calendar.YEAR)
+        val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+        val dueDate = LocalDate.of(year, month, day)
+        val formattedDate = dueDate.format(dateFormatter)
+        holder.paymentDue.text = "Due on: $formattedDate"
+
+        //Display subscription's amount
         holder.paymentAmount.text = "$${subscription.amount}"
     }
 
