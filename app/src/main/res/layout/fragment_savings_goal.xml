@@ -18,7 +18,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your Budget Goal!"
+            android:text="Your Budget Planner"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"/>
@@ -27,7 +27,7 @@
             android:id="@+id/savingBreakdownTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Here is the breakdown of your saving plans:"
+            android:text="Click on a card to add your budget!"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"/>
@@ -250,7 +250,7 @@
                     android:id="@+id/uncategorized_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Uncategorized: "
+                    android:text="Miscellaneous: "
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"/>

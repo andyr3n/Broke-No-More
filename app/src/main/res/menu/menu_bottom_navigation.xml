@@ -3,20 +3,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@android:drawable/ic_menu_view"
+            android:icon="@drawable/ic_home"
             android:title="@string/menu_home" />
 
         <!-- Expense Report -->
         <item
             android:id="@+id/nav_expense_report"
-            android:icon="@android:drawable/ic_menu_agenda"
-            android:title="Expenses" />
+            android:icon="@drawable/ic_insight"
+            android:title="Insight" />
 
         <!-- Savings Goal -->
         <item
             android:id="@+id/nav_savings_goal"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="Savings" />
+            android:icon="@drawable/ic_budget"
+            android:title="Budget" />
 
         <!-- Add Crypto Option -->
         <item
