@@ -20,6 +20,7 @@ class ExpenseFragment : Fragment() {
     private lateinit var amountEditText: EditText
     private lateinit var commentEditText: EditText
     private lateinit var categoryEditText: EditText
+    private lateinit var nameEditText: EditText
     private lateinit var expenseViewModel: ExpenseViewModel
     private lateinit var deleteBtn: Button
     private var expenseId: Long? = null
@@ -42,7 +43,9 @@ class ExpenseFragment : Fragment() {
         amountEditText = view.findViewById(R.id.amountEditText)
         commentEditText = view.findViewById(R.id.commentEditText)
         categoryEditText = view.findViewById(R.id.categoryEditText)
+        nameEditText = view.findViewById(R.id.nameEditText)
 
+        val name = arguments?.getString("name")
         val date = arguments?.getString("date")
         val amount = arguments?.getDouble("amount")
         val comment = arguments?.getString("comment")
@@ -52,6 +55,7 @@ class ExpenseFragment : Fragment() {
         if (date != null) {
             dateEditText.setText(date.substring(0, 10))
         }
+        nameEditText.setText(name)
         amountEditText.setText("$" + amount.toString())
         commentEditText.setText(comment.toString())
         categoryEditText.setText(category.toString())
