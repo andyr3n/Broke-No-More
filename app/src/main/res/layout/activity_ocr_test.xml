@@ -100,7 +100,7 @@
             android:layout_marginStart="8dp"
             android:padding="14dp"
             android:textSize="16sp"
-            android:text="Edit"
+            android:text="Cancel"
             android:textAllCaps="false"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnDone"

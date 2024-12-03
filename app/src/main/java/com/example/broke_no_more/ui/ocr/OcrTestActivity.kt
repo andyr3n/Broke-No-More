@@ -31,6 +31,7 @@ class OcrTestActivity : AppCompatActivity() {
     private val REQUEST_IMAGE_PICK = 101
     private lateinit var btnDone: Button
     private var recognizedText: String = ""
+    private lateinit var cancelBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,11 @@ class OcrTestActivity : AppCompatActivity() {
         imageView = findViewById(R.id.imageView)
         textView = findViewById(R.id.textView)
         btnDone = findViewById(R.id.btnDone)
+        cancelBtn = findViewById(R.id.btnEdit)
+
+        cancelBtn.setOnClickListener{
+            this.finish()
+        }
 
         recognizedText = "Sample OCR recognized text"
         textView.text = recognizedText
