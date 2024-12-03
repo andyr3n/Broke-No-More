@@ -103,7 +103,7 @@
                 android:backgroundTint="#000000"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:padding="14dp">
+                android:padding="14dp"/>
 
             <!-- Login as Guest Button with Removed Bottom Margin -->
             <Button
