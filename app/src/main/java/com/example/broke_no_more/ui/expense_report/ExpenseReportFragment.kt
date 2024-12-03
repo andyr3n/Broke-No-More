@@ -130,7 +130,7 @@ class ExpenseReportFragment : Fragment() {
         legend.orientation = com.github.mikephil.charting.components.Legend.LegendOrientation.HORIZONTAL
         legend.setDrawInside(false)
         legend.textColor = Color.BLACK
-        legend.textSize = 12f // text size
+        legend.textSize = 16f // text size
         legend.isWordWrapEnabled = true
         legend.xEntrySpace = 8f
         //legend.yEntrySpace = 0f
