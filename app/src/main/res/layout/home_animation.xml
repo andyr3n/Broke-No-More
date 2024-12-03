@@ -9,7 +9,7 @@
         android:id="@+id/lottieAnimationView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:lottie_rawRes="@raw/google"
+        app:lottie_rawRes="@raw/load"
         app:lottie_autoPlay="true"
         app:lottie_loop="true" />
 </RelativeLayout>
