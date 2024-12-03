@@ -99,6 +99,7 @@ class ExpenseReportFragment : Fragment() {
             Color.parseColor("#FFC107"), // Grocery
             Color.parseColor("#03A9F4"), // Clothes
             Color.parseColor("#8BC34A"), // Entertainment
+            Color.parseColor("#9772ED"), //Subscription
             Color.parseColor("#9E9E9E")  // Miscellaneous
         )
 

@@ -42,7 +42,7 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
             subscription.isAnnually)
 
         //Set textView to saved information
-        holder.paymentName.text = subscription.subscriptionName
+        holder.paymentName.text = subscription.name
 
         if(daysLeft < 0) {
             holder.paymentDue.text = "Past Due!"
@@ -72,7 +72,6 @@ class SubscriptionListAdapter(private val context: Context, private var subscrip
             calendar.get(Calendar.DAY_OF_MONTH))
 
         //Calculate how many days left from today until due date
-        val currentCalendar = Calendar.getInstance()
         val daysLeft = Duration.between(dueDate.atStartOfDay(), today.atStartOfDay()).toDays()
         return daysLeft
     }
