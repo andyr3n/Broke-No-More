@@ -13,7 +13,7 @@ class AnimationHomepage : AppCompatActivity() {
 
     companion object {
         private const val TAG = "AnimationHome"
-        const val ANIMATION_DURATION = 1000L
+        const val ANIMATION_DURATION = 800L
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
